@@ -1,0 +1,17 @@
+<svg id="flutter" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="45.638" height="56.488" viewBox="0 0 45.638 56.488">
+  <defs>
+    <linearGradient id="linear-gradient" x1="-7.075" y1="0.283" x2="-7.075" y2="0.281" gradientUnits="objectBoundingBox">
+      <stop offset="0.2" stop-opacity="0.149"/>
+      <stop offset="0.85" stop-color="#616161" stop-opacity="0.012"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="-5.425" y1="0.364" x2="-5.424" y2="0.364" gradientUnits="objectBoundingBox">
+      <stop offset="0.2" stop-opacity="0.549"/>
+      <stop offset="0.85" stop-color="#616161" stop-opacity="0.012"/>
+    </linearGradient>
+  </defs>
+  <path id="Path_337" data-name="Path 337" d="M8.7,36.94,0,28.241,28.244,0H45.638m0,26.061H28.244l-6.516,6.516,8.7,8.7" fill="rgba(66,165,245,0.8)"/>
+  <path id="Path_338" data-name="Path 338" d="M951.7,1816.6l6.516,6.516H975.61L960.4,1807.9" transform="translate(-929.972 -1766.624)" fill="#0d47a1"/>
+  <path id="Path_339" data-name="Path 339" d="M571.6,1436.287l8.685-8.687,8.685,8.685-8.685,8.687Z" transform="translate(-558.55 -1395.007)" fill="#42a5f5"/>
+  <path id="Path_340" data-name="Path 340" d="M952,1816.785l8.685-8.685,1.212,1.212L953.212,1818Z" transform="translate(-930.265 -1766.82)" fill="url(#linear-gradient)"/>
+  <path id="Path_341" data-name="Path 341" d="M951.7,1816.5l12.906-4.459-4.208-4.24" transform="translate(-929.972 -1766.527)" fill="url(#linear-gradient-2)"/>
+</svg>

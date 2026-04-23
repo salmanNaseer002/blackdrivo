@@ -1,0 +1,42 @@
+<svg id="kotlin-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="54.858" height="54.858" viewBox="0 0 54.858 54.858">
+  <defs>
+    <linearGradient id="linear-gradient" x1="-67.747" y1="-124.611" x2="-67.704" y2="-124.611" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#c757bc"/>
+      <stop offset="0.108" stop-color="#c757bc"/>
+      <stop offset="0.173" stop-color="#cd5ca9"/>
+      <stop offset="0.492" stop-color="#e8744f"/>
+      <stop offset="0.716" stop-color="#f88316"/>
+      <stop offset="0.823" stop-color="#ff8900"/>
+      <stop offset="1" stop-color="#ff8900"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="-65.917" y1="-124.985" x2="-65.875" y2="-124.985" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#00afff"/>
+      <stop offset="0.296" stop-color="#00afff"/>
+      <stop offset="0.694" stop-color="#5282ff"/>
+      <stop offset="1" stop-color="#945dff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="-131.286" y1="-117.901" x2="-131.203" y2="-117.901" xlink:href="#linear-gradient-2"/>
+    <linearGradient id="linear-gradient-4" x1="-132.064" y1="-125.61" x2="-131.981" y2="-125.61" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ad4ca4"/>
+      <stop offset="0.108" stop-color="#ad4ca4"/>
+      <stop offset="0.173" stop-color="#b25093"/>
+      <stop offset="0.492" stop-color="#ca6545"/>
+      <stop offset="0.716" stop-color="#d87213"/>
+      <stop offset="0.823" stop-color="#de7700"/>
+      <stop offset="1" stop-color="#de7700"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-5" x1="-65.917" y1="-125.552" x2="-65.875" y2="-125.552" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#0098de"/>
+      <stop offset="0.296" stop-color="#0098de"/>
+      <stop offset="0.694" stop-color="#4771de"/>
+      <stop offset="1" stop-color="#8151de"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-6" x1="-2475.743" y1="-2240.536" x2="-2474.178" y2="-2240.536" xlink:href="#linear-gradient-5"/>
+  </defs>
+  <path id="Path_353" data-name="Path 353" d="M54.037,0H26.722L.639,27.429h25.92l.121-.123Z" transform="translate(0.822)" fill="url(#linear-gradient)"/>
+  <path id="Path_354" data-name="Path 354" d="M54.858,39.5h0ZM27.5,11.946l-.121.123h.245Z" transform="translate(0 15.36)" fill="url(#linear-gradient-2)"/>
+  <path id="Path_355" data-name="Path 355" d="M27.543,0H0V27.429H1.461Z" fill="url(#linear-gradient-3)"/>
+  <path id="Path_356" data-name="Path 356" d="M27.381,12H1.461L0,13.536V39.429Z" transform="translate(0 15.429)" fill="url(#linear-gradient-4)"/>
+  <path id="Path_357" data-name="Path 357" d="M27.626,12h-.245L0,39.429H54.858Z" transform="translate(0 15.429)" fill="url(#linear-gradient-5)"/>
+  <path id="Path_358" data-name="Path 358" d="M1.461,12H0v1.536Z" transform="translate(0 15.429)" fill="url(#linear-gradient-6)"/>
+</svg>

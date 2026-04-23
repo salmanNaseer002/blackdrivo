@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="148" height="33" viewBox="0 0 148 33">
+  <g id="Group_134" data-name="Group 134" transform="translate(-1431 -410.134)">
+    <circle id="Ellipse_1" data-name="Ellipse 1" cx="16.5" cy="16.5" r="16.5" transform="translate(1431 410.134)" fill="#3fa041"/>
+    <circle id="Ellipse_2" data-name="Ellipse 2" cx="16.5" cy="16.5" r="16.5" transform="translate(1469 410.134)" fill="#cc7871"/>
+    <circle id="Ellipse_3" data-name="Ellipse 3" cx="16.5" cy="16.5" r="16.5" transform="translate(1508 410.134)" fill="#276297"/>
+    <circle id="Ellipse_4" data-name="Ellipse 4" cx="16.5" cy="16.5" r="16.5" transform="translate(1546 410.134)" fill="#98bf54"/>
+    <text id="M" transform="translate(1438 435.134)" fill="#fff" font-size="22" font-family="Rockwell"><tspan x="0" y="0">M</tspan></text>
+    <text id="E" transform="translate(1480 433.134)" fill="#fff" font-size="20" font-family="Rockwell"><tspan x="0" y="0">E</tspan></text>
+    <text id="R" transform="translate(1518 434.134)" fill="#fff" font-size="21" font-family="Rockwell"><tspan x="0" y="0">R</tspan></text>
+    <text id="N" transform="translate(1555 435.134)" fill="#fff" font-size="22" font-family="Rockwell"><tspan x="0" y="0">N</tspan></text>
+  </g>
+</svg>

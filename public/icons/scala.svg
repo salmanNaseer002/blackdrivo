@@ -1,0 +1,17 @@
+<svg id="scala-4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="34.039" height="55.313" viewBox="0 0 34.039 55.313">
+  <defs>
+    <linearGradient id="linear-gradient" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#4f4f4f"/>
+      <stop offset="1"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#c40000"/>
+      <stop offset="1" stop-color="red"/>
+    </linearGradient>
+  </defs>
+  <path id="Path_320" data-name="Path 320" d="M0-315.745v4.255c0,.717,15.474,1.918,25.556,4.255,4.87-1.129,8.483-2.522,8.483-4.255v-4.255c0-1.732-3.613-3.126-8.483-4.255C15.474-317.663,0-316.462,0-315.745" transform="translate(0 349.784)" fill="url(#linear-gradient)"/>
+  <path id="Path_321" data-name="Path 321" d="M0-187.745v4.255c0,.717,15.474,1.918,25.556,4.255,4.87-1.129,8.483-2.522,8.483-4.255v-4.255c0-1.732-3.613-3.126-8.483-4.255C15.474-189.663,0-188.462,0-187.745" transform="translate(0 204.765)" fill="url(#linear-gradient)"/>
+  <path id="Path_322" data-name="Path 322" d="M0-279.49v12.765c0-1.064,34.039-3.191,34.039-8.51V-288c0,5.319-34.039,7.446-34.039,8.51" transform="translate(0 305.019)" fill="url(#linear-gradient-3)"/>
+  <path id="Path_323" data-name="Path 323" d="M0-151.49v12.765c0-1.064,34.039-3.191,34.039-8.51V-160c0,5.319-34.039,7.446-34.039,8.51" transform="translate(0 160)" fill="url(#linear-gradient-3)"/>
+  <path id="Path_324" data-name="Path 324" d="M0-407.49v12.765c0-1.064,34.039-3.191,34.039-8.51V-416c0,5.319-34.039,7.446-34.039,8.51" transform="translate(0 450.039)" fill="url(#linear-gradient-3)"/>
+</svg>

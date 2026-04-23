@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="60.824" height="54.694" viewBox="0 0 60.824 54.694">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1.086" y1="0.862" x2="0.469" y2="0.212" gradientUnits="objectBoundingBox">
+      <stop offset="0.18" stop-color="#0052cc"/>
+      <stop offset="1" stop-color="#2684ff"/>
+    </linearGradient>
+  </defs>
+  <g id="bitbucket-icon" transform="translate(0 0.001)">
+    <path id="Path_19" data-name="Path 19" d="M90.437,77.241h12.7l3.065,17.9H87.06Z" transform="translate(-66.375 -58.795)" fill="none"/>
+    <path id="Path_20" data-name="Path 20" d="M1.974,54.693A1.949,1.949,0,0,1,.025,52.432L8.3,2.211A2.65,2.65,0,0,1,10.89,0H50.578a1.949,1.949,0,0,1,1.949,1.637L60.8,52.423a1.949,1.949,0,0,1-1.949,2.26ZM36.809,18.4H24.142l-3.43,17.919H39.878Z" transform="translate(0 0)" fill="#2684ff"/>
+    <path id="Path_21" data-name="Path 21" d="M87.555,113.529H69.28L66.213,95.624H53.556L38.611,77.885a2.639,2.639,0,0,1,1.7-.642H79.981a1.947,1.947,0,0,1,1.947,1.636Z" transform="translate(-29.437 -77.188)" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

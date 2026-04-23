@@ -1,0 +1,25 @@
+<svg id="apiary" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="54.49" height="55.095" viewBox="0 0 54.49 55.095">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1" y1="0.5" x2="0" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#37bda6"/>
+      <stop offset="1" stop-color="#8ad3b8"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="1" y1="0.5" x2="0" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0.5" stop-color="#4bb6ad"/>
+      <stop offset="1" stop-color="#78bbc1"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#4379a7"/>
+      <stop offset="1" stop-color="#7cc9b8"/>
+    </linearGradient>
+  </defs>
+  <path id="Path_456" data-name="Path 456" d="M127.693,7.868v15.7L141.32,15.7V0Z" transform="translate(-100.44)" fill="#13a049" opacity="0.5"/>
+  <path id="Path_457" data-name="Path 457" d="M77.473,7.868,63.847,0V15.737L77.473,23.6Z" transform="translate(-50.22)" fill="#a2cc39" opacity="0.5"/>
+  <path id="Path_458" data-name="Path 458" d="M40.879,0,27.253,7.868,13.627,0,0,7.868,27.253,23.6,54.489,7.868Z" opacity="0.9" fill="url(#linear-gradient)"/>
+  <path id="Path_459" data-name="Path 459" d="M27.253,52.6,0,36.867V52.6l13.627,7.868v15.72l13.626,7.868,13.627-7.868V60.472L54.489,52.6V36.867L27.253,52.6Z" transform="translate(0 -28.999)" fill="url(#linear-gradient-2)"/>
+  <path id="Path_460" data-name="Path 460" d="M127.693,52.6V84.061l13.627-7.868V60.472L154.93,52.6V36.867Z" transform="translate(-100.44 -28.999)" fill="url(#linear-gradient-3)"/>
+  <path id="Path_461" data-name="Path 461" d="M127.693,184.259V200l13.627-7.868Z" transform="translate(-100.44 -144.934)" fill="#231f20" opacity="0.05"/>
+  <path id="Path_462" data-name="Path 462" d="M77.473,200.149V184.412L63.847,192.28Z" transform="translate(-50.22 -145.054)" fill="#231f20" opacity="0.1"/>
+  <path id="Path_463" data-name="Path 463" d="M13.627,73.734,0,81.6l13.627,7.868L27.253,81.6Z" transform="translate(0 -57.997)" fill="#231f20" opacity="0.05"/>
+  <path id="Path_464" data-name="Path 464" d="M141.32,73.734,127.693,81.6l13.627,7.868L154.93,81.6Z" transform="translate(-100.44 -57.997)" fill="#231f20" opacity="0.05"/>
+</svg>
