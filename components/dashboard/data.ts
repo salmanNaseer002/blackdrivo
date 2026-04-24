@@ -8,7 +8,7 @@ export const highlightCards = [
       "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    title: "Hourly and full day hire",
+    title: "Hourly and full day hire.",
     heading: "Seize the day.",
     description:
       "Reserve a dedicated chauffeur from 2 to 24 hours. They will be on standby as long as you need them.",
