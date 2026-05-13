@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "aos/dist/aos.css";
-import AOSInitializer from "../components/landing/AOSInitializer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,74 +15,43 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.blackdrivo.com"),
   title: {
-    default: "BlackDrivo - Premium Chauffeur Service in the US",
+    default: "BlackDrivo — Premium Chauffeur Service | NY, NJ & Nationwide",
     template: "%s | BlackDrivo",
   },
   description:
-    "BlackDrivo offers premium chauffeur rides across the United States, including airport transfers, hourly service, city-to-city rides, and business travel.",
+    "BlackDrivo delivers premium black car service across New York, New Jersey, and the entire United States. Airport transfers, hourly chauffeur, city-to-city rides, and corporate travel.",
   keywords: [
-    "chauffeur service USA",
-    "airport transfer united states",
-    "city to city rides USA",
+    "black car service NYC",
+    "premium chauffeur New York",
+    "airport transfer JFK LGA EWR",
+    "luxury taxi New Jersey",
     "hourly chauffeur service",
-    "business travel transportation",
-    "private car service USA",
+    "corporate car service",
+    "city to city rides",
+    "private driver NYC",
+    "blackdrivo",
   ],
-  alternates: {
-    canonical: "/",
-  },
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "https://www.blackdrivo.com/",
-    title: "BlackDrivo - Premium Chauffeur Service in the US",
+    title: "BlackDrivo — Premium Chauffeur Service",
     description:
-      "Book private airport transfers, hourly rides, and city-to-city chauffeur travel in the United States.",
+      "Premium black car service across New York, New Jersey, and the US. Book airport transfers, hourly rides, and city-to-city chauffeur travel.",
     siteName: "BlackDrivo",
-    images: [
-      {
-        url: "/favicon.ico",
-        width: 1200,
-        height: 630,
-        alt: "BlackDrivo logo",
-      },
-    ],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "BlackDrivo Premium Chauffeur" }],
   },
   twitter: {
     card: "summary_large_image",
     site: "@blackdrivo",
     creator: "@blackdrivo",
-    title: "BlackDrivo - Premium Chauffeur Service in the US",
-    description:
-      "Premium chauffeur service for airport, hourly, and city-to-city rides across the United States.",
-    images: ["/favicon.ico"],
+    title: "BlackDrivo — Premium Chauffeur Service",
+    description: "Premium chauffeur service across New York, New Jersey, and the US.",
   },
   icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      {
-        url: "/favicon.ico",
-        type: "image/png",
-        sizes: "48x48",
-      },
-      {
-        url: "/favicon.ico",
-        type: "image/png",
-        sizes: "192x192",
-      },
-      {
-        url: "/favicon.ico",
-        type: "image/png",
-        sizes: "512x512",
-      },
-    ],
-    shortcut: [{ url: "/favicon.ico" }],
-    apple: [
-      {
-        url: "/favicon.ico",
-        type: "image/png",
-        sizes: "180x180",
-      },
-    ],
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
   robots: {
     index: true,
@@ -108,25 +75,28 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="theme-color" content="#0b1117" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="48x48" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/favicon.ico" />
+        {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY && (
+          <script
+            src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+            async
+            defer
+          />
+        )}
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Organization",
+              "@type": "LocalBusiness",
               name: "BlackDrivo",
               url: "https://www.blackdrivo.com",
               logo: "https://www.blackdrivo.com/favicon.ico",
-              sameAs: [
-                "https://www.linkedin.com/company/blackdrivo",
-                "https://x.com/blackdrivo",
-              ],
+              image: "https://www.blackdrivo.com/og-image.jpg",
               description:
-                "Premium United States chauffeur service for airport transfers, hourly rides, and city-to-city travel.",
+                "Premium chauffeur service for airport transfers, hourly rides, and city-to-city travel across New York, New Jersey, and the US.",
+              telephone: "+1-800-555-0199",
+              email: "support@blackdrivo.com",
+              priceRange: "$$$$",
               address: {
                 "@type": "PostalAddress",
                 addressLocality: "New York",
@@ -134,45 +104,17 @@ export default function RootLayout({
                 postalCode: "10001",
                 addressCountry: "US",
               },
-              contactPoint: [
-                {
-                  "@type": "ContactPoint",
-                  telephone: "+1-800-555-0199",
-                  contactType: "sales",
-                  email: "support@blackdrivo.com",
-                  areaServed: "US",
-                  availableLanguage: ["English"],
-                },
-              ],
-              makesOffer: [
-                {
-                  "@type": "Offer",
-                  itemOffered: { "@type": "Service", name: "Airport Transfers" },
-                },
-                {
-                  "@type": "Offer",
-                  itemOffered: { "@type": "Service", name: "Hourly Chauffeur" },
-                },
-                {
-                  "@type": "Offer",
-                  itemOffered: {
-                    "@type": "Service",
-                    name: "City-to-city Rides",
-                  },
-                },
-                {
-                  "@type": "Offer",
-                  itemOffered: { "@type": "Service", name: "Business Travel" },
-                },
+              areaServed: ["New York", "New Jersey", "Connecticut", "Pennsylvania"],
+              sameAs: [
+                "https://www.instagram.com/blackdrivo",
+                "https://twitter.com/blackdrivo",
+                "https://www.linkedin.com/company/blackdrivo",
               ],
             }),
           }}
         />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <AOSInitializer />
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
       </body>
     </html>

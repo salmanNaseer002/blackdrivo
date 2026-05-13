@@ -1,38 +1,23 @@
-"use client";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import HeroSection from "@/components/home/HeroSection";
+import ServicesSection from "@/components/home/ServicesSection";
+import AirportSection from "@/components/home/AirportSection";
+import WhyChooseUs from "@/components/home/WhyChooseUs";
+import Testimonials from "@/components/home/Testimonials";
+import CTASection from "@/components/home/CTASection";
 
-import { useEffect, useState } from "react";
-import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import HeroSection from "@/components/dashboard/HeroSection";
-import LowerSections from "@/components/dashboard/LowerSections";
-import ServicesCarouselSection from "@/components/dashboard/ServicesCarouselSection";
-import SiteFooter from "@/components/dashboard/SiteFooter";
-import { serviceMenuItems } from "@/components/dashboard/data";
-
-export default function DashboardPage() {
-  const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const [isHeaderSolid, setIsHeaderSolid] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setIsHeaderSolid(window.scrollY > 420);
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#f6f5f1] text-[#0e1118]">
-      <DashboardHeader
-        isHeaderSolid={isHeaderSolid}
-        isServicesOpen={isServicesOpen}
-        setIsServicesOpen={setIsServicesOpen}
-        serviceMenuItems={serviceMenuItems}
-      />
+    <div className="min-h-screen">
+      <Navbar />
       <HeroSection />
-      <main className="pb-16">
-        <ServicesCarouselSection />
-        <LowerSections />
-      </main>
-      <SiteFooter />
+      <ServicesSection />
+      <AirportSection />
+      <WhyChooseUs />
+      <Testimonials />
+      <CTASection />
+      <Footer />
     </div>
   );
 }
