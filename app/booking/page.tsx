@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -9,6 +9,9 @@ import { MapPin, Calendar, Clock, Users, CreditCard, ChevronRight, CheckCircle, 
 import { VEHICLE_CLASSES, estimateFare } from "@/lib/fare";
 import VehicleSelector from "@/components/booking/VehicleSelector";
 import type { VehicleClass, RideType } from "@/lib/supabase/types";
+import { useUser } from "@/lib/hooks/useUser";
+import SignInModal from "@/components/auth/SignInModal";
+import { createClient } from "@/lib/supabase/client";
 
 type Step = "details" | "vehicle" | "passenger" | "payment";
 
@@ -34,12 +37,30 @@ function BookingContent() {
   const [vehicleClass, setVehicleClass] = useState<VehicleClass>("business");
   const [distanceMiles] = useState<number>(25);
   const [flightNumber, setFlightNumber] = useState("");
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [bookingError, setBookingError] = useState("");
+
+  const { user, profile } = useUser();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
+
+  const hasAutoFilled = useRef(false);
+  useEffect(() => {
+    if (!profile || hasAutoFilled.current) return;
+    hasAutoFilled.current = true;
+    if (profile.full_name) {
+      const parts = profile.full_name.trim().split(/\s+/);
+      setFirstName(parts[0] ?? "");
+      setLastName(parts.slice(1).join(" "));
+    }
+    if (profile.email) setEmail(profile.email);
+    if (profile.phone) setPhone(profile.phone);
+  }, [profile]);
 
   const faresByClass = VEHICLE_CLASSES.reduce((acc, v) => {
     acc[v.id] = estimateFare(v.id, rideType, distanceMiles, Number(hours));
@@ -58,8 +79,52 @@ function BookingContent() {
   };
 
   const handlePayment = async () => {
-    // In production: call /api/create-payment-intent, then use Stripe Elements
-    router.push("/booking/confirmation?bookingId=demo-" + Date.now());
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+    setSubmitting(true);
+    setBookingError("");
+    try {
+      const supabase = createClient();
+      const payload = {
+        passenger_id: user.id,
+        ride_type: rideType,
+        vehicle_class: vehicleClass,
+        pickup_address: pickup,
+        pickup_lat: 0,
+        pickup_lng: 0,
+        dropoff_address: rideType === "hourly" ? pickup : dropoff,
+        dropoff_lat: 0,
+        dropoff_lng: 0,
+        scheduled_at: `${date}T${time}`,
+        passengers: Number(passengers),
+        fare_estimate: selectedFare,
+        hours: rideType === "hourly" ? Number(hours) : null,
+        flight_number: flightNumber || null,
+        passenger_first_name: firstName,
+        passenger_last_name: lastName,
+        passenger_email: email,
+        passenger_phone: phone,
+        notes: notes || null,
+        status: "pending",
+      };
+      const { data, error } = await supabase
+        .from("bookings")
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .insert(payload as any)
+        .select("id")
+        .single();
+      if (error) {
+        setBookingError(error.message);
+      } else {
+        router.push(`/booking/confirmation?bookingId=${(data as { id: string }).id}`);
+      }
+    } catch {
+      setBookingError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -418,6 +483,11 @@ function BookingContent() {
                     <div className="rounded-xl border border-blue-100 bg-blue-50 p-4 text-xs text-gray-600">
                       Your payment is secured with 256-bit SSL encryption via Stripe. BlackDrivo never stores your card details.
                     </div>
+                    {bookingError && (
+                      <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+                        {bookingError}
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               )}
@@ -439,14 +509,26 @@ function BookingContent() {
               {step === "payment" ? (
                 <button
                   onClick={handlePayment}
-                  className="flex items-center gap-2 rounded-xl bg-[#0b66d1] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[#0952a8] active:scale-95"
+                  disabled={submitting}
+                  className="flex items-center gap-2 rounded-xl bg-[#0b66d1] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[#0952a8] active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  <CreditCard className="h-4 w-4" />
-                  Confirm & Pay ${selectedFare}
+                  {submitting ? (
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                  ) : (
+                    <CreditCard className="h-4 w-4" />
+                  )}
+                  {submitting ? "Booking..." : `Confirm & Pay $${selectedFare}`}
                 </button>
               ) : (
                 <button
-                  onClick={() => canProceed[step] && setStep(STEPS[stepIndex + 1].id)}
+                  onClick={() => {
+                    if (!canProceed[step]) return;
+                    if (step === "passenger" && !user) {
+                      setShowAuthModal(true);
+                      return;
+                    }
+                    setStep(STEPS[stepIndex + 1].id);
+                  }}
                   disabled={!canProceed[step]}
                   className="flex items-center gap-2 rounded-xl bg-[#0b66d1] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0952a8] disabled:cursor-not-allowed disabled:opacity-40 active:scale-95"
                 >
@@ -543,6 +625,19 @@ function BookingContent() {
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {showAuthModal && (
+          <SignInModal
+            message="Sign in to continue with your booking."
+            onSuccess={() => {
+              setShowAuthModal(false);
+              setStep(STEPS[stepIndex + 1].id);
+            }}
+            onClose={() => setShowAuthModal(false)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

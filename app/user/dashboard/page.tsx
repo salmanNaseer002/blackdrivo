@@ -1,156 +1,215 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
-  Car, Calendar, MapPin, CreditCard, Settings, LogOut,
-  ChevronRight, Plus, Star, AlertCircle
+  Car, Calendar, MapPin, CreditCard, Settings,
+  ChevronRight, Plus, Star, AlertCircle, User,
 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { useUser } from "@/lib/hooks/useUser";
+import ProfileDropdown from "@/components/dashboard/ProfileDropdown";
 
-type BookingStatus = "upcoming" | "completed" | "cancelled";
+type BookingStatus = "pending" | "confirmed" | "in_progress" | "completed" | "cancelled";
 
-const mockBookings = [
-  {
-    id: "BD-2025-001",
-    status: "upcoming" as BookingStatus,
-    date: "Jan 20, 2025",
-    time: "8:00 AM",
-    pickup: "JFK International Airport, Terminal 4",
-    dropoff: "432 Park Avenue, New York, NY",
-    vehicle: "First Class",
-    fare: 185,
-    driver: "Marcus J.",
-    rating: null,
-  },
-  {
-    id: "BD-2025-002",
-    status: "upcoming" as BookingStatus,
-    date: "Jan 23, 2025",
-    time: "2:30 PM",
-    pickup: "432 Park Avenue, New York, NY",
-    dropoff: "Newark Liberty Airport, Terminal C",
-    vehicle: "Business Class",
-    fare: 95,
-    driver: "Assigned soon",
-    rating: null,
-  },
-  {
-    id: "BD-2024-089",
-    status: "completed" as BookingStatus,
-    date: "Dec 18, 2024",
-    time: "10:00 AM",
-    pickup: "Manhattan, NY",
-    dropoff: "Washington D.C.",
-    vehicle: "Business SUV",
-    fare: 480,
-    driver: "David R.",
-    rating: 5,
-  },
-  {
-    id: "BD-2024-075",
-    status: "completed" as BookingStatus,
-    date: "Dec 5, 2024",
-    time: "6:00 PM",
-    pickup: "LaGuardia Airport",
-    dropoff: "Jersey City, NJ",
-    vehicle: "Business Class",
-    fare: 110,
-    driver: "James T.",
-    rating: 5,
-  },
-];
+interface Booking {
+  id: string;
+  status: BookingStatus;
+  pickup_address: string;
+  dropoff_address: string;
+  scheduled_at: string;
+  vehicle_class: string;
+  fare_estimate: number;
+  fare_final: number | null;
+  created_at: string;
+}
+
+const UPCOMING_STATUSES: BookingStatus[] = ["pending", "confirmed", "in_progress"];
 
 const statusColors: Record<BookingStatus, string> = {
-  upcoming: "bg-blue-50 text-[#0b66d1]",
-  completed: "bg-emerald-50 text-emerald-600",
-  cancelled: "bg-red-50 text-red-500",
+  pending:     "bg-yellow-50 text-yellow-600",
+  confirmed:   "bg-blue-50 text-[#0b66d1]",
+  in_progress: "bg-orange-50 text-orange-600",
+  completed:   "bg-emerald-50 text-emerald-600",
+  cancelled:   "bg-red-50 text-red-500",
 };
 
+const statusLabels: Record<BookingStatus, string> = {
+  pending:     "Pending",
+  confirmed:   "Confirmed",
+  in_progress: "In Progress",
+  completed:   "Completed",
+  cancelled:   "Cancelled",
+};
+
+function formatDate(dateStr: string) {
+  try {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  } catch {
+    return dateStr;
+  }
+}
+
+function memberSince(dateStr?: string | null) {
+  if (!dateStr) return "—";
+  try {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
+    });
+  } catch {
+    return "—";
+  }
+}
+
 export default function UserDashboardPage() {
+  const router = useRouter();
+  const { user, profile, loading, initials, displayName } = useUser();
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [bookingsLoading, setBookingsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
 
-  const filtered = mockBookings.filter((b) =>
-    activeTab === "upcoming" ? b.status === "upcoming" : b.status !== "upcoming"
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/login?redirect=/user/dashboard");
+    }
+  }, [loading, user, router]);
+
+  useEffect(() => {
+    if (!user) return;
+    const supabase = createClient();
+    supabase
+      .from("bookings")
+      .select("*")
+      .eq("passenger_id", user.id)
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        setBookings((data as Booking[]) ?? []);
+        setBookingsLoading(false);
+      });
+  }, [user]);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <span className="h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-[#0b66d1]" />
+      </div>
+    );
+  }
+
+  if (!user) return null;
+
+  const filtered = bookings.filter((b) =>
+    activeTab === "upcoming"
+      ? UPCOMING_STATUSES.includes(b.status)
+      : !UPCOMING_STATUSES.includes(b.status)
   );
+
+  const totalSpent = bookings
+    .filter((b) => b.status === "completed")
+    .reduce((sum, b) => sum + (b.fare_final ?? b.fare_estimate ?? 0), 0);
+
+  const completedCount = bookings.filter((b) => b.status === "completed").length;
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="border-b border-gray-100 bg-white shadow-sm">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0b66d1]">
-              <Image
-                src="/B Logo Black Theme.png"
-                alt="BlackDrivo"
-                width={18}
-                height={18}
-                className="object-contain invert mix-blend-screen"
-              />
-            </div>
-            <span className="text-lg font-bold text-gray-900">BlackDrivo</span>
-          </Link>
+          <div className="flex items-center gap-6">
+            <Link href="/" className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0b66d1]">
+                <Image
+                  src="/B Logo Black Theme.png"
+                  alt="BlackDrivo"
+                  width={18}
+                  height={18}
+                  className="object-contain invert mix-blend-screen"
+                />
+              </div>
+              <span className="text-lg font-bold text-gray-900">BlackDrivo</span>
+            </Link>
+            <Link
+              href="/user/dashboard"
+              className="hidden text-sm font-medium text-[#0b66d1] md:block"
+            >
+              My Bookings
+            </Link>
+          </div>
           <div className="flex items-center gap-3">
             <Link
               href="/booking"
-              className="rounded-full bg-[#0b66d1] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#0952a8]"
+              className="hidden rounded-full bg-[#0b66d1] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#0952a8] sm:block"
             >
               Book a ride
             </Link>
-            <button className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-sm font-bold text-gray-600">
-              JS
-            </button>
+            <ProfileDropdown
+              initials={initials}
+              displayName={displayName}
+              email={user.email ?? ""}
+            />
           </div>
         </div>
       </header>
 
       <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 lg:py-12">
         <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
-          {/* Sidebar nav */}
+          {/* Sidebar */}
           <div className="space-y-2">
-            <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-5">
+            <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-50 text-sm font-bold text-[#0b66d1]">
-                  JS
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0b66d1] text-sm font-bold text-white">
+                  {initials}
                 </div>
-                <div>
-                  <p className="font-semibold text-gray-900">John Smith</p>
-                  <p className="text-xs text-gray-500">john@example.com</p>
+                <div className="min-w-0">
+                  <p className="truncate font-semibold text-gray-900">{displayName}</p>
+                  <p className="truncate text-xs text-gray-500">{user.email}</p>
                 </div>
               </div>
-              <div className="mt-4 rounded-xl bg-gray-50 border border-gray-100 p-3">
+              <div className="mt-4 rounded-xl border border-gray-100 bg-gray-50 p-3">
                 <p className="text-xs text-gray-400">Member since</p>
-                <p className="text-sm font-medium text-gray-900">January 2024</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {memberSince(profile?.created_at ?? user.created_at)}
+                </p>
               </div>
             </div>
 
-            <nav className="rounded-2xl bg-white border border-gray-100 shadow-sm p-2">
-              {[
-                { icon: Calendar, label: "My Bookings", active: true },
-                { icon: CreditCard, label: "Payment Methods", active: false },
-                { icon: MapPin, label: "Saved Locations", active: false },
-                { icon: Settings, label: "Account Settings", active: false },
-              ].map((item) => (
-                <button
-                  key={item.label}
-                  className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${
-                    item.active
-                      ? "bg-blue-50 text-[#0b66d1]"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                  }`}
-                >
-                  <item.icon className="h-4 w-4" />
-                  {item.label}
-                </button>
-              ))}
-              <div className="mt-1 border-t border-gray-100 pt-1">
-                <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-400 transition hover:bg-gray-50 hover:text-gray-600">
-                  <LogOut className="h-4 w-4" />
-                  Sign out
-                </button>
-              </div>
+            <nav className="rounded-2xl border border-gray-100 bg-white p-2 shadow-sm">
+              <Link
+                href="/user/dashboard"
+                className="flex w-full items-center gap-3 rounded-xl bg-blue-50 px-3 py-2.5 text-sm font-medium text-[#0b66d1] transition"
+              >
+                <Calendar className="h-4 w-4" />
+                My Bookings
+              </Link>
+              <Link
+                href="/user/payments"
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-gray-50 hover:text-gray-900"
+              >
+                <CreditCard className="h-4 w-4" />
+                Payment History
+              </Link>
+              <Link
+                href="/user/profile"
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-gray-50 hover:text-gray-900"
+              >
+                <User className="h-4 w-4" />
+                Profile Settings
+              </Link>
+              <Link
+                href="/user/profile#account"
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-gray-50 hover:text-gray-900"
+              >
+                <Settings className="h-4 w-4" />
+                Account Details
+              </Link>
             </nav>
           </div>
 
@@ -159,15 +218,25 @@ export default function UserDashboardPage() {
             {/* Stats */}
             <div className="grid gap-4 sm:grid-cols-3">
               {[
-                { label: "Total Rides", value: "24", icon: Car, sub: "Lifetime" },
-                { label: "Total Spent", value: "$2,840", icon: CreditCard, sub: "All time" },
-                { label: "Avg Rating Given", value: "4.9 ★", icon: Star, sub: "To drivers" },
+                { label: "Total Rides", value: String(bookings.length), icon: Car, sub: "Lifetime" },
+                {
+                  label: "Total Spent",
+                  value: `$${totalSpent.toLocaleString()}`,
+                  icon: CreditCard,
+                  sub: "Completed rides",
+                },
+                {
+                  label: "Rides Completed",
+                  value: String(completedCount),
+                  icon: Star,
+                  sub: "All time",
+                },
               ].map((stat) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="rounded-2xl bg-white border border-gray-100 shadow-sm p-5"
+                  className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm"
                 >
                   <stat.icon className="mb-3 h-5 w-5 text-[#0b66d1]" />
                   <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
@@ -191,9 +260,8 @@ export default function UserDashboardPage() {
               </Link>
             </div>
 
-            {/* Bookings */}
-            <div className="rounded-2xl bg-white border border-gray-100 shadow-sm">
-              {/* Tabs */}
+            {/* Bookings list */}
+            <div className="rounded-2xl border border-gray-100 bg-white shadow-sm">
               <div className="flex border-b border-gray-100 px-5 pt-4">
                 {(["upcoming", "past"] as const).map((tab) => (
                   <button
@@ -211,11 +279,18 @@ export default function UserDashboardPage() {
               </div>
 
               <div className="p-5">
-                {filtered.length === 0 ? (
+                {bookingsLoading ? (
+                  <div className="flex justify-center py-12">
+                    <span className="h-6 w-6 animate-spin rounded-full border-2 border-gray-200 border-t-[#0b66d1]" />
+                  </div>
+                ) : filtered.length === 0 ? (
                   <div className="py-12 text-center">
                     <AlertCircle className="mx-auto mb-3 h-8 w-8 text-gray-300" />
                     <p className="text-sm text-gray-500">No {activeTab} bookings</p>
-                    <Link href="/booking" className="mt-4 inline-block rounded-full bg-[#0b66d1] px-5 py-2 text-sm font-semibold text-white">
+                    <Link
+                      href="/booking"
+                      className="mt-4 inline-block rounded-full bg-[#0b66d1] px-5 py-2 text-sm font-semibold text-white"
+                    >
                       Book a ride
                     </Link>
                   </div>
@@ -226,40 +301,41 @@ export default function UserDashboardPage() {
                         key={booking.id}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="rounded-xl bg-gray-50 border border-gray-100 p-4 transition hover:border-gray-200 hover:shadow-sm"
+                        className="rounded-xl border border-gray-100 bg-gray-50 p-4 transition hover:border-gray-200 hover:shadow-sm"
                       >
                         <div className="flex flex-wrap items-start justify-between gap-2">
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="font-mono text-xs text-gray-400">{booking.id}</span>
-                              <span className={`rounded-full px-2 py-0.5 text-xs font-medium capitalize ${statusColors[booking.status]}`}>
-                                {booking.status}
+                              <span className="font-mono text-xs text-gray-400">
+                                {booking.id.slice(0, 12).toUpperCase()}
+                              </span>
+                              <span
+                                className={`rounded-full px-2 py-0.5 text-xs font-medium ${statusColors[booking.status]}`}
+                              >
+                                {statusLabels[booking.status]}
                               </span>
                             </div>
                             <div className="mt-2 flex items-center gap-1.5 text-sm text-gray-500">
                               <Calendar className="h-3.5 w-3.5" />
-                              {booking.date} at {booking.time}
+                              {formatDate(booking.scheduled_at)}
                             </div>
                           </div>
-                          <p className="text-lg font-bold text-gray-900">${booking.fare}</p>
+                          <p className="text-lg font-bold text-gray-900">
+                            ${(booking.fare_final ?? booking.fare_estimate)?.toLocaleString() ?? "—"}
+                          </p>
                         </div>
                         <div className="mt-3 space-y-1.5 text-sm">
                           <div className="flex items-start gap-2 text-gray-600">
                             <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#0b66d1]" />
-                            <span className="line-clamp-1">{booking.pickup}</span>
+                            <span className="line-clamp-1">{booking.pickup_address}</span>
                           </div>
                           <div className="flex items-start gap-2 text-gray-600">
                             <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gray-300" />
-                            <span className="line-clamp-1">{booking.dropoff}</span>
+                            <span className="line-clamp-1">{booking.dropoff_address}</span>
                           </div>
                         </div>
                         <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-gray-400">
-                          <div className="flex gap-3">
-                            <span>{booking.vehicle}</span>
-                            <span>·</span>
-                            <span>Driver: {booking.driver}</span>
-                            {booking.rating && <span>· {booking.rating} ★</span>}
-                          </div>
+                          <span>{booking.vehicle_class}</span>
                           <button className="flex items-center gap-1 text-[#0b66d1] hover:text-[#0952a8]">
                             Details <ChevronRight className="h-3.5 w-3.5" />
                           </button>

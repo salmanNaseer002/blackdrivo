@@ -4,7 +4,8 @@ export type RideType = "one_way" | "hourly" | "city_to_city";
 export type VehicleClass = "business" | "first_class" | "suv" | "van";
 export type DriverStatus = "pending" | "approved" | "rejected" | "suspended";
 
-export interface ProfileRow {
+// Matches the `users` table (extends auth.users)
+export interface UserRow {
   id: string;
   email: string;
   full_name: string | null;
@@ -20,6 +21,7 @@ export interface DriverRow {
   user_id: string;
   license_number: string;
   license_expiry: string;
+  license_state: string;
   vehicle_make: string;
   vehicle_model: string;
   vehicle_year: number;
@@ -39,7 +41,7 @@ export interface DriverRow {
 
 export interface BookingRow {
   id: string;
-  user_id: string | null;
+  passenger_id: string | null;   // authenticated user's ID
   driver_id: string | null;
   ride_type: RideType;
   vehicle_class: VehicleClass;
@@ -71,10 +73,10 @@ export interface BookingRow {
 export interface Database {
   public: {
     Tables: {
-      profiles: {
-        Row: ProfileRow;
-        Insert: Omit<ProfileRow, "created_at" | "updated_at">;
-        Update: Partial<Omit<ProfileRow, "id" | "created_at" | "updated_at">>;
+      users: {
+        Row: UserRow;
+        Insert: Omit<UserRow, "created_at" | "updated_at">;
+        Update: Partial<Omit<UserRow, "id" | "created_at" | "updated_at">>;
         Relationships: [];
       };
       drivers: {
@@ -97,6 +99,7 @@ export interface Database {
   };
 }
 
-export type Profile = ProfileRow;
+// Aliases — kept so existing imports don't break
+export type Profile = UserRow;
 export type Driver = DriverRow;
 export type Booking = BookingRow;

@@ -12,7 +12,7 @@ import { Suspense } from "react";
 function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
-  const redirect = params.get("redirect") ?? "/";
+  const redirect = params.get("redirect") ?? "/user/dashboard";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,7 +26,10 @@ function LoginForm() {
     setLoading(true);
     try {
       const supabase = createClient();
-      const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
       if (authError) {
         setError(authError.message);
       } else {
@@ -67,10 +70,12 @@ function LoginForm() {
           <div>
             <h2 className="text-4xl font-bold leading-tight text-white">
               Premium rides,
-              <br />done right.
+              <br />
+              done right.
             </h2>
             <p className="mt-4 max-w-sm text-base text-white/70">
-              Sign in to manage your bookings, view trip history, and access exclusive member benefits.
+              Sign in to manage your bookings, view trip history, and access
+              exclusive member benefits.
             </p>
           </div>
         </div>
@@ -95,12 +100,16 @@ function LoginForm() {
                   className="object-contain invert mix-blend-screen"
                 />
               </div>
-              <span className="text-lg font-bold text-gray-900">BlackDrivo</span>
+              <span className="text-lg font-bold text-gray-900">
+                BlackDrivo
+              </span>
             </Link>
           </div>
 
           <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
-          <p className="mt-1.5 text-sm text-gray-500">Sign in to your BlackDrivo account</p>
+          <p className="mt-1.5 text-sm text-gray-500">
+            Sign in to your BlackDrivo account
+          </p>
 
           {error && (
             <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
@@ -110,7 +119,9 @@ function LoginForm() {
 
           <form onSubmit={handleSubmit} className="mt-7 space-y-4">
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-gray-700">Email address</label>
+              <label className="mb-1.5 block text-xs font-medium text-gray-700">
+                Email address
+              </label>
               <input
                 type="email"
                 value={email}
@@ -122,8 +133,13 @@ function LoginForm() {
             </div>
             <div>
               <div className="mb-1.5 flex items-center justify-between">
-                <label className="text-xs font-medium text-gray-700">Password</label>
-                <Link href="/forgot-password" className="text-xs text-[#0b66d1] hover:text-[#0952a8]">
+                <label className="text-xs font-medium text-gray-700">
+                  Password
+                </label>
+                <Link
+                  href="/forgot-password"
+                  className="text-xs text-[#0b66d1] hover:text-[#0952a8]"
+                >
                   Forgot password?
                 </Link>
               </div>
@@ -141,7 +157,11 @@ function LoginForm() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
                 </button>
               </div>
             </div>
@@ -154,21 +174,29 @@ function LoginForm() {
               {loading ? (
                 <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
               ) : (
-                <>Sign in <ArrowRight className="h-4 w-4" /></>
+                <>
+                  Sign in <ArrowRight className="h-4 w-4" />
+                </>
               )}
             </button>
           </form>
 
           <p className="mt-6 text-center text-sm text-gray-500">
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className="font-medium text-[#0b66d1] hover:text-[#0952a8]">
+            <Link
+              href="/signup"
+              className="font-medium text-[#0b66d1] hover:text-[#0952a8]"
+            >
               Sign up free
             </Link>
           </p>
 
           <p className="mt-4 text-center text-sm text-gray-500">
             Are you a driver?{" "}
-            <Link href="/driver/register" className="font-medium text-[#0b66d1] hover:text-[#0952a8]">
+            <Link
+              href="/driver/register"
+              className="font-medium text-[#0b66d1] hover:text-[#0952a8]"
+            >
               Register here
             </Link>
           </p>

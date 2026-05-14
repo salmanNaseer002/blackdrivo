@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, CheckCircle, ArrowRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -15,6 +16,7 @@ const perks = [
 ];
 
 export default function SignupPage() {
+  const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -23,6 +25,22 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [countdown, setCountdown] = useState(4);
+
+  useEffect(() => {
+    if (!success) return;
+    const interval = setInterval(() => {
+      setCountdown((c) => {
+        if (c <= 1) {
+          clearInterval(interval);
+          router.push("/login");
+          return 0;
+        }
+        return c - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [success, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,17 +48,32 @@ export default function SignupPage() {
     setLoading(true);
     try {
       const supabase = createClient();
-      const { error: authError } = await supabase.auth.signUp({
+      const { data, error: authError } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: { full_name: fullName, phone, role: "user" },
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
       });
       if (authError) {
         setError(authError.message);
+      } else if (data.session) {
+        // Email confirmation disabled — user is already signed in.
+        // Upsert into public.users as a backup in case the DB trigger missed it.
+        await supabase.from("users").upsert(
+          {
+            id: data.session.user.id,
+            email: data.session.user.email ?? email,
+            full_name: fullName || null,
+            phone: phone || null,
+            role: "user",
+          } as never,
+          { onConflict: "id" }
+        );
+        router.push("/user/dashboard");
       } else {
+        // Email confirmation enabled — show verify screen + countdown
         setSuccess(true);
       }
     } catch {
@@ -62,14 +95,18 @@ export default function SignupPage() {
           </div>
           <h2 className="text-xl font-bold text-gray-900">Check your email</h2>
           <p className="mt-2 text-sm text-gray-600">
-            We&apos;ve sent a confirmation link to <span className="font-medium text-gray-900">{email}</span>.
-            Click the link to activate your account.
+            We&apos;ve sent a confirmation link to{" "}
+            <span className="font-medium text-gray-900">{email}</span>. Click
+            the link to activate your account.
+          </p>
+          <p className="mt-4 text-xs text-gray-400">
+            Redirecting to sign in in {countdown}s…
           </p>
           <Link
             href="/login"
-            className="mt-6 block rounded-xl bg-[#0b66d1] py-3 text-sm font-semibold text-white transition hover:bg-[#0952a8]"
+            className="mt-4 block rounded-xl bg-[#0b66d1] py-3 text-sm font-semibold text-white transition hover:bg-[#0952a8]"
           >
-            Back to sign in
+            Go to sign in now
           </Link>
         </motion.div>
       </div>
@@ -104,14 +141,18 @@ export default function SignupPage() {
           <div>
             <h2 className="text-4xl font-bold leading-tight text-white">
               Join thousands
-              <br />of happy riders.
+              <br />
+              of happy riders.
             </h2>
             <p className="mt-4 mb-6 text-base text-white/70">
               Create your free account and book premium rides in minutes.
             </p>
             <ul className="space-y-3">
               {perks.map((perk) => (
-                <li key={perk} className="flex items-center gap-2.5 text-sm text-white/80">
+                <li
+                  key={perk}
+                  className="flex items-center gap-2.5 text-sm text-white/80"
+                >
                   <CheckCircle className="h-4 w-4 text-white" />
                   {perk}
                 </li>
@@ -140,12 +181,18 @@ export default function SignupPage() {
                   className="object-contain invert mix-blend-screen"
                 />
               </div>
-              <span className="text-lg font-bold text-gray-900">BlackDrivo</span>
+              <span className="text-lg font-bold text-gray-900">
+                BlackDrivo
+              </span>
             </Link>
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-900">Create an account</h1>
-          <p className="mt-1.5 text-sm text-gray-500">Start booking premium rides today</p>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Create an account
+          </h1>
+          <p className="mt-1.5 text-sm text-gray-500">
+            Start booking premium rides today
+          </p>
 
           {error && (
             <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
@@ -155,7 +202,9 @@ export default function SignupPage() {
 
           <form onSubmit={handleSubmit} className="mt-7 space-y-4">
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-gray-700">Full Name</label>
+              <label className="mb-1.5 block text-xs font-medium text-gray-700">
+                Full Name
+              </label>
               <input
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
@@ -165,7 +214,9 @@ export default function SignupPage() {
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-gray-700">Email address</label>
+              <label className="mb-1.5 block text-xs font-medium text-gray-700">
+                Email address
+              </label>
               <input
                 type="email"
                 value={email}
@@ -176,7 +227,9 @@ export default function SignupPage() {
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-gray-700">Phone Number</label>
+              <label className="mb-1.5 block text-xs font-medium text-gray-700">
+                Phone Number
+              </label>
               <input
                 type="tel"
                 value={phone}
@@ -186,7 +239,9 @@ export default function SignupPage() {
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-gray-700">Password</label>
+              <label className="mb-1.5 block text-xs font-medium text-gray-700">
+                Password
+              </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -202,7 +257,11 @@ export default function SignupPage() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
                 </button>
               </div>
             </div>
@@ -215,17 +274,25 @@ export default function SignupPage() {
               {loading ? (
                 <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
               ) : (
-                <>Create account <ArrowRight className="h-4 w-4" /></>
+                <>
+                  Create account <ArrowRight className="h-4 w-4" />
+                </>
               )}
             </button>
 
             <p className="text-center text-xs text-gray-400">
               By signing up you agree to our{" "}
-              <Link href="/terms-of-service" className="text-[#0b66d1] hover:text-[#0952a8]">
+              <Link
+                href="/terms-of-service"
+                className="text-[#0b66d1] hover:text-[#0952a8]"
+              >
                 Terms
               </Link>{" "}
               and{" "}
-              <Link href="/privacy-policy" className="text-[#0b66d1] hover:text-[#0952a8]">
+              <Link
+                href="/privacy-policy"
+                className="text-[#0b66d1] hover:text-[#0952a8]"
+              >
                 Privacy Policy
               </Link>
             </p>
@@ -233,7 +300,10 @@ export default function SignupPage() {
 
           <p className="mt-6 text-center text-sm text-gray-500">
             Already have an account?{" "}
-            <Link href="/login" className="font-medium text-[#0b66d1] hover:text-[#0952a8]">
+            <Link
+              href="/login"
+              className="font-medium text-[#0b66d1] hover:text-[#0952a8]"
+            >
               Sign in
             </Link>
           </p>
