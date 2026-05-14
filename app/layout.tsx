@@ -40,19 +40,27 @@ export const metadata: Metadata = {
     description:
       "Premium black car service across New York, New Jersey, and the US. Book airport transfers, hourly rides, and city-to-city chauffeur travel.",
     siteName: "BlackDrivo",
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "BlackDrivo Premium Chauffeur" }],
+    images: [
+      {
+        url: "/B Logo Black Theme.png",
+        width: 1200,
+        height: 630,
+        alt: "BlackDrivo Premium Chauffeur",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     site: "@blackdrivo",
     creator: "@blackdrivo",
     title: "BlackDrivo — Premium Chauffeur Service",
-    description: "Premium chauffeur service across New York, New Jersey, and the US.",
+    description:
+      "Premium chauffeur service across New York, New Jersey, and the US.",
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
   },
   robots: {
     index: true,
@@ -105,7 +113,12 @@ export default function RootLayout({
                 postalCode: "10001",
                 addressCountry: "US",
               },
-              areaServed: ["New York", "New Jersey", "Connecticut", "Pennsylvania"],
+              areaServed: [
+                "New York",
+                "New Jersey",
+                "Connecticut",
+                "Pennsylvania",
+              ],
               sameAs: [
                 "https://www.instagram.com/blackdrivo",
                 "https://twitter.com/blackdrivo",
@@ -115,7 +128,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
