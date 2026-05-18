@@ -3,6 +3,8 @@ export type BookingStatus = "pending" | "confirmed" | "in_progress" | "completed
 export type RideType = "one_way" | "hourly" | "city_to_city";
 export type VehicleClass = "business" | "first_class" | "suv" | "van";
 export type DriverStatus = "pending" | "approved" | "rejected" | "suspended";
+export type QueryStatus = "new" | "in_progress" | "resolved" | "closed";
+export type QuerySubject = "booking" | "corporate" | "driver" | "support" | "other";
 
 // Matches the `users` table (extends auth.users)
 export interface UserRow {
@@ -35,6 +37,10 @@ export interface DriverRow {
   is_available: boolean;
   rating: number | null;
   total_rides: number;
+  license_doc_url: string | null;
+  insurance_doc_url: string | null;
+  vehicle_reg_doc_url: string | null;
+  vehicle_photo_url: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -70,6 +76,21 @@ export interface BookingRow {
   updated_at: string;
 }
 
+export interface QueryRow {
+  id: string;
+  full_name: string;
+  email: string;
+  phone: string | null;
+  company_name: string | null;
+  subject: QuerySubject;
+  message: string;
+  service_type: string | null;
+  budget: string | null;
+  status: QueryStatus;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -91,6 +112,12 @@ export interface Database {
         Update: Partial<Omit<BookingRow, "id" | "created_at" | "updated_at">>;
         Relationships: [];
       };
+      queries: {
+        Row: QueryRow;
+        Insert: Omit<QueryRow, "id" | "status" | "created_at" | "updated_at">;
+        Update: Partial<Omit<QueryRow, "id" | "created_at" | "updated_at">>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
@@ -103,3 +130,4 @@ export interface Database {
 export type Profile = UserRow;
 export type Driver = DriverRow;
 export type Booking = BookingRow;
+export type Query = QueryRow;

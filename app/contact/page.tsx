@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Clock, MessageCircle, ArrowRight, CheckCircle } from "lucide-react";
+import {
+  Phone, Mail, MapPin, Clock, MessageCircle, ArrowRight, CheckCircle, Loader2,
+} from "lucide-react";
+import { useQueryForm } from "@/hooks/useQueryForm";
+import { QUERY_SUBJECTS } from "@/validations/query";
 
 const contactInfo = [
   {
@@ -56,18 +59,18 @@ const faqs = [
   },
 ];
 
-export default function ContactPage() {
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
-  const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
+const inputClass =
+  "w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-[#0b66d1] focus:ring-2 focus:ring-[#0b66d1]/20";
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setSent(true);
-    setLoading(false);
-  };
+const errorClass = "mt-1 text-xs text-red-500";
+
+export default function ContactPage() {
+  const { form, submitted, resetForm, onSubmit, isSubmitting } = useQueryForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = form;
 
   return (
     <div className="min-h-screen bg-white">
@@ -100,7 +103,7 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="group rounded-2xl bg-white border border-gray-100 shadow-sm p-5 transition hover:shadow-md hover:border-[#0b66d1]/25"
+              className="group rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition hover:border-[#0b66d1]/25 hover:shadow-md"
             >
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-[#0b66d1]">
                 <item.icon className="h-5 w-5" />
@@ -118,19 +121,20 @@ export default function ContactPage() {
       {/* Contact form + FAQ */}
       <section className="px-4 py-12 md:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-          {/* Form */}
-          <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-7 md:p-9">
-            {sent ? (
+          {/* Form card */}
+          <div className="rounded-2xl border border-gray-100 bg-white p-7 shadow-sm md:p-9">
+            {submitted ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50">
                   <CheckCircle className="h-7 w-7 text-[#0b66d1]" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900">Message sent!</h3>
                 <p className="mt-2 text-sm text-gray-600">
-                  We&apos;ll get back to you within 2 hours. Check your inbox for a confirmation.
+                  We&apos;ll get back to you within 2 hours. Check your inbox for a
+                  confirmation.
                 </p>
                 <button
-                  onClick={() => { setSent(false); setFormData({ name: "", email: "", phone: "", subject: "", message: "" }); }}
+                  onClick={resetForm}
                   className="mt-6 rounded-full border-2 border-gray-200 px-6 py-2.5 text-sm font-medium text-gray-700 transition hover:border-[#0b66d1] hover:text-[#0b66d1]"
                 >
                   Send another message
@@ -142,76 +146,112 @@ export default function ContactPage() {
                 <p className="mt-1.5 text-sm text-gray-500">
                   Fill out the form and we&apos;ll respond within 2 hours.
                 </p>
-                <form onSubmit={handleSubmit} className="mt-7 space-y-4">
+
+                <form onSubmit={handleSubmit(onSubmit)} className="mt-7 space-y-4" noValidate>
+                  {/* Name + Phone row */}
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1.5 block text-xs font-medium text-gray-700">Full Name *</label>
+                      <label className="mb-1.5 block text-xs font-medium text-gray-700">
+                        Full Name <span className="text-red-500">*</span>
+                      </label>
                       <input
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        {...register("full_name")}
                         placeholder="John Smith"
-                        className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-gray-900 placeholder-gray-400 outline-none ring-[#0b66d1] focus:border-[#0b66d1] focus:ring-2 focus:ring-[#0b66d1]/20 transition"
+                        className={inputClass}
+                        aria-invalid={!!errors.full_name}
                       />
+                      {errors.full_name && (
+                        <p className={errorClass}>{errors.full_name.message}</p>
+                      )}
                     </div>
+
                     <div>
-                      <label className="mb-1.5 block text-xs font-medium text-gray-700">Phone</label>
+                      <label className="mb-1.5 block text-xs font-medium text-gray-700">
+                        Phone
+                      </label>
                       <input
+                        {...register("phone")}
                         type="tel"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         placeholder="+1 (555) 000-0000"
-                        className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-gray-900 placeholder-gray-400 outline-none ring-[#0b66d1] focus:border-[#0b66d1] focus:ring-2 focus:ring-[#0b66d1]/20 transition"
+                        className={inputClass}
+                        aria-invalid={!!errors.phone}
                       />
+                      {errors.phone && (
+                        <p className={errorClass}>{errors.phone.message}</p>
+                      )}
                     </div>
                   </div>
+
+                  {/* Email */}
                   <div>
-                    <label className="mb-1.5 block text-xs font-medium text-gray-700">Email *</label>
+                    <label className="mb-1.5 block text-xs font-medium text-gray-700">
+                      Email <span className="text-red-500">*</span>
+                    </label>
                     <input
+                      {...register("email")}
                       type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="john@example.com"
-                      className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-gray-900 placeholder-gray-400 outline-none ring-[#0b66d1] focus:border-[#0b66d1] focus:ring-2 focus:ring-[#0b66d1]/20 transition"
+                      className={inputClass}
+                      aria-invalid={!!errors.email}
                     />
+                    {errors.email && (
+                      <p className={errorClass}>{errors.email.message}</p>
+                    )}
                   </div>
+
+                  {/* Subject */}
                   <div>
-                    <label className="mb-1.5 block text-xs font-medium text-gray-700">Subject *</label>
+                    <label className="mb-1.5 block text-xs font-medium text-gray-700">
+                      Subject <span className="text-red-500">*</span>
+                    </label>
                     <select
-                      required
-                      value={formData.subject}
-                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-gray-900 outline-none ring-[#0b66d1] focus:border-[#0b66d1] focus:ring-2 focus:ring-[#0b66d1]/20 transition"
+                      {...register("subject")}
+                      className={inputClass}
+                      aria-invalid={!!errors.subject}
                     >
                       <option value="">Select a subject</option>
-                      <option value="booking">Booking inquiry</option>
-                      <option value="corporate">Corporate accounts</option>
-                      <option value="driver">Driver partnership</option>
-                      <option value="support">Customer support</option>
-                      <option value="other">Other</option>
+                      {QUERY_SUBJECTS.map((s) => (
+                        <option key={s.value} value={s.value}>
+                          {s.label}
+                        </option>
+                      ))}
                     </select>
+                    {errors.subject && (
+                      <p className={errorClass}>{errors.subject.message}</p>
+                    )}
                   </div>
+
+                  {/* Message */}
                   <div>
-                    <label className="mb-1.5 block text-xs font-medium text-gray-700">Message *</label>
+                    <label className="mb-1.5 block text-xs font-medium text-gray-700">
+                      Message <span className="text-red-500">*</span>
+                    </label>
                     <textarea
-                      required
+                      {...register("message")}
                       rows={5}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder="How can we help you?"
-                      className="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-gray-900 placeholder-gray-400 outline-none ring-[#0b66d1] focus:border-[#0b66d1] focus:ring-2 focus:ring-[#0b66d1]/20 transition"
+                      className={`${inputClass} resize-none`}
+                      aria-invalid={!!errors.message}
                     />
+                    {errors.message && (
+                      <p className={errorClass}>{errors.message.message}</p>
+                    )}
                   </div>
+
                   <button
                     type="submit"
-                    disabled={loading}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#0b66d1] py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8] disabled:opacity-60"
+                    disabled={isSubmitting}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#0b66d1] py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8] disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {loading ? (
-                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Sending…
+                      </>
                     ) : (
-                      <>Send message <ArrowRight className="h-4 w-4" /></>
+                      <>
+                        Send message <ArrowRight className="h-4 w-4" />
+                      </>
                     )}
                   </button>
                 </form>
@@ -219,13 +259,16 @@ export default function ContactPage() {
             )}
           </div>
 
-          {/* FAQ */}
+          {/* FAQ + Hours sidebar */}
           <div>
-            <div className="rounded-2xl bg-gray-50 border border-gray-100 p-7">
+            <div className="rounded-2xl border border-gray-100 bg-gray-50 p-7">
               <h3 className="text-lg font-bold text-gray-900">Frequently asked questions</h3>
               <div className="mt-5 space-y-5">
                 {faqs.map((faq) => (
-                  <div key={faq.q} className="border-b border-gray-100 pb-5 last:border-0 last:pb-0">
+                  <div
+                    key={faq.q}
+                    className="border-b border-gray-100 pb-5 last:border-0 last:pb-0"
+                  >
                     <p className="text-sm font-semibold text-gray-900">{faq.q}</p>
                     <p className="mt-2 text-sm text-gray-600">{faq.a}</p>
                   </div>
@@ -233,22 +276,20 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="mt-4 rounded-2xl bg-white border border-gray-100 shadow-sm p-6">
+            <div className="mt-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
               <Clock className="mb-3 h-5 w-5 text-[#0b66d1]" />
               <h4 className="font-semibold text-gray-900">Business Hours</h4>
               <div className="mt-3 space-y-2 text-sm text-gray-600">
-                <div className="flex justify-between">
-                  <span>Phone & Chat Support</span>
-                  <span className="font-medium text-gray-900">24/7</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Email Support</span>
-                  <span className="font-medium text-gray-900">24 hours</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Dispatch Operations</span>
-                  <span className="font-medium text-gray-900">24/7</span>
-                </div>
+                {[
+                  ["Phone & Chat Support", "24/7"],
+                  ["Email Support", "24 hours"],
+                  ["Dispatch Operations", "24/7"],
+                ].map(([label, hours]) => (
+                  <div key={label} className="flex justify-between">
+                    <span>{label}</span>
+                    <span className="font-medium text-gray-900">{hours}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

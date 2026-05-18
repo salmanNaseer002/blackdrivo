@@ -9,7 +9,7 @@ import {
 } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
-import type { Profile } from "@/lib/supabase/types";
+import type { Profile, UserRole } from "@/lib/supabase/types";
 
 // ─── Shape ────────────────────────────────────────────────────────────────────
 
@@ -42,11 +42,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const supabase = createClient();
 
   const fetchProfile = useCallback(
-    async (userId: string) => {
+    async (authUser: User) => {
+      const role = authUser.user_metadata?.role as UserRole | undefined;
+
+      // Drivers are not in public.users — build profile from auth metadata.
+      if (role === "driver") {
+        const meta = authUser.user_metadata ?? {};
+        setProfile({
+          id: authUser.id,
+          email: authUser.email ?? "",
+          full_name: (meta.full_name as string) ?? null,
+          phone: (meta.phone as string) ?? null,
+          role: "driver",
+          avatar_url: null,
+          created_at: "",
+          updated_at: "",
+        });
+        return;
+      }
+
+      // Users and admins have a row in public.users.
       const { data } = await supabase
         .from("users")
         .select("*")
-        .eq("id", userId)
+        .eq("id", authUser.id)
         .single();
       setProfile(data ?? null);
     },
@@ -61,7 +80,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!mounted) return;
       setUser(currentUser);
       if (currentUser) {
-        await fetchProfile(currentUser.id);
+        await fetchProfile(currentUser);
       }
       setLoading(false);
     });
@@ -76,7 +95,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(nextUser);
 
       if (nextUser) {
-        await fetchProfile(nextUser.id);
+        await fetchProfile(nextUser);
       } else {
         setProfile(null);
       }

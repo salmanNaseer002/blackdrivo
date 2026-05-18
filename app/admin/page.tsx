@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   Car, Users, Calendar, DollarSign, TrendingUp, CheckCircle, XCircle,
-  AlertCircle, Search, Shield
+  AlertCircle, Search, Shield, MessageSquare, Trash2, RefreshCw,
+  ChevronLeft, ChevronRight, Mail, Phone,
 } from "lucide-react";
+import type { QueryRow, QueryStatus } from "@/lib/supabase/types";
 
 const stats = [
   { label: "Total Bookings", value: "1,284", change: "+12%", icon: Calendar, color: "text-[#0b66d1]" },
@@ -38,11 +40,77 @@ const statusStyles: Record<string, string> = {
   cancelled: "bg-red-50 text-red-500",
 };
 
-type AdminTab = "bookings" | "drivers" | "users" | "analytics";
+type AdminTab = "bookings" | "drivers" | "users" | "analytics" | "queries";
+
+const queryStatusStyles: Record<QueryStatus, string> = {
+  new:         "bg-blue-50 text-[#0b66d1]",
+  in_progress: "bg-amber-50 text-amber-600",
+  resolved:    "bg-emerald-50 text-emerald-600",
+  closed:      "bg-gray-100 text-gray-500",
+};
+
+interface QueriesResponse {
+  data: QueryRow[];
+  meta: { total: number; page: number; limit: number; totalPages: number };
+}
 
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<AdminTab>("bookings");
-  const [search, setSearch] = useState("");
+  const [search, setSearch]       = useState("");
+
+  // ── Queries state ──────────────────────────────────────────
+  const [queries, setQueries]         = useState<QueryRow[]>([]);
+  const [queriesMeta, setQueriesMeta] = useState({ total: 0, page: 1, totalPages: 1 });
+  const [queriesLoading, setQueriesLoading] = useState(false);
+  const [queriesSearch, setQueriesSearch]   = useState("");
+  const [queriesPage, setQueriesPage]       = useState(1);
+  const [expandedQuery, setExpandedQuery]   = useState<string | null>(null);
+
+  const fetchQueries = useCallback(async (page = 1, search = "") => {
+    setQueriesLoading(true);
+    try {
+      const params = new URLSearchParams({
+        page: String(page),
+        limit: "15",
+        search,
+        sort: "desc",
+      });
+      const res  = await fetch(`/api/admin/queries?${params}`);
+      const json = await res.json() as QueriesResponse;
+      setQueries(json.data ?? []);
+      setQueriesMeta(json.meta);
+    } catch {
+      // silently fail — table may not exist yet
+    } finally {
+      setQueriesLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (activeTab === "queries") fetchQueries(queriesPage, queriesSearch);
+  }, [activeTab, queriesPage, queriesSearch, fetchQueries]);
+
+  const updateQueryStatus = async (id: string, status: QueryStatus) => {
+    await fetch("/api/admin/queries", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, status }),
+    });
+    setQueries((prev) =>
+      prev.map((q) => (q.id === id ? { ...q, status } : q))
+    );
+  };
+
+  const deleteQuery = async (id: string) => {
+    if (!confirm("Delete this query? This cannot be undone.")) return;
+    await fetch("/api/admin/queries", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    setQueries((prev) => prev.filter((q) => q.id !== id));
+    setQueriesMeta((m) => ({ ...m, total: m.total - 1 }));
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -101,12 +169,12 @@ export default function AdminPage() {
         </div>
 
         {/* Tabs */}
-        <div className="mb-5 flex gap-1 rounded-xl border border-gray-200 bg-white p-1 shadow-sm">
-          {(["bookings", "drivers", "users", "analytics"] as AdminTab[]).map((tab) => (
+        <div className="mb-5 flex gap-1 rounded-xl border border-gray-200 bg-white p-1 shadow-sm overflow-x-auto">
+          {(["bookings", "drivers", "users", "analytics", "queries"] as AdminTab[]).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`flex-1 rounded-lg py-2.5 text-sm font-medium capitalize transition ${
+              className={`flex-1 min-w-max rounded-lg py-2.5 px-3 text-sm font-medium capitalize transition ${
                 activeTab === tab
                   ? "bg-[#0b66d1] text-white shadow-sm"
                   : "text-gray-500 hover:text-gray-900"
@@ -117,16 +185,18 @@ export default function AdminPage() {
           ))}
         </div>
 
-        {/* Search */}
-        <div className="mb-5 relative">
-          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder={`Search ${activeTab}...`}
-            className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 outline-none ring-[#0b66d1] focus:border-[#0b66d1] focus:ring-2 focus:ring-[#0b66d1]/20 transition"
-          />
-        </div>
+        {/* Search — hidden on queries tab (has its own search) */}
+        {activeTab !== "queries" && (
+          <div className="mb-5 relative">
+            <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={`Search ${activeTab}...`}
+              className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 outline-none ring-[#0b66d1] focus:border-[#0b66d1] focus:ring-2 focus:ring-[#0b66d1]/20 transition"
+            />
+          </div>
+        )}
 
         {/* Bookings tab */}
         {activeTab === "bookings" && (
@@ -322,6 +392,168 @@ export default function AdminPage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* Queries tab */}
+        {activeTab === "queries" && (
+          <div className="space-y-4">
+            {/* Toolbar */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="relative flex-1 min-w-[200px]">
+                <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <input
+                  value={queriesSearch}
+                  onChange={(e) => { setQueriesSearch(e.target.value); setQueriesPage(1); }}
+                  placeholder="Search by name or email…"
+                  className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-[#0b66d1] focus:ring-2 focus:ring-[#0b66d1]/20 transition"
+                />
+              </div>
+              <button
+                onClick={() => fetchQueries(queriesPage, queriesSearch)}
+                className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
+              >
+                <RefreshCw className={`h-4 w-4 ${queriesLoading ? "animate-spin" : ""}`} />
+                Refresh
+              </button>
+              <span className="rounded-full bg-blue-50 px-3 py-1.5 text-xs font-semibold text-[#0b66d1]">
+                {queriesMeta.total} total
+              </span>
+            </div>
+
+            {/* Table */}
+            <div className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
+              {queriesLoading ? (
+                <div className="flex items-center justify-center py-16 text-gray-400">
+                  <RefreshCw className="mr-2 h-5 w-5 animate-spin" />
+                  Loading queries…
+                </div>
+              ) : queries.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-16 text-center text-gray-400">
+                  <MessageSquare className="mb-3 h-10 w-10 opacity-30" />
+                  <p className="text-sm font-medium">No queries yet</p>
+                  <p className="text-xs mt-1">Messages submitted via the contact form will appear here.</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-gray-100 text-left text-xs font-semibold uppercase tracking-widest text-gray-400">
+                        <th className="px-5 py-3.5">Contact</th>
+                        <th className="px-5 py-3.5 hidden md:table-cell">Subject</th>
+                        <th className="px-5 py-3.5 hidden lg:table-cell">Message</th>
+                        <th className="px-5 py-3.5">Status</th>
+                        <th className="px-5 py-3.5 hidden sm:table-cell">Date</th>
+                        <th className="px-5 py-3.5">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {queries.map((q, i) => (
+                        <>
+                          <tr
+                            key={q.id}
+                            className={`border-b border-gray-50 transition hover:bg-gray-50 cursor-pointer ${
+                              i === queries.length - 1 ? "border-0" : ""
+                            }`}
+                            onClick={() => setExpandedQuery(expandedQuery === q.id ? null : q.id)}
+                          >
+                            <td className="px-5 py-4">
+                              <p className="font-medium text-gray-900">{q.full_name}</p>
+                              <p className="flex items-center gap-1 text-xs text-gray-400 mt-0.5">
+                                <Mail className="h-3 w-3" />{q.email}
+                              </p>
+                              {q.phone && (
+                                <p className="flex items-center gap-1 text-xs text-gray-400">
+                                  <Phone className="h-3 w-3" />{q.phone}
+                                </p>
+                              )}
+                            </td>
+                            <td className="hidden px-5 py-4 md:table-cell">
+                              <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium capitalize text-gray-600">
+                                {q.subject}
+                              </span>
+                            </td>
+                            <td className="hidden px-5 py-4 lg:table-cell max-w-[260px]">
+                              <p className="truncate text-xs text-gray-500">{q.message}</p>
+                            </td>
+                            <td className="px-5 py-4">
+                              <select
+                                value={q.status}
+                                onClick={(e) => e.stopPropagation()}
+                                onChange={(e) => updateQueryStatus(q.id, e.target.value as QueryStatus)}
+                                className={`rounded-full border-0 px-2.5 py-1 text-xs font-medium outline-none cursor-pointer ${queryStatusStyles[q.status as QueryStatus]}`}
+                              >
+                                <option value="new">New</option>
+                                <option value="in_progress">In Progress</option>
+                                <option value="resolved">Resolved</option>
+                                <option value="closed">Closed</option>
+                              </select>
+                            </td>
+                            <td className="hidden px-5 py-4 text-xs text-gray-400 sm:table-cell whitespace-nowrap">
+                              {new Date(q.created_at).toLocaleDateString("en-US", {
+                                month: "short", day: "numeric", year: "numeric",
+                              })}
+                            </td>
+                            <td className="px-5 py-4">
+                              <button
+                                onClick={(e) => { e.stopPropagation(); deleteQuery(q.id); }}
+                                className="rounded-lg border border-red-100 p-1.5 text-red-400 transition hover:bg-red-50 hover:text-red-600"
+                                title="Delete query"
+                              >
+                                <Trash2 className="h-3.5 w-3.5" />
+                              </button>
+                            </td>
+                          </tr>
+
+                          {/* Expanded message row */}
+                          {expandedQuery === q.id && (
+                            <tr key={`${q.id}-expanded`} className="bg-blue-50/40">
+                              <td colSpan={6} className="px-5 py-4">
+                                <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
+                                  Full message
+                                </p>
+                                <p className="text-sm text-gray-700 whitespace-pre-wrap">{q.message}</p>
+                                <a
+                                  href={`mailto:${q.email}?subject=Re: ${q.subject}`}
+                                  className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-[#0b66d1] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#0952a8]"
+                                >
+                                  <Mail className="h-3.5 w-3.5" /> Reply via email
+                                </a>
+                              </td>
+                            </tr>
+                          )}
+                        </>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+
+            {/* Pagination */}
+            {queriesMeta.totalPages > 1 && (
+              <div className="flex items-center justify-between">
+                <p className="text-xs text-gray-500">
+                  Page {queriesMeta.page} of {queriesMeta.totalPages} · {queriesMeta.total} queries
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    disabled={queriesPage <= 1}
+                    onClick={() => setQueriesPage((p) => p - 1)}
+                    className="flex items-center gap-1 rounded-lg border border-gray-200 px-3 py-2 text-xs font-medium text-gray-600 transition hover:bg-gray-50 disabled:opacity-40"
+                  >
+                    <ChevronLeft className="h-3.5 w-3.5" /> Prev
+                  </button>
+                  <button
+                    disabled={queriesPage >= queriesMeta.totalPages}
+                    onClick={() => setQueriesPage((p) => p + 1)}
+                    className="flex items-center gap-1 rounded-lg border border-gray-200 px-3 py-2 text-xs font-medium text-gray-600 transition hover:bg-gray-50 disabled:opacity-40"
+                  >
+                    Next <ChevronRight className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

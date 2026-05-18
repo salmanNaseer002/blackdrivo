@@ -26,14 +26,21 @@ function LoginForm() {
     setLoading(true);
     try {
       const supabase = createClient();
-      const { error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
       if (authError) {
         setError(authError.message);
       } else {
-        router.push(redirect);
+        // Role is stored in auth JWT metadata — no extra DB round-trip needed.
+        // Drivers don't have a public.users row (separated architecture).
+        const role = (data.user.user_metadata?.role as string | undefined) ?? "user";
+        const roleDefault =
+          role === "driver" ? "/driver/dashboard" :
+          role === "admin"  ? "/admin" :
+          "/user/dashboard";
+
+        // Honour an explicit ?redirect= param; fall back to role-based default
+        const dest = redirect && redirect !== "/user/dashboard" ? redirect : roleDefault;
+        router.push(dest);
         router.refresh();
       }
     } catch {

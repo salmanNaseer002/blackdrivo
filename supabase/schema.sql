@@ -19,7 +19,7 @@ create table if not exists public.users (
 
 create table if not exists public.drivers (
   id uuid default uuid_generate_v4() primary key,
-  user_id uuid references public.users(id) on delete cascade not null unique,
+  user_id uuid,
   license_number text not null,
   license_expiry date not null,
   license_state text not null default 'NY',
