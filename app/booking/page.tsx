@@ -12,6 +12,7 @@ import type { VehicleClass, RideType } from "@/lib/supabase/types";
 import { useUser } from "@/lib/hooks/useUser";
 import SignInModal from "@/components/auth/SignInModal";
 import { createClient } from "@/lib/supabase/client";
+import Navbar from "@/components/layout/Navbar";
 
 type Step = "details" | "vehicle" | "passenger" | "payment";
 
@@ -133,16 +134,13 @@ function BookingContent() {
       <header className="border-b border-gray-100 bg-white shadow-sm">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0b66d1]">
-              <Image
-                src="/B Logo Black Theme.png"
-                alt="BlackDrivo"
-                width={18}
-                height={18}
-                className="object-contain invert mix-blend-screen"
-              />
-            </div>
-            <span className="text-lg font-bold text-gray-900">BlackDrivo</span>
+            <Image
+  src="/logo bb.png"
+  alt="BlackDrivo"
+  width={130}
+  height={35}
+  className="object-contain"
+/>
           </Link>
           <Link href="/" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition">
             <ArrowLeft className="h-4 w-4" />

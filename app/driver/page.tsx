@@ -117,7 +117,7 @@ export default function DriverLandingPage() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/driver/register"
+                href="/driver/signup"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]"
               >
                 Apply Now <ArrowRight className="h-4 w-4" />
@@ -207,7 +207,7 @@ export default function DriverLandingPage() {
           </div>
           <div className="mt-12 text-center">
             <Link
-              href="/driver/register"
+              href="/driver/signup"
               className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]"
             >
               Start Your Application <ArrowRight className="h-4 w-4" />
@@ -247,7 +247,7 @@ export default function DriverLandingPage() {
                 ))}
               </ul>
               <Link
-                href="/driver/register"
+                href="/driver/signup"
                 className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-[#0b66d1] transition hover:bg-gray-100"
               >
                 Apply to Drive <ArrowRight className="h-4 w-4" />
@@ -323,7 +323,7 @@ export default function DriverLandingPage() {
                 ))}
               </div>
               <Link
-                href="/driver/register"
+                href="/driver/signup"
                 className="mt-6 block rounded-xl bg-[#0b66d1] py-3.5 text-center text-sm font-semibold text-white transition hover:bg-[#0952a8]"
               >
                 Start Application
@@ -388,7 +388,7 @@ export default function DriverLandingPage() {
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
-              href="/driver/register"
+              href="/driver/signup"
               className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8] sm:w-auto"
             >
               Apply to Drive <ArrowRight className="h-4 w-4" />
