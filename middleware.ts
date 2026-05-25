@@ -42,7 +42,9 @@ export async function middleware(request: NextRequest) {
 
   if (user && authPaths.some((p) => pathname.startsWith(p))) {
     const url = request.nextUrl.clone();
-    url.pathname = "/";
+    // Role-based redirect
+    const role = user.user_metadata?.role;
+    url.pathname = role === "driver" ? "/driver/dashboard" : "/user/dashboard";
     return NextResponse.redirect(url);
   }
 
