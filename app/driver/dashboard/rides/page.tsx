@@ -21,7 +21,9 @@ export default function RidesPage() {
       if (!user) { router.replace("/login"); return; }
       const { data: drv } = await supabase.from("drivers").select("id").eq("user_id", user.id).maybeSingle();
       if (!drv) return;
-      const { data: bookings } = await supabase.from("bookings").select("*").eq("driver_id", drv.id).order("scheduled_at", { ascending: false }).limit(100);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const drvAny = drv as any;
+      const { data: bookings } = await supabase.from("bookings").select("*").eq("driver_id", drvAny.id).order("scheduled_at", { ascending: false }).limit(100);
       setRides(bookings || []);
       setLoading(false);
     };

@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import type { Profile, UserRole } from "@/lib/supabase/types";
 
 interface UseUserReturn {
   user: User | null;
+  profile: Profile | null;
   loading: boolean;
   role: string;
   initials: string;
@@ -14,56 +16,85 @@ interface UseUserReturn {
 
 export function useUser(): UseUserReturn {
   const [user, setUser]       = useState<User | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [role, setRole]       = useState("user");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const supabase = createClient();
 
-    const fetchRole = async (u: User) => {
-      // 1. Check metadata
-      const metaRole = u.user_metadata?.role as string | undefined;
-      if (metaRole && metaRole !== "user") {
-        setRole(metaRole);
+    const fetchUserData = async (u: User) => {
+      const metaRole = u.user_metadata?.role as UserRole | undefined;
+
+      // Drivers have no public.users row — build profile from auth metadata
+      if (metaRole === "driver") {
+        setRole("driver");
+        const meta = u.user_metadata ?? {};
+        setProfile({
+          id: u.id,
+          email: u.email ?? "",
+          full_name: (meta.full_name as string) ?? null,
+          phone: (meta.phone as string) ?? null,
+          role: "driver",
+          avatar_url: null,
+          created_at: "",
+          updated_at: "",
+        });
         return;
       }
-      // 2. Check drivers table
-      const { data: driverRow } = await supabase
-        .from("drivers").select("id").eq("user_id", u.id).maybeSingle();
-      if (driverRow) { setRole("driver"); return; }
-      // 3. Check users table for admin
+
+      // Users and admins have a row in public.users
       const { data: userRow } = await supabase
-        .from("users").select("role").eq("id", u.id).maybeSingle();
-      if (userRow?.role === "admin") { setRole("admin"); return; }
-      setRole("user");
+        .from("users")
+        .select("*")
+        .eq("id", u.id)
+        .maybeSingle();
+
+      if (userRow) {
+        const p = userRow as Profile;
+        setProfile(p);
+        setRole(p.role ?? "user");
+      } else {
+        setProfile(null);
+        setRole("user");
+      }
     };
 
     supabase.auth.getUser().then(({ data: { user: u } }) => {
       setUser(u);
-      if (u) fetchRole(u).finally(() => setLoading(false));
+      if (u) fetchUserData(u).finally(() => setLoading(false));
       else setLoading(false);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
-      setUser(session?.user ?? null);
-      if (session?.user) fetchRole(session.user);
-      else { setRole("user"); setLoading(false); }
+      const nextUser = session?.user ?? null;
+      setUser(nextUser);
+      if (nextUser) {
+        fetchUserData(nextUser).finally(() => setLoading(false));
+      } else {
+        setProfile(null);
+        setRole("user");
+        setLoading(false);
+      }
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
-  const displayName = user?.user_metadata?.full_name
-    || user?.user_metadata?.name
-    || user?.email?.split("@")[0]
-    || "User";
+  const displayName =
+    profile?.full_name ||
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    user?.email?.split("@")[0] ||
+    "User";
 
   const initials = displayName
     .split(" ")
+    .filter(Boolean)
     .map((n: string) => n[0])
     .slice(0, 2)
     .join("")
     .toUpperCase();
 
-  return { user, loading, role, initials, displayName };
+  return { user, profile, loading, role, initials, displayName };
 }

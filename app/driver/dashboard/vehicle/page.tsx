@@ -196,16 +196,19 @@ export default function VehiclePage() {
     setUserId(user.id);
     const { data: drv } = await supabase.from("drivers").select("id").eq("user_id", user.id).maybeSingle();
     if (!drv) return;
-    setDriverId(drv.id);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const drvAny = drv as any;
+    setDriverId(drvAny.id);
 
     const [{ data: all }, { data: reqs }] = await Promise.all([
-      supabase.from("driver_vehicles").select("*").eq("driver_id", drv.id).order("created_at", { ascending: false }),
-      supabase.from("driver_change_requests").select("*").eq("driver_id", drv.id).eq("field_name", "vehicle_activation").eq("status", "pending"),
+      (supabase as any).from("driver_vehicles").select("*").eq("driver_id", drvAny.id).order("created_at", { ascending: false }),
+      (supabase as any).from("driver_change_requests").select("*").eq("driver_id", drvAny.id).eq("field_name", "vehicle_activation").eq("status", "pending"),
     ]);
 
-    const vehicles = all || [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const vehicles = (all || []) as any[];
     setAllVehicles(vehicles);
-    setActiveVehicle(vehicles.find(v => v.is_active) || null);
+    setActiveVehicle(vehicles.find((v: any) => v.is_active) || null);
     setPendingReqs(reqs || []);
     setLoading(false);
   };
@@ -229,9 +232,9 @@ export default function VehiclePage() {
       const isCurrentApproved = activeVehicle?.status === "approved";
       // If current active is not approved, deactivate it
       if (!isCurrentApproved && activeVehicle) {
-        await supabase.from("driver_vehicles").update({ is_active: false }).eq("id", activeVehicle.id);
+        await (supabase as any).from("driver_vehicles").update({ is_active: false }).eq("id", activeVehicle.id);
       }
-      const { data: newVeh, error } = await supabase.from("driver_vehicles").insert({
+      const { data: newVeh, error } = await (supabase as any).from("driver_vehicles").insert({
         driver_id:     driverId,
         make:          form.make,
         model:         form.model,
@@ -246,7 +249,7 @@ export default function VehiclePage() {
         is_active:     !isCurrentApproved,
       }).select().single();
       if (error) throw error;
-      await supabase.from("driver_audit_log").insert({
+      await (supabase as any).from("driver_audit_log").insert({
         driver_id: driverId, action: "VEHICLE_ADDED",
         description: `${form.year} ${form.make} ${form.model}`, changed_by: "driver",
       });
@@ -269,7 +272,7 @@ export default function VehiclePage() {
       if (insExpiry)          updates.insurance_expiry  = insExpiry;
       if (extPhotos.length > 0) updates.exterior_photos = await Promise.all(extPhotos.map((f, i) => uploadFile(supabase, f, `${base}/ext-${i+1}.${f.name.split(".").pop()}`)));
       if (intPhotos.length > 0) updates.interior_photos = await Promise.all(intPhotos.map((f, i) => uploadFile(supabase, f, `${base}/int-${i+1}.${f.name.split(".").pop()}`)));
-      if (Object.keys(updates).length > 0) await supabase.from("driver_vehicles").update(updates).eq("id", newVehicleId);
+      if (Object.keys(updates).length > 0) await (supabase as any).from("driver_vehicles").update(updates).eq("id", newVehicleId);
       toast.success("Submitted for review! Admin will approve soon.");
       resetForm();
       await loadData();
@@ -291,7 +294,7 @@ export default function VehiclePage() {
     setRequestingId(vehicleId);
     try {
       const supabase = createClient();
-      await supabase.from("driver_change_requests").insert({
+      await (supabase as any).from("driver_change_requests").insert({
         driver_id:  driverId,
         vehicle_id: vehicleId,
         field_name: "vehicle_activation",
@@ -299,7 +302,7 @@ export default function VehiclePage() {
         new_value:  vehicleName,
         status:     "pending",
       });
-      await supabase.from("driver_audit_log").insert({
+      await (supabase as any).from("driver_audit_log").insert({
         driver_id:   driverId,
         action:      "VEHICLE_ACTIVATION_REQUESTED",
         description: `Driver requested activation of: ${vehicleName}`,

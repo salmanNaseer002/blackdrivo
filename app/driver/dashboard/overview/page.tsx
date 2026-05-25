@@ -45,10 +45,12 @@ export default function OverviewPage() {
         supabase.from("drivers").select("*").eq("user_id", user.id).maybeSingle(),
       ]);
       if (!drv) return;
-      setDriver(drv);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const drvAny = drv as any;
+      setDriver(drvAny);
       const [{ data: veh }, { data: bookings }] = await Promise.all([
-        supabase.from("driver_vehicles").select("*").eq("driver_id", drv.id).eq("is_active", true).maybeSingle(),
-        supabase.from("bookings").select("*").eq("driver_id", drv.id).order("scheduled_at", { ascending: false }).limit(100),
+        supabase.from("driver_vehicles").select("*").eq("driver_id", drvAny.id).eq("is_active", true).maybeSingle(),
+        supabase.from("bookings").select("*").eq("driver_id", drvAny.id).order("scheduled_at", { ascending: false }).limit(100),
       ]);
       setVehicle(veh);
       setRides(bookings || []);

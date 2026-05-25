@@ -41,7 +41,7 @@ function LoginForm() {
 
       // 3. Check admin
       if (role === "user") {
-        const { data: userRow } = await supabase
+        const { data: userRow } = await (supabase as any)
           .from("users").select("role").eq("id", data.user.id).maybeSingle();
         if (userRow?.role === "admin") role = "admin";
       }

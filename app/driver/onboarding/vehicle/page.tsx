@@ -91,10 +91,12 @@ export default function VehicleOnboardingPage() {
       supabase.from("drivers").select("id").eq("user_id", user.id).maybeSingle()
         .then(({ data: drv }) => {
           if (!drv) return;
-          setDriverId(drv.id);
-          supabase.from("driver_vehicles").select("*").eq("driver_id", drv.id)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const drvAny = drv as any;
+          setDriverId(drvAny.id);
+          (supabase as any).from("driver_vehicles").select("*").eq("driver_id", drvAny.id)
             .order("created_at", { ascending: false })
-            .then(({ data: veh }) => {
+            .then(({ data: veh }: { data: any }) => {
               setVehicles(veh || []);
               if (!veh || veh.length === 0) setShowForm(true);
             });
@@ -110,9 +112,9 @@ export default function VehicleOnboardingPage() {
     try {
       const supabase = createClient();
       // Deactivate existing active vehicles
-      await supabase.from("driver_vehicles").update({ is_active: false }).eq("driver_id", driverId).eq("is_active", true);
+      await (supabase as any).from("driver_vehicles").update({ is_active: false }).eq("driver_id", driverId).eq("is_active", true);
       // Insert new vehicle
-      const { data: newVeh, error } = await supabase.from("driver_vehicles").insert({
+      const { data: newVeh, error } = await (supabase as any).from("driver_vehicles").insert({
         driver_id:     driverId,
         make:          form.make,
         model:         form.model,
@@ -128,7 +130,7 @@ export default function VehicleOnboardingPage() {
       if (error) throw error;
 
       // Log audit
-      await supabase.from("driver_audit_log").insert({
+      await (supabase as any).from("driver_audit_log").insert({
         driver_id:   driverId,
         action:      "VEHICLE_ADDED",
         description: `Vehicle added: ${form.year} ${form.make} ${form.model}`,

@@ -10,7 +10,7 @@ import { DRIVER_THEME, fmtDate, daysUntil } from "@/lib/driver/theme";
 function DocRow({ label, url, expiry, note, pending }: {
   label: string; url?: string | null; expiry?: string | null; note?: string; pending?: boolean;
 }) {
-  const days     = daysUntil(expiry);
+  const days     = daysUntil(expiry ?? null);
   const expiring = days !== null && days < 60;
   const expired  = days !== null && days < 0;
   return (
@@ -63,12 +63,16 @@ export default function DocumentsPage() {
       if (!user) { router.replace("/login"); return; }
       const { data: drv } = await supabase.from("drivers").select("*").eq("user_id", user.id).maybeSingle();
       if (!drv) return;
-      setDriver(drv);
-      const { data: veh } = await supabase.from("driver_vehicles").select("*").eq("driver_id", drv.id).eq("is_active", true).maybeSingle();
-      setVehicle(veh);
-      if (veh) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const drvAny = drv as any;
+      setDriver(drvAny);
+      const { data: veh } = await supabase.from("driver_vehicles").select("*").eq("driver_id", drvAny.id).eq("is_active", true).maybeSingle();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const vehAny = veh as any;
+      setVehicle(vehAny);
+      if (vehAny) {
         const { data: pendingDocs } = await supabase.from("driver_document_versions")
-          .select("doc_type").eq("vehicle_id", veh.id).eq("status", "pending");
+          .select("doc_type").eq("vehicle_id", vehAny.id).eq("status", "pending");
         const map: Record<string, boolean> = {};
         (pendingDocs || []).forEach((d: any) => { map[d.doc_type] = true; });
         setPending(map);

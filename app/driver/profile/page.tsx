@@ -48,13 +48,15 @@ export default function DriverProfilePage() {
         .eq("user_id", user.id)
         .maybeSingle()
 
-      setDriver(drv)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const drvAny = drv as any;
+      setDriver(drvAny)
 
-      if (drv?.id) {
-        const { data: cmts } = await supabase
+      if (drvAny?.id) {
+        const { data: cmts } = await (supabase as any)
           .from("driver_comments")
           .select("*")
-          .eq("driver_id", drv.id)
+          .eq("driver_id", drvAny.id)
           .order("created_at", { ascending: false })
         setComments(cmts || [])
       }

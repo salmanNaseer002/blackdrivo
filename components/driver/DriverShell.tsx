@@ -54,27 +54,29 @@ export default function DriverShell({ children }: { children: React.ReactNode })
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.replace("/login?redirect=/driver/dashboard/overview"); return; }
 
-      const { data: drv } = await supabase.from("drivers").select("*").eq("user_id", user.id).maybeSingle();
+      const { data: drv } = await (supabase as any).from("drivers").select("*").eq("user_id", user.id).maybeSingle();
       if (!drv) { router.replace("/driver/signup"); return; }
-      setDriver(drv);
-      setIsAvailable(drv.is_available ?? false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const drvAny = drv as any;
+      setDriver(drvAny);
+      setIsAvailable(drvAny.is_available ?? false);
 
       const [{ data: veh }, { data: bookings }] = await Promise.all([
-        supabase.from("driver_vehicles").select("*").eq("driver_id", drv.id).eq("is_active", true).maybeSingle(),
-        supabase.from("bookings").select("id,status").eq("driver_id", drv.id),
+        (supabase as any).from("driver_vehicles").select("*").eq("driver_id", drvAny.id).eq("is_active", true).maybeSingle(),
+        (supabase as any).from("bookings").select("id,status").eq("driver_id", drvAny.id),
       ]);
       setVehicle(veh);
-      setUpcomingCount((bookings || []).filter(r => ["confirmed", "in_progress", "pending"].includes(r.status)).length);
+      setUpcomingCount((bookings || []).filter((r: any) => ["confirmed", "in_progress", "pending"].includes(r.status)).length);
 
       const a: { type: string; msg: string }[] = [];
-      const comp = calcDriverCompletion(drv, veh);
+      const comp = calcDriverCompletion(drvAny, veh);
       if (comp.percentage < 100) a.push({ type: "warning", msg: `Profile ${comp.percentage}% complete — ${comp.missing.length} items missing` });
-      if (drv.license_expiry) {
-        const diff = Math.ceil((new Date(drv.license_expiry).getTime() - Date.now()) / 86400000);
+      if (drvAny.license_expiry) {
+        const diff = Math.ceil((new Date(drvAny.license_expiry).getTime() - Date.now()) / 86400000);
         if (diff < 60) a.push({ type: diff < 14 ? "error" : "warning", msg: `License expires in ${diff} days` });
       }
-      if (drv.status === "rejected") a.push({ type: "error", msg: "Application rejected — check your profile" });
-      if (drv.status === "pending" && comp.percentage === 100) a.push({ type: "info", msg: "Application under review — 2–3 business days" });
+      if (drvAny.status === "rejected") a.push({ type: "error", msg: "Application rejected — check your profile" });
+      if (drvAny.status === "pending" && comp.percentage === 100) a.push({ type: "info", msg: "Application under review — 2–3 business days" });
       setAlerts(a);
       setLoading(false);
     };
@@ -86,7 +88,7 @@ export default function DriverShell({ children }: { children: React.ReactNode })
     const next = !isAvailable;
     setIsAvailable(next);
     const supabase = createClient();
-    const { error } = await supabase.from("drivers").update({ is_available: next }).eq("id", driver.id);
+    const { error } = await (supabase as any).from("drivers").update({ is_available: next }).eq("id", driver.id);
     if (error) { setIsAvailable(!next); toast.error("Could not update"); }
     else toast.success(next ? "You're now online" : "You're now offline");
   }, [driver, isAvailable]);
