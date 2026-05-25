@@ -1,27 +1,49 @@
 // ─────────────────────────────────────────────────────────────
 //  Driver Portal — Central Theme Config
-//  Change values here → reflects across ALL driver pages
+//  Matches BlackDrivo Admin Portal style
 // ─────────────────────────────────────────────────────────────
 
 export const DRIVER_THEME = {
-  // ── Brand colors ──────────────────────────────────────────
+  // ── Brand ─────────────────────────────────────────────────
   primary:      "#0b66d1",
   primaryDark:  "#0952a8",
   primaryLight: "#e8f1fd",
 
-  // ── Sidebar ───────────────────────────────────────────────
+  // ── Sidebar — white, clean, admin-style ───────────────────
   sidebar: {
-    bg:       "#0b66d1",
-    active:   "bg-white text-[#0b66d1] shadow-sm",
-    inactive: "text-white/70 hover:bg-white/10 hover:text-white",
-    border:   "border-white/10",
-    cardBg:   "bg-white/10",
+    bg:       "#ffffff",
+    border:   "border-r border-gray-200",
+    active:   "bg-blue-50 text-[#0b66d1]",
+    inactive: "text-gray-600 hover:bg-gray-100 hover:text-gray-900",
+    icon:     "text-gray-400",
+    activeIcon:"text-[#0b66d1]",
+    label:    "text-[11px] font-semibold uppercase tracking-widest text-gray-400",
   },
+
+  // ── Page ──────────────────────────────────────────────────
+  pageBg:      "bg-[#f5f5f5]",
+  pageWrapper: "p-5 md:p-6 space-y-5",
+  pageTitle:   "text-xl font-bold text-gray-900",
+  pageSub:     "text-sm text-gray-400 mt-0.5",
+
+  // ── Cards ─────────────────────────────────────────────────
+  card:        "rounded-xl border border-gray-200 bg-white",
+  cardHeader:  "flex items-center justify-between border-b border-gray-100 px-5 py-4",
+
+  // ── Typography ────────────────────────────────────────────
+  fieldLabel:  "text-xs font-medium text-gray-400 uppercase tracking-wide",
+  fieldValue:  "mt-1 text-sm font-medium text-gray-900",
+
+  // ── Buttons ───────────────────────────────────────────────
+  btnPrimary:   "flex items-center gap-2 rounded-lg bg-[#0b66d1] px-4 py-2 text-sm font-semibold text-white hover:bg-[#0952a8] transition",
+  btnDark:      "flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-800 transition",
+  btnSecondary: "flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition",
+  btnGhost:     "text-xs font-medium text-[#0b66d1] hover:underline",
 
   // ── Status badges ─────────────────────────────────────────
   driverStatus: {
-    approved:  { bg: "bg-emerald-50", text: "text-emerald-600", dot: "bg-emerald-500", border: "border-emerald-200" },
-    pending:   { bg: "bg-amber-50",   text: "text-amber-600",   dot: "bg-amber-500",   border: "border-amber-200"  },
+    approved:  { bg: "bg-emerald-50", text: "text-emerald-700", dot: "bg-emerald-500", border: "border-emerald-200" },
+    pending:   { bg: "bg-amber-50",   text: "text-amber-700",   dot: "bg-amber-500",   border: "border-amber-200"  },
     rejected:  { bg: "bg-red-50",     text: "text-red-600",     dot: "bg-red-500",     border: "border-red-200"    },
     suspended: { bg: "bg-gray-100",   text: "text-gray-500",    dot: "bg-gray-400",    border: "border-gray-200"   },
   },
@@ -34,20 +56,6 @@ export const DRIVER_THEME = {
     cancelled:   { label: "Cancelled",   bg: "bg-red-50",     text: "text-red-600",     dot: "bg-red-400"     },
     pending:     { label: "Pending",     bg: "bg-gray-50",    text: "text-gray-500",    dot: "bg-gray-400"    },
   },
-
-  // ── Common classes ────────────────────────────────────────
-  card:        "rounded-2xl border border-gray-100 bg-white",
-  cardHeader:  "flex items-center justify-between border-b border-gray-100 px-5 py-4",
-  pageWrapper: "p-5 md:p-6 space-y-5",
-  pageTitle:   "text-lg font-bold text-gray-900",
-  pageSub:     "text-xs text-gray-400 mt-0.5",
-  fieldLabel:  "text-xs font-medium text-gray-400 uppercase tracking-wide",
-  fieldValue:  "mt-1 text-sm font-medium text-gray-900",
-
-  // ── Buttons ───────────────────────────────────────────────
-  btnPrimary:   "flex items-center gap-2 rounded-xl bg-[#0b66d1] px-4 py-2 text-sm font-semibold text-white hover:bg-[#0952a8] transition",
-  btnSecondary: "flex items-center gap-2 rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition",
-  btnGhost:     "text-xs font-medium text-[#0b66d1] hover:underline",
 } as const;
 
 // ── Helpers ───────────────────────────────────────────────────
@@ -63,9 +71,7 @@ export function getRideStatus(status: string) {
 }
 
 export function curr(n: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency", currency: "USD", maximumFractionDigits: 0,
-  }).format(n);
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
 }
 
 export function fmtDate(d: string | null, opts?: Intl.DateTimeFormatOptions) {
