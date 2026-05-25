@@ -2,16 +2,29 @@ import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function POST(req: NextRequest) {
-  let body: { email: string; password: string };
-  try { body = await req.json() }
-  catch { return NextResponse.json({ error: "Invalid request" }, { status: 400 }) }
+  let body: {
+    email: string; password: string;
+    fullName: string; dob: string; phone: string; countryCode: string;
+    licenseNumber: string; licenseState: string | null; licenseExpiry: string;
+    consent: boolean;
+  };
+  try { body = await req.json(); }
+  catch { return NextResponse.json({ error: "Invalid request" }, { status: 400 }); }
 
-  const { email, password } = body;
+  const { email, password, fullName, dob, phone, countryCode, licenseNumber, licenseState, licenseExpiry, consent } = body;
 
   if (!email || !/\S+@\S+\.\S+/.test(email))
     return NextResponse.json({ error: "Valid email required" }, { status: 400 });
   if (!password || password.length < 8)
     return NextResponse.json({ error: "Password min 8 characters" }, { status: 400 });
+  if (!fullName?.trim())
+    return NextResponse.json({ error: "Full name is required" }, { status: 400 });
+  if (!dob)
+    return NextResponse.json({ error: "Date of birth is required" }, { status: 400 });
+  if (!licenseNumber?.trim())
+    return NextResponse.json({ error: "License number is required" }, { status: 400 });
+  if (!licenseExpiry)
+    return NextResponse.json({ error: "License expiry is required" }, { status: 400 });
 
   const supabase = createAdminClient();
 
@@ -32,17 +45,23 @@ export async function POST(req: NextRequest) {
 
   const userId = authData.user.id;
 
-  // Create minimal driver record
+  // Create driver record with all collected info
   const { error: driverError } = await supabase.from("drivers").insert({
-    user_id:      userId,
-    email:        email.trim().toLowerCase(),
-    status:       "pending",
-    is_available: false,
-    total_rides:  0,
-    // Required fields with placeholder values
-    license_number:       "PENDING",
-    license_expiry:       "2030-01-01",
-    license_state:        "NY",
+    user_id:                     userId,
+    email:                       email.trim().toLowerCase(),
+    full_name:                   fullName.trim(),
+    dob:                         dob,
+    phone:                       phone?.trim() || null,
+    country_code:                countryCode || "US",
+    license_number:              licenseNumber.trim(),
+    license_state:               licenseState || null,
+    license_expiry:              licenseExpiry,
+    background_check_consent:    consent || false,
+    background_check_consent_at: consent ? new Date().toISOString() : null,
+    status:                      "pending",
+    is_available:                false,
+    total_rides:                 0,
+    // Placeholder values for required fields
     vehicle_make:         "PENDING",
     vehicle_model:        "PENDING",
     vehicle_year:         2020,
