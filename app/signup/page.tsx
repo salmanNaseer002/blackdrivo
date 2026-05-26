@@ -127,17 +127,14 @@ export default function SignupPage() {
         }}
       >
         <div className="flex flex-col justify-between p-12 text-white">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20">
-              <Image
-                src="/B Logo Black Theme.png"
-                alt="BlackDrivo"
-                width={22}
-                height={22}
-                className="object-contain invert mix-blend-screen"
-              />
-            </div>
-            <span className="text-xl font-bold text-white">BlackDrivo</span>
+          {/* Logo */}
+          <Link href="/" className="flex items-center shrink-0">
+          <Image
+          src="/logo bw.png"
+          alt="BlackDrivo"
+          width={140}
+          height={40}
+          className="object-contain transition-all duration-300"/>
           </Link>
           <div>
             <h2 className="text-4xl font-bold leading-tight text-white">
@@ -172,20 +169,15 @@ export default function SignupPage() {
           className="w-full max-w-sm"
         >
           <div className="mb-8 lg:hidden">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0b66d1]">
-                <Image
-                  src="/B Logo Black Theme.png"
-                  alt="BlackDrivo"
-                  width={18}
-                  height={18}
-                  className="object-contain invert mix-blend-screen"
-                />
-              </div>
-              <span className="text-lg font-bold text-gray-900">
-                BlackDrivo
-              </span>
-            </Link>
+            {/* Logo */}
+          <Link href="/" className="flex items-center shrink-0">
+          <Image
+          src="/logo bb.png"
+          alt="BlackDrivo"
+          width={140}
+          height={40}
+          className="object-contain transition-all duration-300"/>
+          </Link>
           </div>
 
           <h1 className="text-2xl font-bold text-gray-900">
