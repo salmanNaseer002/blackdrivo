@@ -1,4 +1,4 @@
-export type UserRole = "user" | "driver" | "admin";
+export type UserRole = "user" | "ops" | "driver" | "admin";
 export type BookingStatus = "pending" | "confirmed" | "in_progress" | "completed" | "cancelled";
 export type RideType = "one_way" | "hourly" | "city_to_city";
 export type VehicleClass = "business" | "first_class" | "suv" | "van";

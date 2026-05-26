@@ -255,7 +255,8 @@ export default function ProfilePage() {
 
   const loadData = async () => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { session } } = await supabase.auth.getSession();
+    const user = session?.user;
     if (!user) { router.replace("/login"); return; }
     setAuthUser(user);
     const [{ data: drv }, ] = await Promise.all([
@@ -300,7 +301,8 @@ export default function ProfilePage() {
     setSavingCard("contact");
     try {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
+    const user = session?.user;
       if (!user) throw new Error("Not logged in");
       await (supabase as any).from("drivers").update({
         phone: phone.trim() || null,
@@ -318,7 +320,8 @@ export default function ProfilePage() {
     setSavingCard("address");
     try {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
+    const user = session?.user;
       if (!user) throw new Error("Not logged in");
       await (supabase as any).from("drivers").update({ home_address: address.trim() || null }).eq("user_id", user.id);
       toast.success("Address updated!");
@@ -332,7 +335,8 @@ export default function ProfilePage() {
     setSavingCard("emergency");
     try {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
+    const user = session?.user;
       if (!user) throw new Error("Not logged in");
       await (supabase as any).from("drivers").update({
         emergency_contact_name:  emergencyName.trim() || null,
@@ -351,7 +355,8 @@ export default function ProfilePage() {
     setSavingCard("license");
     try {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
+    const user = session?.user;
       if (!user) throw new Error("Not logged in");
       const fileUrl = await uploadFile(supabase, licenseFile, `${user.id}/license-expiry-update.${licenseFile.name.split(".").pop()}`);
       await (supabase as any).from("driver_change_requests").insert({
@@ -376,7 +381,8 @@ export default function ProfilePage() {
     setUploadingPhotos(true);
     try {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
+    const user = session?.user;
       if (!user) throw new Error("Not logged in");
       const updates: Record<string, string> = {};
       if (driverPhoto)       updates.driver_photo_url        = await uploadFile(supabase, driverPhoto,       `${user.id}/driver-photo.${driverPhoto.name.split(".").pop()}`);
@@ -398,7 +404,8 @@ export default function ProfilePage() {
     setSavingBg(true);
     try {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
+    const user = session?.user;
       if (!user) throw new Error("Not logged in");
       const url = await uploadFile(supabase, bgFile, `${user.id}/background-check.${bgFile.name.split(".").pop()}`);
       await (supabase as any).from("drivers").update({ background_check_doc_url: url, background_check_doc_status: "pending" }).eq("user_id", user.id);

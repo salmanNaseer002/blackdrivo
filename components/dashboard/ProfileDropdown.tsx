@@ -3,8 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { User, Calendar, CreditCard, LogOut, ChevronDown, Car, UserCircle, LayoutDashboard } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
+import { User, Calendar, CreditCard, LogOut, ChevronDown, Car, UserCircle, LayoutDashboard, Loader2 } from "lucide-react";
 
 interface Props {
   initials: string;
@@ -14,7 +13,8 @@ interface Props {
 }
 
 export default function ProfileDropdown({ initials, displayName, email, role = "user" }: Props) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen]           = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -26,10 +26,18 @@ export default function ProfileDropdown({ initials, displayName, email, role = "
   }, []);
 
   const handleSignOut = async () => {
+    if (signingOut) return;
     setOpen(false);
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    window.location.href = "/";
+    setSigningOut(true);
+    try {
+      // Call the server-side signout route — this clears HTTP cookies
+      // so the Next.js middleware sees no valid session immediately.
+      await fetch("/api/auth/signout", { method: "POST", redirect: "manual" });
+    } catch {
+      // Ignore network errors — we'll still redirect
+    }
+    // Hard redirect so the browser sends a fresh request through middleware
+    window.location.replace("/");
   };
 
   const firstName = displayName.split(" ")[0];
@@ -40,9 +48,9 @@ export default function ProfileDropdown({ initials, displayName, email, role = "
   ];
 
   const userMenuItems = [
-    { icon: User,       label: "Profile Settings", href: "/user/profile"         },
-    { icon: Calendar,   label: "My Bookings",      href: "/user/dashboard"       },
-    { icon: CreditCard, label: "Payment History",  href: "/user/payments"        },
+    { icon: User,       label: "Profile Settings", href: "/user/profile"  },
+    { icon: Calendar,   label: "My Bookings",      href: "/user/dashboard" },
+    { icon: CreditCard, label: "Payment History",  href: "/user/payments"  },
   ];
 
   const menuItems = role === "driver" ? driverMenuItems : userMenuItems;
@@ -105,10 +113,16 @@ export default function ProfileDropdown({ initials, displayName, email, role = "
 
             {/* Sign out */}
             <div className="border-t border-gray-100 p-1.5">
-              <button onClick={handleSignOut}
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-red-500 transition hover:bg-red-50 hover:text-red-600">
-                <LogOut className="h-4 w-4" />
-                Sign out
+              <button
+                onClick={handleSignOut}
+                disabled={signingOut}
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-red-500 transition hover:bg-red-50 hover:text-red-600 disabled:opacity-60"
+              >
+                {signingOut
+                  ? <Loader2 className="h-4 w-4 animate-spin" />
+                  : <LogOut className="h-4 w-4" />
+                }
+                {signingOut ? "Signing out…" : "Sign out"}
               </button>
             </div>
           </motion.div>

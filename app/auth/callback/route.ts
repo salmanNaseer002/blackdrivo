@@ -16,16 +16,16 @@ export async function GET(request: NextRequest) {
       // Drivers are self-contained in public.drivers — no public.users row needed.
       // For users/admins, ensure the public.users record exists in case the trigger missed it.
       if (role !== "driver") {
-        await supabase.from("users").upsert(
-          {
-            id: user.id,
-            email: user.email!,
-            full_name: user.user_metadata?.full_name ?? null,
-            phone: user.user_metadata?.phone ?? null,
-            role: role ?? "user",
-          } as never,
-          { onConflict: "id" }
-        );
+        const upsertPayload: Record<string, unknown> = {
+          id: user.id,
+          email: user.email!,
+          name: (user.user_metadata?.full_name as string) || user.email!.split("@")[0],
+          full_name: user.user_metadata?.full_name ?? null,
+          phone: user.user_metadata?.phone ?? null,
+          // role omitted for regular users — DB uses column DEFAULT ('ops')
+        };
+        if (role === "admin") upsertPayload.role = "admin";
+        await (supabase as any).from("users").upsert(upsertPayload, { onConflict: "id" });
       }
       const dest =
         role === "driver" ? "/driver/dashboard" :

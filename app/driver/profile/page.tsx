@@ -37,7 +37,8 @@ export default function DriverProfilePage() {
     const supabase = createClient()
 
     const load = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
+      const { data: { session } } = await supabase.auth.getSession()
+      const user = session?.user
       if (!user) { router.replace("/login?redirect=/driver/profile"); return }
 
       setAuthUser(user)

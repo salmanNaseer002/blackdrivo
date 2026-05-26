@@ -33,27 +33,43 @@ function LoginForm() {
       let role = (data.user.user_metadata?.role as string | undefined) ?? "user";
 
       // 2. Check drivers table
-      if (role === "user") {
-        const { data: driverRow } = await supabase
+      if (role !== "driver" && role !== "admin") {
+        const { data: driverRow } = await (supabase as any)
           .from("drivers").select("id").eq("user_id", data.user.id).maybeSingle();
         if (driverRow) role = "driver";
       }
 
-      // 3. Check admin
-      if (role === "user") {
-        const { data: userRow } = await (supabase as any)
+      // 3. Check / upsert public.users row for non-drivers
+      if (role !== "driver") {
+        // Try to read the users table row (may fail if RLS recursion not yet fixed)
+        const { data: userRow, error: userRowError } = await (supabase as any)
           .from("users").select("role").eq("id", data.user.id).maybeSingle();
-        if (userRow?.role === "admin") role = "admin";
+
+        if (!userRowError && userRow?.role === "admin") {
+          role = "admin";
+        }
+
+        // Always upsert to ensure the row exists (INSERT policy has no recursion)
+        // This is a no-op if the row already exists and data matches.
+        const upsertPayload: Record<string, unknown> = {
+          id: data.user.id,
+          email: data.user.email!,
+          name: (data.user.user_metadata?.full_name as string) || data.user.email!.split("@")[0],
+          full_name: (data.user.user_metadata?.full_name as string) ?? null,
+          phone: (data.user.user_metadata?.phone as string) ?? null,
+        };
+        if (role === "admin") upsertPayload.role = "admin";
+        await (supabase as any).from("users").upsert(upsertPayload, { onConflict: "id" }).then(() => {}); // fire-and-forget
       }
 
       const redirect = params.get("redirect");
-const dest = role === "driver"
-  ? "/driver/dashboard"
-  : role === "admin"
-  ? "/admin"
-  : (redirect && redirect !== "/user/dashboard")
-  ? redirect
-  : "/user/dashboard";
+      const dest = role === "driver"
+        ? "/driver/dashboard"
+        : role === "admin"
+        ? "/admin"
+        : (redirect && redirect !== "/user/dashboard")
+        ? redirect
+        : "/user/dashboard";
 
       router.push(dest);
       router.refresh();

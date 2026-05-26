@@ -26,13 +26,22 @@ export default function SignInModal({ onSuccess, onClose, message }: Props) {
     setLoading(true);
     try {
       const supabase = createClient();
-      const { error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
       if (authError) {
         setError(authError.message);
-      } else {
+      } else if (data.user) {
+        // Ensure public.users row exists so booking FK constraint is satisfied
+        const role = (data.user.user_metadata?.role as string) ?? "user";
+        if (role !== "driver") {
+          await (supabase as any).from("users").upsert({
+            id: data.user.id,
+            email: data.user.email ?? "",
+            name: (data.user.user_metadata?.full_name as string) || (data.user.email ?? "").split("@")[0],
+            full_name: (data.user.user_metadata?.full_name as string) ?? null,
+            phone: (data.user.user_metadata?.phone as string) ?? null,
+            // role omitted — DB uses column DEFAULT ('ops')
+          }, { onConflict: "id" });
+        }
         onSuccess();
       }
     } catch {

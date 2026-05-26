@@ -51,7 +51,8 @@ export default function DriverShell({ children }: { children: React.ReactNode })
     setMounted(true);
     const supabase = createClient();
     const load = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
+      const user = session?.user;
       if (!user) { router.replace("/login?redirect=/driver/dashboard/overview"); return; }
 
       const { data: drv } = await (supabase as any).from("drivers").select("*").eq("user_id", user.id).maybeSingle();
@@ -94,9 +95,10 @@ export default function DriverShell({ children }: { children: React.ReactNode })
   }, [driver, isAvailable]);
 
   const signOut = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    router.push("/");
+    try {
+      await fetch("/api/auth/signout", { method: "POST", redirect: "manual" });
+    } catch { /* ignore */ }
+    window.location.replace("/");
   };
 
   const driverName = driver?.full_name && driver.full_name !== "PENDING"

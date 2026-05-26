@@ -86,7 +86,8 @@ export default function VehicleOnboardingPage() {
   useEffect(() => {
     setMounted(true);
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      const user = session?.user;
       if (!user) { router.replace("/login"); return; }
       supabase.from("drivers").select("id").eq("user_id", user.id).maybeSingle()
         .then(({ data: drv }) => {

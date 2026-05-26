@@ -17,7 +17,8 @@ export default function RidesPage() {
   useEffect(() => {
     const supabase = createClient();
     const load = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
+      const user = session?.user;
       if (!user) { router.replace("/login"); return; }
       const { data: drv } = await supabase.from("drivers").select("id").eq("user_id", user.id).maybeSingle();
       if (!drv) return;

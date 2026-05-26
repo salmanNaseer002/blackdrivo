@@ -88,6 +88,21 @@ function BookingContent() {
     setBookingError("");
     try {
       const supabase = createClient();
+
+      // Ensure the public.users row exists — required by the bookings FK constraint.
+      // This is a no-op if the row already exists (onConflict: "id").
+      await (supabase as any).from("users").upsert({
+        id: user.id,
+        email: user.email ?? "",
+        name: (user.user_metadata?.full_name as string) || (user.email ?? "").split("@")[0],
+        full_name: (user.user_metadata?.full_name as string) ?? null,
+        phone: (user.user_metadata?.phone as string) ?? null,
+        // role omitted — DB uses column DEFAULT ('ops')
+      }, { onConflict: "id" });
+
+      // Build a proper UTC timestamp string so Postgres timestamptz accepts it
+      const scheduledAt = date && time ? `${date}T${time}:00` : new Date().toISOString();
+
       const payload = {
         passenger_id: user.id,
         ride_type: rideType,
@@ -98,7 +113,7 @@ function BookingContent() {
         dropoff_address: rideType === "hourly" ? pickup : dropoff,
         dropoff_lat: 0,
         dropoff_lng: 0,
-        scheduled_at: `${date}T${time}`,
+        scheduled_at: scheduledAt,
         passengers: Number(passengers),
         fare_estimate: selectedFare,
         hours: rideType === "hourly" ? Number(hours) : null,
@@ -110,6 +125,7 @@ function BookingContent() {
         notes: notes || null,
         status: "pending",
       };
+
       const { data, error } = await supabase
         .from("bookings")
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

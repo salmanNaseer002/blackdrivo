@@ -22,12 +22,13 @@ export function useUser(): UseUserReturn {
 
   useEffect(() => {
     const supabase = createClient();
+    let active = true;
 
-    const fetchUserData = async (u: User) => {
+    const fetchProfile = async (u: User) => {
       const metaRole = u.user_metadata?.role as UserRole | undefined;
 
-      // Drivers have no public.users row — build profile from auth metadata
       if (metaRole === "driver") {
+        if (!active) return;
         setRole("driver");
         const meta = u.user_metadata ?? {};
         setProfile({
@@ -43,34 +44,65 @@ export function useUser(): UseUserReturn {
         return;
       }
 
-      // Users and admins have a row in public.users
-      const { data: userRow } = await supabase
+      const { data: row, error: rowError } = await (supabase as any)
         .from("users")
         .select("*")
         .eq("id", u.id)
         .maybeSingle();
 
-      if (userRow) {
-        const p = userRow as Profile;
+      if (!active) return;
+
+      // If we get data, use it
+      if (row && !rowError) {
+        const p = row as Profile;
         setProfile(p);
         setRole(p.role ?? "user");
-      } else {
-        setProfile(null);
-        setRole("user");
+        return;
       }
+
+      // Either the row doesn't exist, or the RLS policy blocked the read.
+      // In both cases, build a local profile from auth metadata and attempt
+      // to create the public.users row (INSERT policy is never recursive).
+      const newRow = {
+        id: u.id,
+        email: u.email ?? "",
+        name: (u.user_metadata?.full_name as string) || (u.email ?? "").split("@")[0],
+        full_name: (u.user_metadata?.full_name as string) ?? null,
+        phone: (u.user_metadata?.phone as string) ?? null,
+        // role omitted — DB uses column DEFAULT ('ops')
+      };
+      // Fire-and-forget — don't block the UI on this
+      (supabase as any).from("users").upsert(newRow, { onConflict: "id" }).then(() => {});
+      setProfile({
+        ...newRow,
+        role: "ops" as UserRole,
+        avatar_url: null,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      });
+      setRole("ops");
     };
 
-    supabase.auth.getUser().then(({ data: { user: u } }) => {
+    // getSession() reads from localStorage — no server round-trip, loads instantly
+    const init = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!active) return;
+      const u = session?.user ?? null;
       setUser(u);
-      if (u) fetchUserData(u).finally(() => setLoading(false));
-      else setLoading(false);
-    });
+      if (u) await fetchProfile(u);
+      setLoading(false);
+    };
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
-      const nextUser = session?.user ?? null;
-      setUser(nextUser);
-      if (nextUser) {
-        fetchUserData(nextUser).finally(() => setLoading(false));
+    init();
+
+    // Handle subsequent auth changes; skip INITIAL_SESSION (handled by init above)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!active) return;
+      if (event === "INITIAL_SESSION") return;
+      const u = session?.user ?? null;
+      setUser(u);
+      if (u) {
+        fetchProfile(u).finally(() => { if (active) setLoading(false); });
       } else {
         setProfile(null);
         setRole("user");
@@ -78,7 +110,10 @@ export function useUser(): UseUserReturn {
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const displayName =

@@ -61,14 +61,15 @@ export default function SignupPage() {
       } else if (data.session) {
         // Email confirmation disabled — user is already signed in.
         // Upsert into public.users as a backup in case the DB trigger missed it.
-        await supabase.from("users").upsert(
+        await (supabase as any).from("users").upsert(
           {
             id: data.session.user.id,
             email: data.session.user.email ?? email,
+            name: fullName || email.split("@")[0],
             full_name: fullName || null,
             phone: phone || null,
-            role: "user",
-          } as never,
+            // role omitted — DB uses column DEFAULT ('ops')
+          },
           { onConflict: "id" }
         );
         router.push("/user/dashboard");

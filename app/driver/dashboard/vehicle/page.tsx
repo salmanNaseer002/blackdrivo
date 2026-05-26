@@ -191,7 +191,8 @@ export default function VehiclePage() {
 
   const loadData = async () => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { session } } = await supabase.auth.getSession();
+    const user = session?.user;
     if (!user) { router.replace("/login"); return; }
     setUserId(user.id);
     const { data: drv } = await supabase.from("drivers").select("id").eq("user_id", user.id).maybeSingle();

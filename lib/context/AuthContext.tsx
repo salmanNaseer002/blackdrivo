@@ -38,14 +38,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // createBrowserClient is a singleton — same instance every time
   const supabase = createClient();
 
   const fetchProfile = useCallback(
     async (authUser: User) => {
       const role = authUser.user_metadata?.role as UserRole | undefined;
 
-      // Drivers are not in public.users — build profile from auth metadata.
       if (role === "driver") {
         const meta = authUser.user_metadata ?? {};
         setProfile({
@@ -61,46 +59,61 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      // Users and admins have a row in public.users.
-      const { data } = await supabase
+      const { data, error: rowError } = await (supabase as any)
         .from("users")
         .select("*")
         .eq("id", authUser.id)
-        .single();
-      setProfile(data ?? null);
+        .maybeSingle();
+
+      if (data && !rowError) {
+        setProfile(data as Profile);
+        return;
+      }
+
+      // Row missing or RLS blocked the read (e.g. policy not yet fixed).
+      // Build profile from auth metadata and create the row asynchronously.
+      const newRow = {
+        id: authUser.id,
+        email: authUser.email ?? "",
+        name: (authUser.user_metadata?.full_name as string) || (authUser.email ?? "").split("@")[0],
+        full_name: (authUser.user_metadata?.full_name as string) ?? null,
+        phone: (authUser.user_metadata?.phone as string) ?? null,
+        // role omitted — DB uses column DEFAULT ('ops')
+      };
+      // Fire-and-forget — INSERT policy doesn't recurse so this should succeed
+      (supabase as any).from("users").upsert(newRow, { onConflict: "id" }).then(() => {});
+      setProfile({ ...newRow, role: "ops" as UserRole, avatar_url: null, created_at: new Date().toISOString(), updated_at: new Date().toISOString() });
     },
-    [supabase]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   useEffect(() => {
     let mounted = true;
 
-    // 1. Check for an existing session immediately on mount
-    supabase.auth.getUser().then(async ({ data: { user: currentUser } }) => {
+    // getSession() reads from localStorage — instant, no network call
+    const init = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       if (!mounted) return;
+      const currentUser = session?.user ?? null;
       setUser(currentUser);
-      if (currentUser) {
-        await fetchProfile(currentUser);
-      }
+      if (currentUser) await fetchProfile(currentUser);
       setLoading(false);
-    });
+    };
 
-    // 2. Listen for all future auth events (sign in, sign out, token refresh)
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    init();
+
+    // Listen for subsequent auth changes; skip INITIAL_SESSION (handled by init)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (!mounted) return;
-
+      if (event === "INITIAL_SESSION") return;
       const nextUser = session?.user ?? null;
       setUser(nextUser);
-
       if (nextUser) {
         await fetchProfile(nextUser);
       } else {
         setProfile(null);
       }
-
-      // Mark as resolved on every auth event (covers the initial INITIAL_SESSION event)
       setLoading(false);
     });
 
@@ -110,8 +123,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // ── Derived display values ──────────────────────────────────────────────────
 
   const displayName =
     profile?.full_name ||
