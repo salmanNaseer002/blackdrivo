@@ -68,11 +68,14 @@ const dest = role === "driver"
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden"
         style={{ backgroundImage: "linear-gradient(135deg, rgba(11,102,209,0.85) 0%, rgba(9,82,168,0.9) 100%), url('https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1200&q=80')", backgroundSize: "cover", backgroundPosition: "center" }}>
         <div className="flex flex-col justify-between p-12 text-white">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20">
-              <Image src="/B Logo Black Theme.png" alt="BlackDrivo" width={22} height={22} className="object-contain invert mix-blend-screen" />
-            </div>
-            <span className="text-xl font-bold text-white">BlackDrivo</span>
+          {/* Logo */}
+          <Link href="/" className="flex items-center shrink-0">
+          <Image
+          src="/logo bw.png"
+          alt="BlackDrivo"
+          width={140}
+          height={40}
+          className="object-contain transition-all duration-300"/>
           </Link>
           <div>
             <h2 className="text-4xl font-bold leading-tight text-white">Premium rides,<br />done right.</h2>
@@ -84,12 +87,15 @@ const dest = role === "driver"
       <div className="flex flex-1 items-center justify-center bg-white px-4 py-16">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="w-full max-w-sm">
           <div className="mb-8 lg:hidden">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0b66d1]">
-                <Image src="/B Logo Black Theme.png" alt="BlackDrivo" width={18} height={18} className="object-contain invert mix-blend-screen" />
-              </div>
-              <span className="text-lg font-bold text-gray-900">BlackDrivo</span>
-            </Link>
+            {/* Logo */}
+          <Link href="/" className="flex items-center shrink-0">
+          <Image
+          src="/logo bb.png"
+          alt="BlackDrivo"
+          width={140}
+          height={40}
+          className="object-contain transition-all duration-300"/>
+          </Link>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
           <p className="mt-1.5 text-sm text-gray-500">Sign in to your BlackDrivo account</p>

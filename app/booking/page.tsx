@@ -133,14 +133,14 @@ function BookingContent() {
       {/* Header */}
       <header className="border-b border-gray-100 bg-white shadow-sm">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
-          <Link href="/" className="flex items-center gap-2">
-            <Image
-  src="/logo bb.png"
-  alt="BlackDrivo"
-  width={130}
-  height={35}
-  className="object-contain"
-/>
+          {/* Logo */}
+          <Link href="/" className="flex items-center shrink-0">
+          <Image
+          src="/logo bb.png"
+          alt="BlackDrivo"
+          width={140}
+          height={40}
+          className="object-contain transition-all duration-300"/>
           </Link>
           <Link href="/" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition">
             <ArrowLeft className="h-4 w-4" />
