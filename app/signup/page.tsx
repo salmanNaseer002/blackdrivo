@@ -153,9 +153,10 @@ export default function SignupPage() {
   const handleCountryChange = (c: NormalizedCountry) => { setSelectedCountry(c); setSelectedCity(""); setPhone(""); };
 
   const handleNext = () => {
-    if (!selectedCountry) { setError("Please select your country"); return; }
-    setError(""); setStep(2);
-  };
+  if (!selectedCountry) { setError("Please select your country"); return; }
+  if (selectedCountry.cities.length > 0 && !selectedCity) { setError("Please select your city"); return; }
+  setError(""); setStep(2);
+};
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -298,7 +299,7 @@ export default function SignupPage() {
 
                 {selectedCountry && selectedCountry.cities.length > 0 && (
                   <div>
-                    <label className="mb-1.5 block text-xs font-medium text-gray-700">City</label>
+                    <label className="mb-1.5 block text-xs font-medium text-gray-700">City *</label>
                     <CityDropdown cities={selectedCountry.cities} value={selectedCity} onChange={setSelectedCity} />
                   </div>
                 )}
@@ -341,7 +342,6 @@ export default function SignupPage() {
                   <label className="mb-1.5 block text-xs font-medium text-gray-700">Phone Number *</label>
                   <div className="flex gap-2">
                     <div className="flex h-[50px] shrink-0 items-center gap-1.5 rounded-xl border border-gray-200 bg-gray-50 px-3 text-sm font-medium text-gray-700">
-                      <span>{selectedCountry?.flag}</span>
                       <span>{selectedCountry?.phoneCode}</span>
                     </div>
                     <input value={phone} onChange={e => setPhone(e.target.value.replace(/\D/g, ""))}
