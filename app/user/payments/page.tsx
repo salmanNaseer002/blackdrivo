@@ -76,18 +76,15 @@ export default function PaymentsPage() {
       <header className="border-b border-gray-100 bg-white shadow-sm">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
           <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0b66d1]">
-                <Image
-                  src="/B Logo Black Theme.png"
-                  alt="BlackDrivo"
-                  width={18}
-                  height={18}
-                  className="object-contain invert mix-blend-screen"
-                />
-              </div>
-              <span className="text-lg font-bold text-gray-900">BlackDrivo</span>
-            </Link>
+            {/* Logo */}
+          <Link href="/" className="flex items-center shrink-0">
+          <Image
+          src="/logo bb.png"
+          alt="BlackDrivo"
+          width={140}
+          height={40}
+          className="object-contain transition-all duration-300"/>
+          </Link>
             <Link
               href="/user/dashboard"
               className="hidden items-center gap-1.5 text-sm text-gray-500 transition hover:text-gray-900 md:flex"
