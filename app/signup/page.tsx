@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Eye, EyeOff, CheckCircle, ArrowRight, ChevronDown, Search, MapPin } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { DEFAULT_COUNTRIES } from "@/lib/data/locations";
 
 interface DBCountry {
   code: string; name: string; flag: string; phone_code: string;
@@ -49,7 +50,7 @@ function CountryDropdown({ countries, value, onChange }: { countries: Normalized
                     className={`w-full rounded-xl px-3 py-2.5 text-left text-sm transition hover:bg-blue-50 flex items-center gap-2.5 ${value?.code === c.code ? "bg-blue-50 text-[#0b66d1] font-medium" : "text-gray-700"}`}>
                     <span className="text-lg">{c.flag}</span>
                     <span>{c.name}</span>
-                    <span className="ml-auto text-xs font-bold text-gray-500">{c.code}</span>
+                    <span className="ml-auto text-xs text-gray-400">{c.phoneCode}</span>
                   </button>
                 ))
               }
@@ -123,20 +124,13 @@ export default function SignupPage() {
           .eq("reflect_website", true)
           .order("name");
         if (data && data.length > 0) {
-  setCountries(data.map((c: DBCountry) => ({
-    code:      c.code,
-    name:      c.name,
-    flag:      c.flag,
-    phoneCode: c.phone_code,
-    currency:  c.currency,
-    cities:    c.cities || [],
-  })));
-} else {
-  setCountries([]);
-}
+          setCountries(data.map((c: DBCountry) => ({ code: c.code, name: c.name, flag: c.flag, phoneCode: c.phone_code, currency: c.currency, cities: c.cities || [] })));
+        } else {
+          setCountries(DEFAULT_COUNTRIES.map(c => ({ code: c.code, name: c.name, flag: c.flag, phoneCode: c.phoneCode, currency: c.currency, cities: c.cities.map(ci => ci.name) })));
+        }
       } catch {
-  setCountries([]);
-} finally {
+        setCountries(DEFAULT_COUNTRIES.map(c => ({ code: c.code, name: c.name, flag: c.flag, phoneCode: c.phoneCode, currency: c.currency, cities: c.cities.map(ci => ci.name) })));
+      } finally {
         setLoadingCountry(false);
       }
     };
@@ -153,10 +147,9 @@ export default function SignupPage() {
   const handleCountryChange = (c: NormalizedCountry) => { setSelectedCountry(c); setSelectedCity(""); setPhone(""); };
 
   const handleNext = () => {
-  if (!selectedCountry) { setError("Please select your country"); return; }
-  if (selectedCountry.cities.length > 0 && !selectedCity) { setError("Please select your city"); return; }
-  setError(""); setStep(2);
-};
+    if (!selectedCountry) { setError("Please select your country"); return; }
+    setError(""); setStep(2);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -165,8 +158,8 @@ export default function SignupPage() {
     if (!email.trim())        { setError("Please enter your email");                return; }
     if (!phone.trim())        { setError("Please enter your phone number");         return; }
     if (!gender)              { setError("Please select your gender");              return; }
-    if (password.length < 8)  { setError("Password must be at least 8 characters"); return; }
-    if (password !== confirm) { setError("Passwords do not match");                 return; }
+    if (password.length < 8)  { setError("Password must be at least 8 characters");return; }
+    if (password !== confirm)  { setError("Passwords do not match");                return; }
     setLoading(true);
     try {
       const supabase   = createClient();
@@ -174,24 +167,13 @@ export default function SignupPage() {
       const { data, error: authError } = await supabase.auth.signUp({
         email, password,
         options: {
-          data: { full_name: fullName, phone: fullPhone, gender, country_code: selectedCountry!.code, city: selectedCity || null, role: "user" },
+          data: { full_name: fullName, phone: fullPhone, gender, country_code: selectedCountry!.code, city: selectedCity || null, role: "user", user_type: "passenger" },
           emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
       });
       if (authError) { setError(authError.message); setLoading(false); return; }
       if (data.session) {
-        await supabase.from("users").upsert({
-  id:           data.session.user.id,
-  email:        data.session.user.email ?? email,
-  name:         fullName || email,
-  full_name:    fullName || null,
-  phone:        fullPhone || null,
-  gender:       gender || null,
-  country_code: selectedCountry!.code,
-  city_text:    selectedCity || null,
-  role:         'user' as never,
-  status:       'active' as never,
-} as never, { onConflict: "id" });
+        await supabase.from("users").upsert({ id: data.session.user.id, email: data.session.user.email ?? email, name: fullName || email, full_name: fullName || null, phone: fullPhone || null, gender: gender || null, country_code: selectedCountry!.code, city_text: selectedCity || null, role: 'user' as never, status: 'active' as never, user_type: 'passenger' } as never, { onConflict: "id" });
         router.push("/user/dashboard");
       } else {
         setSuccess(true);
@@ -299,7 +281,7 @@ export default function SignupPage() {
 
                 {selectedCountry && selectedCountry.cities.length > 0 && (
                   <div>
-                    <label className="mb-1.5 block text-xs font-medium text-gray-700">City *</label>
+                    <label className="mb-1.5 block text-xs font-medium text-gray-700">City</label>
                     <CityDropdown cities={selectedCountry.cities} value={selectedCity} onChange={setSelectedCity} />
                   </div>
                 )}
@@ -342,6 +324,7 @@ export default function SignupPage() {
                   <label className="mb-1.5 block text-xs font-medium text-gray-700">Phone Number *</label>
                   <div className="flex gap-2">
                     <div className="flex h-[50px] shrink-0 items-center gap-1.5 rounded-xl border border-gray-200 bg-gray-50 px-3 text-sm font-medium text-gray-700">
+                      <span>{selectedCountry?.flag}</span>
                       <span>{selectedCountry?.phoneCode}</span>
                     </div>
                     <input value={phone} onChange={e => setPhone(e.target.value.replace(/\D/g, ""))}
@@ -356,6 +339,7 @@ export default function SignupPage() {
                     {(["male", "female"] as const).map(g => (
                       <button key={g} type="button" onClick={() => setGender(g)}
                         className={`flex items-center justify-center gap-2 rounded-xl border py-3 text-sm font-medium transition ${gender === g ? "border-[#0b66d1] bg-blue-50 text-[#0b66d1]" : "border-gray-200 text-gray-600 hover:border-gray-300"}`}>
+                        <span>{g === "male" ? "👨" : "👩"}</span>
                         {g.charAt(0).toUpperCase() + g.slice(1)}
                       </button>
                     ))}
