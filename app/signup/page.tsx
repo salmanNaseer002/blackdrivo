@@ -339,7 +339,6 @@ export default function SignupPage() {
                     {(["male", "female"] as const).map(g => (
                       <button key={g} type="button" onClick={() => setGender(g)}
                         className={`flex items-center justify-center gap-2 rounded-xl border py-3 text-sm font-medium transition ${gender === g ? "border-[#0b66d1] bg-blue-50 text-[#0b66d1]" : "border-gray-200 text-gray-600 hover:border-gray-300"}`}>
-                        <span>{g === "male" ? "👨" : "👩"}</span>
                         {g.charAt(0).toUpperCase() + g.slice(1)}
                       </button>
                     ))}

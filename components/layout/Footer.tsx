@@ -47,18 +47,15 @@ export default function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.5fr_3fr]">
           {/* Brand */}
           <div>
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0b66d1]">
-                <Image
-                  src="/B Logo Black Theme.png"
-                  alt="BlackDrivo"
-                  width={24}
-                  height={24}
-                  className="object-contain invert mix-blend-screen"
-                />
-              </div>
-              <span className="text-xl font-bold tracking-tight text-white">BlackDrivo</span>
-            </Link>
+            {/* Logo */}
+          <Link href="/" className="flex items-center shrink-0">
+          <Image
+          src="/logo wb.png"
+          alt="BlackDrivo"
+          width={140}
+          height={40}
+          className="object-contain transition-all duration-300"/>
+          </Link>
             <p className="mt-4 max-w-xs text-sm leading-6 text-white/55">
               Premium chauffeur service across New Jersey, and the surrounding tri-state area.
               Available 24/7.
