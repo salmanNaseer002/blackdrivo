@@ -31,7 +31,7 @@ export default function CTASection() {
                 Book your first ride
               </h3>
               <p className="mt-3 max-w-sm text-sm leading-6 text-white/75">
-                Experience premium chauffeur service across New York, New Jersey, and the
+                Experience premium chauffeur service across New Jersey, and the
                 tri-state area. Book in under 2 minutes.
               </p>
               <ul className="mt-5 space-y-2">

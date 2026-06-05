@@ -9,7 +9,7 @@ const testimonials = [
     role: "Senior VP, Goldman Sachs",
     text: "BlackDrivo has completely transformed my business travel. The driver is always waiting when I land, the cars are immaculate, and the service is genuinely five-star. I won't use anything else.",
     rating: 5,
-    location: "New York, NY",
+    location: "Atlanta NY",
   },
   {
     name: "Michael Torres",
@@ -42,7 +42,7 @@ const testimonials = [
   {
     name: "James Wright",
     role: "CEO, Wright Technologies",
-    text: "I've tried every premium car service in New York. BlackDrivo is in a different league. The app is easy, drivers are exceptional, and they've never once been late.",
+    text: "I've tried every premium car service in New Jersey. BlackDrivo is in a different league. The app is easy, drivers are exceptional, and they've never once been late.",
     rating: 5,
     location: "Long Island, NY",
   },

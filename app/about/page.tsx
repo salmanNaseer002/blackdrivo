@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "BlackDrivo is a premium chauffeur service founded to bring world-class ground transportation to New York, New Jersey, and the surrounding tri-state area.",
+    "BlackDrivo is a premium chauffeur service founded to bring world-class ground transportation to New Jersey, and the surrounding tri-state area.",
 };
 
 const values = [
@@ -33,7 +33,7 @@ const values = [
     icon: Globe,
     title: "Nationwide Reach",
     description:
-      "While our roots are in New York and New Jersey, our network spans major US cities and airports coast to coast.",
+      "While our roots are in New Jersey, our network spans major US cities and airports coast to coast.",
   },
   {
     icon: Users,
@@ -49,15 +49,6 @@ const values = [
   },
 ];
 
-const milestones = [
-  { year: "2019", event: "BlackDrivo founded in New York City" },
-  { year: "2020", event: "Expanded to serve all major NYC metro airports" },
-  { year: "2021", event: "Launched corporate travel program with 50+ companies" },
-  { year: "2022", event: "Reached 10,000 rides milestone" },
-  { year: "2023", event: "Expanded service area to full tri-state region" },
-  { year: "2024", event: "Launched driver partner program — 300+ active drivers" },
-  { year: "2025", event: "Nationwide availability with 500+ cities covered" },
-];
 
 export default function AboutPage() {
   return (
@@ -83,7 +74,7 @@ export default function AboutPage() {
               </h1>
               <p className="mt-5 text-base leading-7 text-gray-600 md:text-lg">
                 BlackDrivo was founded with a simple mission: bring world-class chauffeur service
-                to New York and New Jersey — the kind of service that business executives, frequent
+                to New Jersey — the kind of service that business executives, frequent
                 travelers, and discerning individuals deserve every single time.
               </p>
               <p className="mt-4 text-base leading-7 text-gray-600">
@@ -176,27 +167,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="bg-gray-50 border-y border-gray-100 px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl">
-          <div className="mb-12 text-center">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">
-              Our journey
-            </p>
-            <h2 className="text-4xl font-bold text-gray-900">How we grew</h2>
-          </div>
-          <div className="relative space-y-6 pl-8">
-            <div className="absolute left-2 top-0 h-full w-px bg-gray-200" />
-            {milestones.map((m) => (
-              <div key={m.year} className="relative">
-                <div className="absolute -left-6 top-1 h-3 w-3 rounded-full border-2 border-[#0b66d1] bg-white" />
-                <p className="text-xs font-bold text-[#0b66d1]">{m.year}</p>
-                <p className="mt-0.5 text-sm text-gray-600">{m.event}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="bg-white px-4 py-20 text-center md:px-6 lg:px-8">
