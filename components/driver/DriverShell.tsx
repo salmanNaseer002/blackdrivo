@@ -94,7 +94,10 @@ export default function DriverShell({ children }: { children: React.ReactNode })
     else toast.success(next ? "You're now online" : "You're now offline");
   }, [driver, isAvailable]);
 
+  const [signingOut, setSigningOut] = useState(false);
+
   const signOut = async () => {
+    setSigningOut(true);
     try {
       await fetch("/api/auth/signout", { method: "POST", redirect: "manual" });
     } catch { /* ignore */ }
@@ -190,9 +193,12 @@ export default function DriverShell({ children }: { children: React.ReactNode })
           className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition">
           <AlertCircle className="h-4 w-4 shrink-0 text-gray-400" /> Support
         </a>
-        <button onClick={signOut}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition">
-          <LogOut className="h-4 w-4 shrink-0 text-gray-400" /> Logout
+        <button onClick={signOut} disabled={signingOut}
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition disabled:opacity-60">
+          {signingOut
+            ? <><span className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600 shrink-0" /> Signing out…</>
+            : <><LogOut className="h-4 w-4 shrink-0 text-gray-400" /> Logout</>
+          }
         </button>
       </div>
     </div>

@@ -98,7 +98,11 @@ export default function OverviewPage() {
 
   const maxVal = Math.max(...chartData.map(d => d.total), 1);
 
-  if (loading || !driver) return null;
+  if (loading || !driver) return (
+    <div className="flex h-64 items-center justify-center">
+      <span className="h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-gray-900" />
+    </div>
+  );
 
   const completion   = calcDriverCompletion(driver, vehicle);
   const isIncomplete = completion.percentage < 100;

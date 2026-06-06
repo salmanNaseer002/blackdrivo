@@ -83,7 +83,11 @@ export default function DocumentsPage() {
     load();
   }, [router]);
 
-  if (loading || !driver) return null;
+  if (loading || !driver) return (
+    <div className="flex h-64 items-center justify-center">
+      <span className="h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-gray-900" />
+    </div>
+  );
 
   const licDays  = daysUntil(driver?.license_expiry);
   const insDays  = daysUntil(driver?.insurance_expiry_date);

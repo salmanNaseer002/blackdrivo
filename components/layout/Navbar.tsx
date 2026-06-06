@@ -50,11 +50,31 @@ export default function Navbar() {
 
   const solidBg = isScrolled || !isHomePage;
 
-  const navLinkClass = `rounded-lg px-3.5 py-2 text-sm font-medium transition ${
-    solidBg
-      ? "text-gray-700 hover:text-[#0b66d1] hover:bg-blue-50"
-      : "text-white/90 hover:bg-white/10 hover:text-white"
-  }`;
+  // Returns true when the current path matches this nav item
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href.split("#")[0]);
+
+  const navLinkClass = (href: string) => {
+    const active = isActive(href);
+    return `rounded-lg px-3.5 py-2 text-sm font-medium transition ${
+      solidBg
+        ? active
+          ? "text-[#0b66d1] bg-blue-50 font-semibold"
+          : "text-gray-700 hover:text-[#0b66d1] hover:bg-blue-50"
+        : active
+          ? "text-white bg-white/20 font-semibold"
+          : "text-white/90 hover:bg-white/10 hover:text-white"
+    }`;
+  };
+
+  const mobileNavLinkClass = (href: string) => {
+    const active = isActive(href);
+    return `rounded-xl px-3 py-3 text-sm font-medium transition ${
+      active
+        ? "bg-blue-50 text-[#0b66d1] font-semibold"
+        : "text-gray-700 hover:bg-blue-50 hover:text-[#0b66d1]"
+    }`;
+  };
 
   // Dashboard link based on role
   const dashboardHref  = role === "driver" ? "/driver/dashboard" : "/user/dashboard";
@@ -78,7 +98,7 @@ export default function Navbar() {
           {/* Desktop nav */}
           <nav className="hidden items-center gap-1 lg:flex">
             <div className="relative" ref={servicesRef}>
-              <button onClick={() => setServicesOpen(!servicesOpen)} className={`flex items-center gap-1.5 ${navLinkClass}`}>
+              <button onClick={() => setServicesOpen(!servicesOpen)} className={`flex items-center gap-1.5 ${navLinkClass("/services")}`}>
                 Services
                 <ChevronDown className={`h-4 w-4 transition-transform ${servicesOpen ? "rotate-180" : ""}`} />
               </button>
@@ -103,12 +123,12 @@ export default function Navbar() {
               </AnimatePresence>
             </div>
 
-            <Link href="/about"  className={navLinkClass}>About</Link>
-            <Link href="/contact" className={navLinkClass}>Contact</Link>
-            <Link href="/driver"  className={navLinkClass}>For Drivers</Link>
+            <Link href="/about"   className={navLinkClass("/about")}>About</Link>
+            <Link href="/contact" className={navLinkClass("/contact")}>Contact</Link>
+            <Link href="/driver"  className={navLinkClass("/driver")}>For Drivers</Link>
 
             {user && (
-              <Link href={dashboardHref} className={`rounded-lg px-3.5 py-2 text-sm font-semibold transition ${solidBg ? "text-[#0b66d1] hover:bg-blue-50" : "text-white hover:bg-white/10"}`}>
+              <Link href={dashboardHref} className={navLinkClass(dashboardHref)}>
                 {dashboardLabel}
               </Link>
             )}
@@ -166,7 +186,7 @@ export default function Navbar() {
                 <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-gray-400">Services</p>
                 {services.map(s => (
                   <Link key={s.label} href={s.href} onClick={() => setMobileOpen(false)}
-                    className="rounded-xl px-3 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-[#0b66d1]">
+                    className={mobileNavLinkClass(s.href)}>
                     {s.label}
                   </Link>
                 ))}
@@ -179,14 +199,14 @@ export default function Navbar() {
                   { label: "Become a Driver", href: "/driver"  },
                 ].map(item => (
                   <Link key={item.label} href={item.href} onClick={() => setMobileOpen(false)}
-                    className="rounded-xl px-3 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-[#0b66d1]">
+                    className={mobileNavLinkClass(item.href)}>
                     {item.label}
                   </Link>
                 ))}
 
                 {user && (
                   <Link href={dashboardHref} onClick={() => setMobileOpen(false)}
-                    className="rounded-xl px-3 py-3 text-sm font-semibold text-[#0b66d1] hover:bg-blue-50">
+                    className={mobileNavLinkClass(dashboardHref)}>
                     {dashboardLabel}
                   </Link>
                 )}

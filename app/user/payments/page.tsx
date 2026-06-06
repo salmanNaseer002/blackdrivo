@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowLeft, CreditCard, Calendar, MapPin, AlertCircle } from "lucide-react";
+import { ArrowLeft, CreditCard, Calendar, MapPin, AlertCircle, User, Plus } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useUser } from "@/lib/hooks/useUser";
 import ProfileDropdown from "@/components/dashboard/ProfileDropdown";
@@ -72,7 +72,7 @@ export default function PaymentsPage() {
   const total = bookings.reduce((sum, b) => sum + (b.fare_final ?? b.fare_estimate ?? 0), 0);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-20 lg:pb-0">
       <header className="border-b border-gray-100 bg-white shadow-sm">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
           <div className="flex items-center gap-6">
@@ -170,6 +170,24 @@ export default function PaymentsPage() {
           </div>
         )}
       </div>
+
+      {/* Mobile bottom tab bar */}
+      <nav className="fixed inset-x-0 bottom-0 z-40 flex border-t border-gray-100 bg-white lg:hidden">
+        {[
+          { href: "/user/dashboard", icon: Calendar,  label: "Bookings", active: false },
+          { href: "/booking",        icon: Plus,       label: "Book",     active: false },
+          { href: "/user/payments",  icon: CreditCard, label: "Payments", active: true  },
+          { href: "/user/profile",   icon: User,       label: "Profile",  active: false },
+        ].map(item => (
+          <Link key={item.href} href={item.href}
+            className={`flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors ${
+              item.active ? "text-[#0b66d1]" : "text-gray-400 hover:text-gray-600"
+            }`}>
+            <item.icon className="h-5 w-5" />
+            {item.label}
+          </Link>
+        ))}
+      </nav>
     </div>
   );
 }

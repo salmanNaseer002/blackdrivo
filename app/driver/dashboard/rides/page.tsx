@@ -31,7 +31,11 @@ export default function RidesPage() {
     load();
   }, [router]);
 
-  if (loading) return null;
+  if (loading) return (
+    <div className="flex h-64 items-center justify-center">
+      <span className="h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-gray-900" />
+    </div>
+  );
 
   const upcoming = rides.filter(r => ["confirmed","in_progress","pending"].includes(r.status));
   const history  = rides.filter(r => ["completed","cancelled"].includes(r.status));
