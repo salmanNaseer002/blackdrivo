@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Also update users table user_type to driver (in case trigger already ran)
-  await supabase.from("users").update({ user_type: "driver" }).eq("id", userId);
+  await (supabase as any).from("users").update({ user_type: "driver" }).eq("id", userId);
 
   return NextResponse.json({ success: true, userId });
 }

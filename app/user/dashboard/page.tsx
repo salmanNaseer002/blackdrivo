@@ -66,14 +66,14 @@ function PassengerProfileForm({ user, onComplete }: { user: any; onComplete: () 
     setSaving(true);
     try {
       const supabase = createClient();
-      const { error: updateError } = await supabase
+      const { error: updateError } = await (supabase as any)
         .from("users")
         .update({
           full_name:  fullName.trim(),
           name:       fullName.trim(),
           phone:      phone.trim(),
           gender:     gender,
-          user_type:  "passenger_driver", // driver who also has passenger profile
+          user_type:  "passenger_driver",
         })
         .eq("id", user.id);
 
