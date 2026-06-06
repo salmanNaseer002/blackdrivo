@@ -24,15 +24,6 @@ export default function HeroSection() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="text-center text-white"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-widest backdrop-blur-sm"
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#0b66d1]" />
-            New York · New Jersey · Nationwide
-          </motion.div>
 
           <h1 className="text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl lg:text-8xl">
             Your chauffeur
@@ -40,7 +31,7 @@ export default function HeroSection() {
             <span className="text-[#0b66d1]">awaits.</span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-white/65 md:text-lg">
-            Premium black car service across New York, New Jersey, and all surrounding areas.
+            Premium black car service across New Jersey, and all surrounding areas.
             Airport transfers, hourly rides, and city-to-city travel.
           </p>
         </motion.div>

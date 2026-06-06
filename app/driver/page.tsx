@@ -10,7 +10,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Drive with BlackDrivo — Join Our Chauffeur Network",
   description:
-    "Join BlackDrivo's professional chauffeur network. Earn premium rates, set your own schedule, and be part of New York's most respected black car service.",
+    "Join BlackDrivo's professional chauffeur network. Earn premium rates, set your own schedule, and be part of New Jersey's most respected black car service.",
 };
 
 const benefits = [
@@ -102,17 +102,14 @@ export default function DriverLandingPage() {
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent" />
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-24 pt-32 md:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-white backdrop-blur-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#0b66d1]" />
-              Driver Partner Program
-            </div>
+
             <h1 className="text-5xl font-bold leading-[1.05] tracking-tight text-white md:text-7xl">
               Drive With
               <br />
               <span className="text-[#0b66d1]">BlackDrivo</span>
             </h1>
             <p className="mt-5 max-w-xl text-base leading-7 text-white/70 md:text-lg">
-              Join our network of professional chauffeurs serving New York, New Jersey, and nationwide.
+              Join our network of professional chauffeurs serving New Jersey, and nationwide.
               Earn more. Work smarter. Build a career you're proud of.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -376,9 +373,7 @@ export default function DriverLandingPage() {
       {/* Final CTA */}
       <section className="bg-slate-900 px-4 py-20 text-center md:px-6 lg:px-8 lg:py-28">
         <div className="mx-auto max-w-2xl">
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#0b66d1]">
-            <Car className="h-8 w-8 text-white" />
-          </div>
+
           <h2 className="text-4xl font-bold text-white md:text-5xl">
             Ready to start earning?
           </h2>

@@ -20,7 +20,7 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    detail: "support@blackdrivo.com",
+    detail: "bilal@blackdrivo.com",
     sub: "Response within 2 hours",
     href: "mailto:support@blackdrivo.com",
   },
@@ -34,8 +34,8 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Headquarters",
-    detail: "New York, NY 10001",
-    sub: "Serving NY, NJ & surrounding areas",
+    detail: "NY 10001",
+    sub: "Serving NJ & surrounding areas",
     href: "#",
   },
 ];

@@ -28,12 +28,18 @@ export async function POST(req: NextRequest) {
 
   const supabase = createAdminClient();
 
-  // Create auth user
+  // Create auth user — user_type: 'driver' in metadata
   const { data: authData, error: authError } = await supabase.auth.admin.createUser({
     email:         email.trim().toLowerCase(),
     password,
     email_confirm: true,
-    user_metadata: { role: "driver" },
+    user_metadata: {
+      role:      "driver",
+      user_type: "driver",           // ← trigger picks this up
+      full_name: fullName.trim(),
+      phone:     phone?.trim() || null,
+      country_code: countryCode || "US",
+    },
   });
 
   if (authError) {
@@ -45,7 +51,7 @@ export async function POST(req: NextRequest) {
 
   const userId = authData.user.id;
 
-  // Create driver record with all collected info
+  // Create driver record
   const { error: driverError } = await supabase.from("drivers").insert({
     user_id:                     userId,
     email:                       email.trim().toLowerCase(),
@@ -61,7 +67,6 @@ export async function POST(req: NextRequest) {
     status:                      "pending",
     is_available:                false,
     total_rides:                 0,
-    // Placeholder values for required fields
     vehicle_make:         "PENDING",
     vehicle_model:        "PENDING",
     vehicle_year:         2020,
@@ -74,6 +79,9 @@ export async function POST(req: NextRequest) {
     await supabase.auth.admin.deleteUser(userId);
     return NextResponse.json({ error: driverError.message }, { status: 500 });
   }
+
+  // Also update users table user_type to driver (in case trigger already ran)
+  await supabase.from("users").update({ user_type: "driver" }).eq("id", userId);
 
   return NextResponse.json({ success: true, userId });
 }

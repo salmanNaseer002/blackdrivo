@@ -6,18 +6,21 @@ import type { User } from "@supabase/supabase-js";
 import type { Profile, UserRole } from "@/lib/supabase/types";
 
 interface UseUserReturn {
-  user: User | null;
-  profile: Profile | null;
-  loading: boolean;
-  role: string;
-  initials: string;
+  user:        User | null;
+  profile:     Profile | null;
+  loading:     boolean;
+  role:        string;
+  userType:    string | null;   // 'passenger' | 'driver' | 'passenger_driver'
+  isDriver:    boolean;
+  initials:    string;
   displayName: string;
 }
 
 export function useUser(): UseUserReturn {
-  const [user, setUser]       = useState<User | null>(null);
+  const [user,    setUser]    = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [role, setRole]       = useState("user");
+  const [role,    setRole]    = useState("user");
+  const [userType,setUserType]= useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,23 +30,7 @@ export function useUser(): UseUserReturn {
     const fetchProfile = async (u: User) => {
       const metaRole = u.user_metadata?.role as UserRole | undefined;
 
-      if (metaRole === "driver") {
-        if (!active) return;
-        setRole("driver");
-        const meta = u.user_metadata ?? {};
-        setProfile({
-          id: u.id,
-          email: u.email ?? "",
-          full_name: (meta.full_name as string) ?? null,
-          phone: (meta.phone as string) ?? null,
-          role: "driver",
-          avatar_url: null,
-          created_at: "",
-          updated_at: "",
-        });
-        return;
-      }
-
+      // Always fetch from users table for latest user_type
       const { data: row, error: rowError } = await (supabase as any)
         .from("users")
         .select("*")
@@ -52,38 +39,36 @@ export function useUser(): UseUserReturn {
 
       if (!active) return;
 
-      // If we get data, use it
       if (row && !rowError) {
-        const p = row as Profile;
+        const p = row as Profile & { user_type?: string };
         setProfile(p);
         setRole(p.role ?? "user");
+        setUserType(p.user_type ?? (metaRole === "driver" ? "driver" : "passenger"));
         return;
       }
 
-      // Either the row doesn't exist, or the RLS policy blocked the read.
-      // In both cases, build a local profile from auth metadata and attempt
-      // to create the public.users row (INSERT policy is never recursive).
+      // Fallback from metadata
+      const isDriverMeta = metaRole === "driver";
       const newRow = {
-        id: u.id,
-        email: u.email ?? "",
-        name: (u.user_metadata?.full_name as string) || (u.email ?? "").split("@")[0],
+        id:        u.id,
+        email:     u.email ?? "",
+        name:      (u.user_metadata?.full_name as string) || (u.email ?? "").split("@")[0],
         full_name: (u.user_metadata?.full_name as string) ?? null,
-        phone: (u.user_metadata?.phone as string) ?? null,
-        // role omitted — DB uses column DEFAULT ('ops')
+        phone:     (u.user_metadata?.phone as string) ?? null,
+        user_type: isDriverMeta ? "driver" : "passenger",
       };
-      // Fire-and-forget — don't block the UI on this
       (supabase as any).from("users").upsert(newRow, { onConflict: "id" }).then(() => {});
       setProfile({
         ...newRow,
-        role: "ops" as UserRole,
+        role:       "ops" as UserRole,
         avatar_url: null,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       });
       setRole("ops");
+      setUserType(isDriverMeta ? "driver" : "passenger");
     };
 
-    // getSession() reads from localStorage — no server round-trip, loads instantly
     const init = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!active) return;
@@ -95,7 +80,6 @@ export function useUser(): UseUserReturn {
 
     init();
 
-    // Handle subsequent auth changes; skip INITIAL_SESSION (handled by init above)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (!active) return;
       if (event === "INITIAL_SESSION") return;
@@ -106,14 +90,12 @@ export function useUser(): UseUserReturn {
       } else {
         setProfile(null);
         setRole("user");
+        setUserType(null);
         setLoading(false);
       }
     });
 
-    return () => {
-      active = false;
-      subscription.unsubscribe();
-    };
+    return () => { active = false; subscription.unsubscribe(); };
   }, []);
 
   const displayName =
@@ -131,5 +113,7 @@ export function useUser(): UseUserReturn {
     .join("")
     .toUpperCase();
 
-  return { user, profile, loading, role, initials, displayName };
+  const isDriver = userType === "driver";
+
+  return { user, profile, loading, role, userType, isDriver, initials, displayName };
 }

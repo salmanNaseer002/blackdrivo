@@ -18,7 +18,6 @@ const footerLinks = {
     { label: "Become a Driver", href: "/driver" },
   ],
   "Service Areas": [
-    { label: "New York City", href: "/services#nyc" },
     { label: "New Jersey", href: "/services#nj" },
     { label: "Long Island", href: "/services#li" },
     { label: "Connecticut", href: "/services#ct" },
@@ -48,20 +47,17 @@ export default function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.5fr_3fr]">
           {/* Brand */}
           <div>
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0b66d1]">
-                <Image
-                  src="/B Logo Black Theme.png"
-                  alt="BlackDrivo"
-                  width={24}
-                  height={24}
-                  className="object-contain invert mix-blend-screen"
-                />
-              </div>
-              <span className="text-xl font-bold tracking-tight text-white">BlackDrivo</span>
-            </Link>
+            {/* Logo */}
+          <Link href="/" className="flex items-center shrink-0">
+          <Image
+          src="/logo wb.png"
+          alt="BlackDrivo"
+          width={140}
+          height={40}
+          className="object-contain transition-all duration-300"/>
+          </Link>
             <p className="mt-4 max-w-xs text-sm leading-6 text-white/55">
-              Premium chauffeur service across New York, New Jersey, and the surrounding tri-state area.
+              Premium chauffeur service across New Jersey, and the surrounding tri-state area.
               Available 24/7.
             </p>
             <div className="mt-6 space-y-2.5 text-sm text-white/55">
@@ -75,7 +71,7 @@ export default function Footer() {
               </a>
               <div className="flex items-start gap-2.5">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#0b66d1]" />
-                <span>New York, NY 10001 — Serving all of NY, NJ & surrounding areas</span>
+                <span>NY 10001 — Serving all of NY, NJ & surrounding areas</span>
               </div>
             </div>
             <div className="mt-6 flex items-center gap-3">
