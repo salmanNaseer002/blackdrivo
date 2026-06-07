@@ -1,66 +1,65 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import Image from "next/image";
 import Link from "next/link";
-import {
-  DollarSign, Clock, Headphones, Users, CheckCircle, ArrowRight,
-  Star, Shield, Car
-} from "lucide-react";
+import { CheckCircle, ArrowRight, Phone, Clock, Users, Star, DollarSign } from "lucide-react";
+import DriverHeroSlider from "@/components/driver/DriverHeroSlider";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Drive with BlackDrivo — Join Our Chauffeur Network",
+  title: "Drive for BlackDrivo | Chauffeur & Black Car Jobs NYC, NJ, Philadelphia",
   description:
-    "Join BlackDrivo's professional chauffeur network. Earn premium rates, set your own schedule, and be part of New Jersey's most respected black car service.",
+    "Join the BlackDrivo elite fleet. We are hiring professional chauffeurs in NYC, New Jersey, and Philadelphia. Premium clientele, 24/7 dispatch, competitive pay. Apply today.",
 };
 
-const benefits = [
+const advantages = [
   {
-    icon: DollarSign,
-    title: "Premium Earnings",
-    desc: "Earn significantly more than standard rideshare apps with premium fixed-rate bookings.",
+    icon: Users,
+    title: "Premium Clientele",
+    description:
+      "Access opportunities to serve corporate travelers, VIP guests, airport transfers, private aviation clients, and high-end transportation requests.",
   },
   {
     icon: Clock,
-    title: "Flexible Schedule",
-    desc: "Work when you want — accept only the rides you choose. No minimum hours required.",
+    title: "24/7 Dispatch Support",
+    description:
+      "Work with an experienced operations team focused on coordination, trip details, and a smooth experience from assignment to completion.",
   },
   {
-    icon: Headphones,
-    title: "Full Support",
-    desc: "Dedicated support team available 24/7 for drivers. We're here whenever you need us.",
+    icon: Star,
+    title: "Elite Reputation",
+    description:
+      "Be part of a professional chauffeur team known for executive clientele, elevated standards, and a service culture that sets us apart.",
   },
   {
-    icon: Users,
-    title: "Professional Community",
-    desc: "Join a vetted network of professional chauffeurs with high standards and shared values.",
+    icon: DollarSign,
+    title: "Premium Earnings",
+    description:
+      "Earn significantly more than standard rideshare apps. Fixed-rate bookings, weekly direct deposit, and 100% of all tips are yours to keep.",
   },
 ];
 
 const steps = [
   {
-    number: "01",
-    title: "Submit Application",
-    desc: "Complete our driver application in under 10 minutes. Tell us about yourself and your vehicle.",
+    num: "01",
+    title: "Submit Your Application",
+    desc: "Submit your basic details and professional driving experience through our driver application.",
   },
   {
-    number: "02",
-    title: "Get Verified",
-    desc: "Background check, license verification, and vehicle inspection — we'll guide you through every step.",
+    num: "02",
+    title: "Application Review",
+    desc: "Our team reviews applications based on current coverage needs and candidate qualifications.",
   },
   {
-    number: "03",
-    title: "Start Earning",
-    desc: "Once approved, access your driver dashboard, go online, and start accepting premium rides.",
+    num: "03",
+    title: "Screening & Next Steps",
+    desc: "If your profile is a potential fit, we will contact you to discuss next steps and required screening.",
   },
-];
-
-const requirements = [
-  "Valid driver's license with 3+ years experience",
-  "Commercial vehicle insurance",
-  "Background check clearance",
-  "Vehicle model year 2018 or newer",
-  "Clean driving record",
-  "TLC/FHV license for NYC drivers",
+  {
+    num: "04",
+    title: "Onboarding",
+    desc: "Qualified candidates complete onboarding and join the BlackDrivo chauffeur network.",
+  },
 ];
 
 const driverTestimonials = [
@@ -84,128 +83,202 @@ const driverTestimonials = [
   },
 ];
 
+const faqs = [
+  {
+    q: "What licenses and documents are required?",
+    a: "All candidates must possess a valid driver's license and a clean driving record. In New York City, a TLC license is required. In New Jersey and Philadelphia, professional driving experience is preferred. All candidates must pass a rigorous background check and complete our BlackDrivo Standard training.",
+  },
+  {
+    q: "Is there a dress code?",
+    a: "Yes. As a premium service, our chauffeurs are required to maintain a professional appearance at all times — typically a dark, well-tailored suit, white shirt, and tie — reflecting the elite nature of our brand.",
+  },
+  {
+    q: "How does the pay structure work?",
+    a: "We offer highly competitive rates with weekly payments. Company chauffeurs receive a stable base pay plus performance bonuses.",
+  },
+  {
+    q: "Do I keep my tips?",
+    a: "Absolutely. Chauffeurs retain 100% of all gratuities provided by clients.",
+  },
+  {
+    q: "Can I choose my own schedule?",
+    a: "We offer various shifts including morning, evening, and weekend rotations. Our system allows you to plan your schedule in advance, focusing on high-demand periods like airport transfers and VIP corporate events.",
+  },
+  {
+    q: "What support do I have on the road?",
+    a: "You are never alone. Our expert dispatch team is available 24/7 to assist with navigation, client changes, or any roadside emergencies. You focus on the drive — we handle the logistics.",
+  },
+  {
+    q: "How is this different from ride-sharing?",
+    a: "Unlike ride-sharing, BlackDrivo provides a stable, high-volume environment with a pre-vetted, premium clientele. You won't be competing with thousands of other drivers for a single ride. We offer a career path, a professional community, and a level of respect that only an elite executive service can provide.",
+  },
+];
+
 export default function DriverLandingPage() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
 
-      {/* Hero */}
-      <section
-        className="relative flex min-h-screen w-full items-center overflow-hidden"
-        style={{
-          backgroundImage:
-            "linear-gradient(to bottom, rgba(10,15,26,0.55) 0%, rgba(10,15,26,0.78) 100%), url('/A%20welcome%20like%20no%20other.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center 30%",
-        }}
-      >
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent" />
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-24 pt-32 md:px-6 lg:px-8">
-          <div className="max-w-3xl">
+      {/* Hero — full-screen image slider */}
+      <DriverHeroSlider />
 
-            <h1 className="text-5xl font-bold leading-[1.05] tracking-tight text-white md:text-7xl">
-              Drive With
-              <br />
-              <span className="text-[#0b66d1]">BlackDrivo</span>
-            </h1>
-            <p className="mt-5 max-w-xl text-base leading-7 text-white/70 md:text-lg">
-              Join our network of professional chauffeurs serving New Jersey, and nationwide.
-              Earn more. Work smarter. Build a career you're proud of.
+      {/* The BlackDrivo Advantage */}
+      <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-14 text-center">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">
+              Why Chauffeurs Choose BlackDrivo
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
+              The BlackDrivo Advantage
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-500">
+              We are seeking top-tier company chauffeurs who demand the best — flexible
+              opportunities based on service area, availability, and current demand.
+            </p>
+          </div>
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {advantages.map((a) => (
+              <div
+                key={a.title}
+                className="border border-gray-100 bg-white p-8 shadow-sm transition hover:border-[#0b66d1]/30 hover:shadow-md"
+              >
+                <a.icon className="mb-4 h-7 w-7 text-[#0b66d1]" />
+                <h3 className="font-['Georgia',serif] text-lg font-bold text-gray-900">{a.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-gray-500">{a.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Fleet teaser — dark */}
+      <section className="bg-gray-950 px-4 py-20 md:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12 text-center">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">
+              The BlackDrivo Fleet
+            </p>
+            <h2 className="font-['Georgia',serif] text-4xl font-bold text-white md:text-5xl">
+              Step into Your New Corner Office.
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-white/55">
+              Every vehicle is a late-model luxury machine, meticulously maintained and equipped
+              with the latest technology. You drive the best — because our clients deserve the best.
+            </p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-3">
+            {[
+              { src: "/image-76.webp",     name: "Mercedes-Benz S580",    type: "Executive Luxury Sedan" },
+              { src: "/suv-2.jpg",          name: "Cadillac Escalade",      type: "Executive Luxury SUV"   },
+              { src: "/drive-image71.webp", name: "Mercedes-Benz Sprinter", type: "Executive Mini-Bus"     },
+            ].map((v) => (
+              <div key={v.name} className="group border border-white/10 bg-gray-900">
+                <div className="relative flex h-48 items-center justify-center overflow-hidden bg-gray-800 p-4">
+                  <Image
+                    src={v.src}
+                    alt={v.name}
+                    fill
+                    className="object-contain p-3 transition duration-500 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, 33vw"
+                  />
+                </div>
+                <div className="p-5">
+                  <h3 className="font-['Georgia',serif] text-base font-bold text-white">{v.name}</h3>
+                  <p className="mt-1 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">{v.type}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <Link
+              href="/fleet"
+              className="inline-flex items-center gap-2 border border-white/20 px-8 py-3.5 text-sm font-semibold text-white transition hover:border-white"
+            >
+              View Full Fleet <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Drive with BlackDrivo */}
+      <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl">
+          <div className="mb-10 text-center">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">
+              Join the Fleet
+            </p>
+            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
+              Drive with BlackDrivo
+            </h2>
+          </div>
+          <div className="border border-gray-100 bg-white p-10 shadow-sm">
+            <p className="text-sm leading-7 text-gray-500">
+              Join a professional chauffeur team trusted to serve executive, corporate, and VIP
+              travelers. Company Chauffeur opportunities are available for qualified drivers who
+              take pride in polished service, safe transportation, and a consistently elevated
+              passenger experience.
+            </p>
+            <p className="mt-6 text-xs font-bold uppercase tracking-widest text-gray-400">Available in</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              <span className="rounded bg-[#0b66d1]/10 px-3 py-1.5 text-xs font-bold text-[#0b66d1]">New York City</span>
+              <span className="rounded bg-[#0b66d1]/10 px-3 py-1.5 text-xs font-bold text-[#0b66d1]">New Jersey</span>
+              <span className="rounded bg-[#0b66d1]/10 px-3 py-1.5 text-xs font-bold text-[#0b66d1]">Philadelphia</span>
+            </div>
+            <div className="mt-7 grid gap-3 sm:grid-cols-2">
+              {[
+                "Valid driver's license (TLC required in NYC)",
+                "Clean driving record",
+                "Professional appearance and communication",
+                "Exceptional customer service",
+                "Ability to pass a rigorous background check",
+                "Commitment to the BlackDrivo Standard",
+              ].map((r) => (
+                <div key={r} className="flex items-start gap-2 text-sm text-gray-600">
+                  <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#0b66d1]" /> {r}
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/driver/signup"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]"
+                className="inline-flex items-center gap-2 bg-[#0b66d1] px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-white transition hover:bg-[#0952a8]"
               >
                 Apply Now <ArrowRight className="h-4 w-4" />
               </Link>
               <a
                 href="#how-it-works"
-                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
+                className="inline-flex items-center gap-2 border border-gray-300 px-8 py-3.5 text-sm font-semibold text-gray-700 transition hover:border-gray-700"
               >
-                Learn More
+                How It Works
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats bar */}
-      <section className="bg-white px-4 py-12 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-gray-100 bg-gray-100 shadow-sm sm:grid-cols-4">
-            {[
-              { value: "500+", label: "Active Drivers" },
-              { value: "$2,800", label: "Avg Monthly Earnings" },
-              { value: "4.9★", label: "Driver Rating" },
-              { value: "24/7", label: "Driver Support" },
-            ].map((stat) => (
-              <div key={stat.label} className="bg-white px-6 py-8 text-center">
-                <p className="text-3xl font-bold text-gray-900 md:text-4xl">{stat.value}</p>
-                <p className="mt-1 text-sm text-gray-500">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="bg-gray-50 px-4 py-20 md:px-6 lg:px-8 lg:py-28">
+      {/* How It Works */}
+      <section id="how-it-works" className="border-t border-gray-100 bg-gray-50 px-4 py-20 md:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-14 text-center">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">
-              Why drive with us
-            </p>
-            <h2 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
-              Built for professional drivers
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">Simple Process</p>
+            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
+              The Application &amp; Onboarding Process
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-base text-gray-600">
-              BlackDrivo gives you the tools, support, and earning potential to build a serious career in premium transportation.
-            </p>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {benefits.map((b) => (
-              <div key={b.title} className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6 transition hover:shadow-md hover:border-[#0b66d1]/20">
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-[#0b66d1]">
-                  <b.icon className="h-5 w-5" />
-                </div>
-                <h3 className="font-semibold text-gray-900">{b.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-gray-600">{b.desc}</p>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {steps.map((s) => (
+              <div key={s.num} className="border border-gray-100 bg-white p-8 shadow-sm">
+                <p className="mb-4 text-4xl font-extrabold text-[#0b66d1]/20">{s.num}</p>
+                <h3 className="font-['Georgia',serif] text-lg font-bold text-gray-900">{s.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-gray-500">{s.desc}</p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section id="how-it-works" className="bg-white px-4 py-20 md:px-6 lg:px-8 lg:py-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-14 text-center">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">
-              Getting started
-            </p>
-            <h2 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
-              Three steps to start earning
-            </h2>
-          </div>
-          <div className="grid gap-8 sm:grid-cols-3">
-            {steps.map((s, i) => (
-              <div key={s.title} className="relative text-center">
-                {i < steps.length - 1 && (
-                  <div className="absolute left-1/2 top-8 hidden h-px w-full bg-gray-200 sm:block" style={{ left: "75%", width: "50%" }} />
-                )}
-                <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#0b66d1] text-2xl font-bold text-white shadow-lg">
-                  {s.number}
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900">{s.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-gray-600">{s.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-12 text-center">
+          <div className="mt-10 text-center">
             <Link
               href="/driver/signup"
-              className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]"
+              className="inline-flex items-center gap-2 bg-[#0b66d1] px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-white transition hover:bg-[#0952a8]"
             >
               Start Your Application <ArrowRight className="h-4 w-4" />
             </Link>
@@ -213,52 +286,53 @@ export default function DriverLandingPage() {
         </div>
       </section>
 
-      {/* Earnings section */}
-      <section className="bg-[#0b66d1] px-4 py-20 md:px-6 lg:px-8 lg:py-28" style={{ backgroundImage: "linear-gradient(135deg, #0b66d1 0%, #0952a8 100%)" }}>
+      {/* Earnings */}
+      <section
+        className="bg-[#0b66d1] px-4 py-20 md:px-6 lg:px-8"
+        style={{ backgroundImage: "linear-gradient(135deg, #0b66d1 0%, #0952a8 100%)" }}
+      >
         <div className="mx-auto max-w-7xl">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white/60">
-                Earning potential
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-white/60">
+                Earning Potential
               </p>
-              <h2 className="text-4xl font-bold text-white md:text-5xl">
-                Average drivers earn
-                <br />
+              <h2 className="font-['Georgia',serif] text-4xl font-bold text-white md:text-5xl">
+                Average drivers earn<br />
                 <span className="text-white/90">$2,800–$4,500/month</span>
               </h2>
               <p className="mt-5 text-base leading-7 text-white/70">
-                Our premium fixed-rate model means you know exactly what you're earning before every ride.
-                No surge pricing tricks — just consistent, high-quality income.
+                Our premium fixed-rate model means you know exactly what you're earning before
+                every ride. No surge pricing tricks — just consistent, high-quality income.
               </p>
               <ul className="mt-6 space-y-3">
                 {[
                   "Fixed fares — no surprises",
                   "Weekly direct deposit",
-                  "No platform fees on corporate rides",
+                  "100% of all tips are yours",
                   "Bonuses for top-rated drivers",
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-2.5 text-sm text-white/80">
-                    <CheckCircle className="h-4 w-4 shrink-0 text-white" />
-                    {item}
+                    <CheckCircle className="h-4 w-4 shrink-0 text-white" /> {item}
                   </li>
                 ))}
               </ul>
               <Link
                 href="/driver/signup"
-                className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-[#0b66d1] transition hover:bg-gray-100"
+                className="mt-8 inline-flex items-center gap-2 bg-white px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-[#0b66d1] transition hover:bg-gray-100"
               >
                 Apply to Drive <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {[
-                { label: "Airport Transfer", earn: "$85–$185", note: "Per trip" },
-                { label: "City-to-City", earn: "$200–$480", note: "Per trip" },
-                { label: "Hourly Service", earn: "$55–$90", note: "Per hour" },
-                { label: "Corporate Account", earn: "Priority dispatch", note: "Recurring income" },
+                { label: "Airport Transfer",  earn: "$85–$185",          note: "Per trip"         },
+                { label: "City-to-City",      earn: "$200–$480",         note: "Per trip"         },
+                { label: "Hourly Service",    earn: "$55–$90",           note: "Per hour"         },
+                { label: "Corporate Account", earn: "Priority dispatch",  note: "Recurring income" },
               ].map((item) => (
-                <div key={item.label} className="rounded-2xl bg-white/10 border border-white/20 p-5">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-white/50">{item.label}</p>
+                <div key={item.label} className="border border-white/20 bg-white/10 p-5">
+                  <p className="text-xs font-bold uppercase tracking-widest text-white/50">{item.label}</p>
                   <p className="mt-2 text-2xl font-bold text-white">{item.earn}</p>
                   <p className="text-xs text-white/50">{item.note}</p>
                 </div>
@@ -268,82 +342,18 @@ export default function DriverLandingPage() {
         </div>
       </section>
 
-      {/* Requirements */}
-      <section className="bg-gray-50 px-4 py-20 md:px-6 lg:px-8 lg:py-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid items-center gap-14 lg:grid-cols-2">
-            <div>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">
-                Requirements
-              </p>
-              <h2 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
-                What you&apos;ll need to apply
-              </h2>
-              <p className="mt-4 text-base leading-7 text-gray-600">
-                We maintain high standards because our clients expect the best. Here&apos;s what&apos;s required to join.
-              </p>
-              <ul className="mt-8 space-y-4">
-                {requirements.map((req) => (
-                  <li key={req} className="flex items-start gap-3">
-                    <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-50">
-                      <CheckCircle className="h-3.5 w-3.5 text-[#0b66d1]" />
-                    </div>
-                    <span className="text-sm text-gray-700">{req}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-8">
-              <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-[#0b66d1]">
-                  <Shield className="h-6 w-6" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900">Application takes 10 minutes</h3>
-                  <p className="text-sm text-gray-500">We review within 2–3 business days</p>
-                </div>
-              </div>
-              <div className="space-y-3">
-                {[
-                  { step: "1", label: "Create account & fill out form" },
-                  { step: "2", label: "Upload required documents" },
-                  { step: "3", label: "Background check (automated)" },
-                  { step: "4", label: "Vehicle inspection (local)" },
-                  { step: "5", label: "Receive approval & go live" },
-                ].map((item) => (
-                  <div key={item.step} className="flex items-center gap-3 rounded-xl bg-gray-50 border border-gray-100 px-4 py-3">
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0b66d1] text-xs font-bold text-white">
-                      {item.step}
-                    </div>
-                    <span className="text-sm text-gray-700">{item.label}</span>
-                  </div>
-                ))}
-              </div>
-              <Link
-                href="/driver/signup"
-                className="mt-6 block rounded-xl bg-[#0b66d1] py-3.5 text-center text-sm font-semibold text-white transition hover:bg-[#0952a8]"
-              >
-                Start Application
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Driver testimonials */}
-      <section className="bg-white px-4 py-20 md:px-6 lg:px-8 lg:py-28">
+      {/* Driver Testimonials */}
+      <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">
-              Driver stories
-            </p>
-            <h2 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">Driver Stories</p>
+            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
               Hear from our drivers
             </h2>
           </div>
           <div className="grid gap-5 sm:grid-cols-3">
             {driverTestimonials.map((t) => (
-              <div key={t.name} className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6 transition hover:shadow-md">
+              <div key={t.name} className="border border-gray-100 bg-white p-6 shadow-sm transition hover:shadow-md">
                 <div className="mb-3 flex gap-0.5">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star key={i} className="h-4 w-4 fill-[#0b66d1] text-[#0b66d1]" />
@@ -370,30 +380,57 @@ export default function DriverLandingPage() {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="bg-slate-900 px-4 py-20 text-center md:px-6 lg:px-8 lg:py-28">
-        <div className="mx-auto max-w-2xl">
+      {/* FAQ */}
+      <section className="border-t border-gray-100 bg-gray-50 px-4 py-20 md:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl">
+          <div className="mb-12 text-center">
+            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">FAQ</p>
+            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900">
+              Common Questions
+            </h2>
+          </div>
+          <div className="divide-y divide-gray-100 border-y border-gray-100">
+            {faqs.map((faq) => (
+              <details key={faq.q} className="group py-5">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
+                  <span className="text-sm font-semibold text-gray-900">{faq.q}</span>
+                  <span className="mt-0.5 shrink-0 text-[#0b66d1] transition group-open:rotate-45">
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                  </span>
+                </summary>
+                <p className="mt-3 text-sm leading-6 text-gray-500">{faq.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <h2 className="text-4xl font-bold text-white md:text-5xl">
+      {/* Final CTA */}
+      <section className="bg-gray-950 px-4 py-20 text-center md:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl">
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">Join the Fleet</p>
+          <h2 className="font-['Georgia',serif] text-4xl font-bold text-white md:text-5xl">
             Ready to start earning?
           </h2>
           <p className="mx-auto mt-5 max-w-lg text-base text-white/60">
-            Join hundreds of professional chauffeurs who have made BlackDrivo their primary income source.
+            Join professional chauffeurs who have made BlackDrivo their primary income source.
             Applications take 10 minutes. Approvals within 2–3 business days.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
               href="/driver/signup"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8] sm:w-auto"
+              className="inline-flex items-center gap-2 bg-[#0b66d1] px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-white transition hover:bg-[#0952a8]"
             >
               Apply to Drive <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link
-              href="/contact"
-              className="inline-flex w-full items-center justify-center rounded-full border-2 border-white/20 px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-white/8 sm:w-auto"
+            <a
+              href="tel:+18005550199"
+              className="inline-flex items-center gap-2 border border-white/20 px-8 py-3.5 text-sm font-semibold text-white transition hover:border-white"
             >
-              Ask a question
-            </Link>
+              <Phone className="h-4 w-4" /> Call 24/7
+            </a>
           </div>
           <p className="mt-6 text-xs text-white/30">
             No commitment required · Free to apply · Results within 3 business days
