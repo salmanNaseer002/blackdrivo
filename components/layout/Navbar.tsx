@@ -123,9 +123,10 @@ export default function Navbar() {
               </AnimatePresence>
             </div>
 
+            <Link href="/fleet"   className={navLinkClass("/fleet")}>Fleet</Link>
             <Link href="/about"   className={navLinkClass("/about")}>About</Link>
             <Link href="/contact" className={navLinkClass("/contact")}>Contact</Link>
-            <Link href="/driver"  className={navLinkClass("/driver")}>For Drivers</Link>
+            <Link href="/driver"   className={navLinkClass("/driver")}>Drive with Us</Link>
 
             {user && (
               <Link href={dashboardHref} className={navLinkClass(dashboardHref)}>
@@ -194,9 +195,10 @@ export default function Navbar() {
                 <div className="my-3 border-t border-gray-100" />
 
                 {[
+                  { label: "Our Fleet",       href: "/fleet"   },
                   { label: "About Us",        href: "/about"   },
                   { label: "Contact",         href: "/contact" },
-                  { label: "Become a Driver", href: "/driver"  },
+                  { label: "Drive with Us",   href: "/driver"  },
                 ].map(item => (
                   <Link key={item.label} href={item.href} onClick={() => setMobileOpen(false)}
                     className={mobileNavLinkClass(item.href)}>
