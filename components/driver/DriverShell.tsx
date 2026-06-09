@@ -14,6 +14,7 @@ import { createClient } from "@/lib/supabase/client";
 import { calcDriverCompletion } from "@/lib/utils/driverCompletion";
 import { toast } from "sonner";
 import { DRIVER_THEME, ini } from "@/lib/driver/theme";
+import DriverChatWidget from "@/components/driver/DriverChatWidget";
 
 const NAV_SECTIONS = [
   {
@@ -25,10 +26,11 @@ const NAV_SECTIONS = [
   {
     label: "MY ACCOUNT",
     items: [
-      { label: "My Profile", href: "/driver/dashboard/profile",   icon: User      },
-      { label: "My Vehicle", href: "/driver/dashboard/vehicle",   icon: Car       },
-      { label: "My Rides",   href: "/driver/dashboard/rides",     icon: Calendar  },
-      { label: "Documents",  href: "/driver/dashboard/documents", icon: FileText  },
+      
+{ label: "My Profile", href: "/driver/dashboard/profile",   icon: User      },
+{ label: "My Vehicle", href: "/driver/dashboard/vehicle",   icon: Car       },
+{ label: "My Rides",   href: "/driver/dashboard/rides",     icon: Calendar  },
+{ label: "Documents",  href: "/driver/dashboard/documents", icon: FileText  },
     ],
   },
 ];
@@ -261,12 +263,6 @@ export default function DriverShell({ children }: { children: React.ReactNode })
               }
             </button>
 
-            {/* As Passenger */}
-            <Link href="/user/dashboard"
-              className="hidden sm:flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50 transition">
-              <UserCircle className="h-3.5 w-3.5" /> As Passenger
-            </Link>
-
             {/* Notifications */}
             <div className="relative">
               <button onClick={() => setNotifOpen(!notifOpen)}
@@ -329,6 +325,7 @@ export default function DriverShell({ children }: { children: React.ReactNode })
           {children}
         </main>
       </div>
+      <DriverChatWidget />
     </div>
   );
 }

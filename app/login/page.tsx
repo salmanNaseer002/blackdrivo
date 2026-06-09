@@ -146,7 +146,7 @@ function LoginForm() {
           </p>
           <p className="mt-4 text-center text-sm text-gray-500">
             Are you a driver?{" "}
-            <Link href="/driver/signup" className="font-medium text-[#0b66d1] hover:text-[#0952a8]">Register here</Link>
+            <Link href="/driver/login" className="font-medium text-[#0b66d1] hover:text-[#0952a8]">Driver login</Link>
           </p>
         </motion.div>
       </div>
