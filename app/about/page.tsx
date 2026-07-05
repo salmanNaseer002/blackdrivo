@@ -10,15 +10,14 @@ import {
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About BlackDrivo | Premium Chauffeur Service NYC, NJ, Philadelphia",
+  title: "About BlackDrivo | Premium Chauffeur Service NJ, Philadelphia",
   description:
-    "BlackDrivo is a premier luxury chauffeur service serving corporate clients, private travelers, and VIP guests across NYC, New Jersey, and Philadelphia. Professionalism, discretion, and excellence on every ride.",
+    "BlackDrivo is a premier luxury chauffeur service serving corporate clients, private travelers, and VIP guests across New Jersey, and Philadelphia. Professionalism, discretion, and excellence on every ride.",
 };
 
 const stats = [
   { value: "24/7",  label: "Dispatch Support"   },
-  { value: "4.9★",  label: "Average Rating"      },
-  { value: "3",     label: "States Served"       },
+  { value: "1",     label: "States Served"       },
   { value: "99.8%", label: "On-Time Performance" },
 ];
 
@@ -116,9 +115,7 @@ export default function AboutPage() {
         />
         <div className="relative z-10 flex flex-1 flex-col justify-end">
           <div className="mx-auto w-full max-w-7xl px-4 pb-14 md:px-8 md:pb-18">
-            <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.4em] text-[#0b66d1]">
-              About BlackDrivo
-            </p>
+
             <h1 className="font-['Georgia',serif] text-5xl font-bold leading-[1.08] text-white md:text-7xl">
               The Standard for<br />Premium Chauffeur Service.
             </h1>
@@ -143,29 +140,16 @@ export default function AboutPage() {
               </Link>
             </div>
           </div>
-
-          {/* Stats bar */}
-          <div className="relative z-10 grid grid-cols-2 border-t border-white/10 bg-black/60 backdrop-blur-sm sm:grid-cols-4">
-            {stats.map((s) => (
-              <div key={s.label} className="border-r border-white/10 px-6 py-5 last:border-r-0">
-                <p className="text-2xl font-extrabold text-white">{s.value}</p>
-                <p className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white/45">{s.label}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
       {/* ── Who We Are ────────────────────────────────────────────────── */}
       <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="w-full">
           <div className="grid items-center gap-14 lg:grid-cols-2">
 
             {/* Text */}
             <div>
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.4em] text-[#0b66d1]">
-                Our Story
-              </p>
               <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
                 Who We Are
               </h2>
@@ -189,7 +173,7 @@ export default function AboutPage() {
               </p>
               <ul className="mt-8 space-y-3">
                 {[
-                  "Serving NYC, New Jersey & Philadelphia",
+                  "Serving New Jersey & Philadelphia",
                   "Corporate, VIP & private travel",
                   "Fixed-rate pricing — no surprises",
                   "24/7 reservations and dispatch support",
@@ -214,7 +198,7 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
               </div>
               {/* Floating stat card */}
-              <div className="absolute -bottom-6 -left-6 border border-[#0b66d1]/20 bg-white p-6 shadow-xl">
+              <div className="absolute -bottom-6 -left-6 bg-white p-6 shadow-xl">
                 <p className="text-3xl font-extrabold text-gray-900">99.8%</p>
                 <p className="mt-1 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">On-Time Performance</p>
                 <p className="mt-1 text-xs text-gray-500">Across all service categories</p>
@@ -226,7 +210,7 @@ export default function AboutPage() {
 
       {/* ── Our Mission ───────────────────────────────────────────────── */}
       <section className="bg-gray-950 px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="w-full">
           <div className="grid items-center gap-14 lg:grid-cols-2">
 
             {/* Image */}
@@ -236,15 +220,12 @@ export default function AboutPage() {
                 alt="BlackDrivo fleet lineup"
                 fill
                 className="object-cover object-center"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 200vw"
               />
             </div>
 
             {/* Text */}
             <div>
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.4em] text-[#0b66d1]">
-                Our Mission
-              </p>
               <h2 className="font-['Georgia',serif] text-4xl font-bold text-white md:text-5xl">
                 Every Client is Our Most Important Client.
               </h2>
@@ -262,9 +243,7 @@ export default function AboutPage() {
               <div className="mt-8 grid grid-cols-2 gap-4">
                 {[
                   { v: "4.9★",  l: "Client Rating"      },
-                  { v: "24/7",  l: "Live Dispatch"       },
                   { v: "100%",  l: "Satisfaction Guarantee" },
-                  { v: "3",     l: "States Covered"      },
                 ].map((s) => (
                   <div key={s.l} className="border border-white/10 bg-white/5 p-5">
                     <p className="text-2xl font-extrabold text-white">{s.v}</p>
@@ -279,11 +258,8 @@ export default function AboutPage() {
 
       {/* ── Our Commitment ────────────────────────────────────────────── */}
       <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="w-full">
           <div className="mb-14 text-center">
-            <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.4em] text-[#0b66d1]">
-              The BlackDrivo Standard
-            </p>
             <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
               Our Commitment to You
             </h2>
@@ -311,12 +287,9 @@ export default function AboutPage() {
 
       {/* ── Chauffeurs ────────────────────────────────────────────────── */}
       <section className="border-t border-gray-100 bg-gray-50 px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="w-full">
           <div className="grid items-center gap-14 lg:grid-cols-2">
             <div>
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.4em] text-[#0b66d1]">
-                The BlackDrivo Chauffeur
-              </p>
               <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
                 Behind Every Great Ride is an Exceptional Chauffeur.
               </h2>
@@ -377,39 +350,49 @@ export default function AboutPage() {
 
       {/* ── FAQ ───────────────────────────────────────────────────────── */}
       <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl">
-          <div className="mb-12 text-center">
-            <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.4em] text-[#0b66d1]">FAQ</p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900">
-              Frequently Asked Questions
-            </h2>
-          </div>
-          <div className="divide-y divide-gray-100 border-y border-gray-100">
-            {faqs.map((faq) => (
-              <details key={faq.q} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
-                  <span className="text-sm font-semibold text-gray-900">{faq.q}</span>
-                  <span className="mt-0.5 shrink-0 text-[#0b66d1] transition group-open:rotate-45">
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                    </svg>
-                  </span>
-                </summary>
-                <p className="mt-3 text-sm leading-6 text-gray-500">{faq.a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+  <div className="mx-auto w-full max-w-5xl">
+    <div className="mb-12 text-center">
+      <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900">
+        Frequently Asked Questions
+      </h2>
+    </div>
+
+    <div className="divide-y divide-gray-100 border-y border-gray-100">
+      {faqs.map((faq) => (
+        <details key={faq.q} className="group py-5">
+          <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
+            <span className="text-sm font-semibold text-gray-900">
+              {faq.q}
+            </span>
+            <span className="mt-0.5 shrink-0 text-[#0b66d1]">
+  <svg
+    className="h-5 w-5 transition-transform duration-300 group-open:rotate-45"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 5v14M5 12h14"
+    />
+  </svg>
+</span>
+          </summary>
+          <p className="mt-3 text-sm leading-6 text-gray-500">{faq.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* ── Final CTA ─────────────────────────────────────────────────── */}
       <section className="bg-gray-950 px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="w-full">
           <div className="grid items-center gap-10 lg:grid-cols-2">
             <div>
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.4em] text-[#0b66d1]">
-                Experience the Difference
-              </p>
+
               <h2 className="font-['Georgia',serif] text-4xl font-bold text-white md:text-5xl">
                 Book Your Ride with BlackDrivo Today.
               </h2>

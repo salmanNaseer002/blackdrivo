@@ -164,19 +164,12 @@ export default function HelpPage() {
           <div className="absolute right-1/4 top-32 h-64 w-64 rounded-full bg-blue-50/40 blur-3xl" />
         </div>
         <div className="relative mx-auto max-w-3xl text-center">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">Support</p>
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-6xl">
             How can we help?
           </h1>
           <p className="mt-4 text-base text-gray-500 md:text-lg">
             Browse our help articles or reach our team directly — we're available 24/7.
           </p>
-
-          {/* Search bar — decorative */}
-          <div className="mt-8 flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
-            <Search className="h-5 w-5 shrink-0 text-gray-400" />
-            <span className="text-sm text-gray-400">Search for answers…</span>
-          </div>
         </div>
       </section>
 
@@ -231,9 +224,8 @@ export default function HelpPage() {
       {/* Contact support */}
       <section className="px-4 py-20 md:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
-          <div className="rounded-3xl border border-gray-100 bg-white p-8 shadow-sm md:p-12">
+          <div className="rounded-3xl bg-white p-8 ">
             <div className="text-center">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">Still need help?</p>
               <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">Talk to our team</h2>
               <p className="mt-4 text-base text-gray-500">
                 We're available 24 hours a day, 7 days a week — no bots, no scripts.

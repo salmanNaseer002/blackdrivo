@@ -31,7 +31,7 @@ export default function SiteFooter() {
             </li>
             <li className="flex items-start gap-2">
               <Headphones className="mt-0.5 h-4 w-4 text-black/50" />
-              <span>24/7 help: support@blackdrivo.com</span>
+              <span>24/7 help: Hello@blackdrivo.com</span>
             </li>
           </ul>
         </div>

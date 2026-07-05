@@ -257,7 +257,7 @@ export default function ServicesPage() {
 
       {/* Service grid */}
       <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto w-full">
           <div className="mb-14 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">What We Offer</p>
             <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
@@ -339,7 +339,7 @@ export default function ServicesPage() {
 
       {/* Vehicle Classes */}
       <section className="bg-gray-50 px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto w-full">
           <div className="mb-12 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">
               Our Fleet
@@ -381,13 +381,13 @@ export default function ServicesPage() {
 
       {/* FAQ */}
       <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl">
+        <div className="mx-auto w-full">
           <div className="mb-12 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">FAQ</p>
             <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900">
               Frequently Asked Questions
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-gray-500">
+            <p className="mx-auto mt-4 w-full text-sm leading-6 text-gray-500">
               Everything you need to know about BlackDrivo's chauffeur service.
             </p>
           </div>
@@ -424,7 +424,7 @@ export default function ServicesPage() {
 
       {/* Bottom CTA */}
       <section className="bg-gray-950 px-4 py-16 text-center md:px-6 lg:px-8">
-        <div className="mx-auto max-w-xl">
+        <div className="mx-auto w-full">
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">
             Ready to Ride?
           </p>

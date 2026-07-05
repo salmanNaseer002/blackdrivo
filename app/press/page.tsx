@@ -86,7 +86,6 @@ export default function PressPage() {
           <div className="absolute right-1/3 top-40 h-64 w-64 rounded-full bg-blue-50/30 blur-3xl" />
         </div>
         <div className="relative mx-auto max-w-4xl text-center">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">Press & Media</p>
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-6xl">
             BlackDrivo in the news
           </h1>
@@ -157,7 +156,6 @@ export default function PressPage() {
       <section id="assets" className="border-t border-gray-100 bg-gray-50 px-4 py-20 md:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
           <div className="mb-10">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">Assets</p>
             <h2 className="text-3xl font-bold text-gray-900">Media kit</h2>
             <p className="mt-3 text-base text-gray-500">
               Official logos, brand guidelines, and executive materials for editorial use.
@@ -185,10 +183,9 @@ export default function PressPage() {
 
       {/* Press contact */}
       <section className="px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl rounded-3xl border border-gray-100 bg-white p-8 shadow-sm md:p-12">
+        <div className="mx-auto max-w-4xl rounded-3xl bg-white p-8 ">
           <div className="grid gap-8 md:grid-cols-2 md:items-center">
             <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">Media contact</p>
               <h2 className="text-3xl font-bold text-gray-900">Get in touch</h2>
               <p className="mt-4 text-base text-gray-500">
                 For interview requests, fact-checking, or embargoed materials, our communications

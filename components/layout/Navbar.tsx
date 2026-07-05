@@ -1,13 +1,17 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X, Smartphone, Apple } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/lib/hooks/useUser";
 import ProfileDropdown from "@/components/dashboard/ProfileDropdown";
+
+// TODO: Apne actual App Store aur Play Store links yahan daal dein
+const APP_STORE_URL = "https://apps.apple.com/app/idXXXXXXXXX";
+const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.blackdrivo.app";
 
 const services = [
   { label: "Airport Transfers",    href: "/services#airport",   desc: "Flight-tracked pickups"      },
@@ -21,7 +25,9 @@ export default function Navbar() {
   const [isScrolled,   setIsScrolled]   = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileOpen,   setMobileOpen]   = useState(false);
+  const [appMenuOpen,  setAppMenuOpen]  = useState(false);
   const servicesRef = useRef<HTMLDivElement>(null);
+  const appMenuRef  = useRef<HTMLDivElement>(null);
   const pathname    = usePathname();
   const { user, loading, role, initials, displayName } = useUser();
 
@@ -37,6 +43,7 @@ export default function Navbar() {
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (!servicesRef.current?.contains(e.target as Node)) setServicesOpen(false);
+      if (!appMenuRef.current?.contains(e.target as Node)) setAppMenuOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -145,6 +152,60 @@ export default function Navbar() {
                 Sign in
               </Link>
             )}
+
+            {/* Download App dropdown */}
+            <div className="relative" ref={appMenuRef}>
+              <button
+                onClick={() => setAppMenuOpen(!appMenuOpen)}
+                className={`flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition ${
+                  solidBg
+                    ? "border-gray-200 text-gray-700 hover:border-[#0b66d1] hover:text-[#0b66d1]"
+                    : "border-white/30 text-white/90 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                Download App
+                <ChevronDown className={`h-4 w-4 transition-transform ${appMenuOpen ? "rotate-180" : ""}`} />
+              </button>
+              <AnimatePresence>
+                {appMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 top-full mt-2 w-56 rounded-2xl border border-gray-100 bg-white p-2 shadow-xl"
+                  >
+                    <a
+                      href={APP_STORE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setAppMenuOpen(false)}
+                      className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-blue-50"
+                    >
+                      <Apple className="h-5 w-5 text-gray-700" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">App Store</p>
+                        <p className="text-xs text-gray-500">Download for iOS</p>
+                      </div>
+                    </a>
+                    <a
+                      href={PLAY_STORE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setAppMenuOpen(false)}
+                      className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-blue-50"
+                    >
+                      <Smartphone className="h-5 w-5 text-gray-700" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">Play Store</p>
+                        <p className="text-xs text-gray-500">Download for Android</p>
+                      </div>
+                    </a>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             <Link href="/booking" className="rounded-full bg-[#0b66d1] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#0952a8] active:scale-95">
               Book now
             </Link>
@@ -212,6 +273,38 @@ export default function Navbar() {
                     {dashboardLabel}
                   </Link>
                 )}
+
+                <div className="my-3 border-t border-gray-100" />
+
+                <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-gray-400">Download App</p>
+                <div className="flex flex-col gap-2 px-1">
+                  <a
+                    href={APP_STORE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-3 rounded-xl border border-gray-200 px-3 py-2.5 transition hover:border-[#0b66d1] hover:bg-blue-50"
+                  >
+                    <Apple className="h-5 w-5 text-gray-700" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">App Store</p>
+                      <p className="text-xs text-gray-500">Download for iOS</p>
+                    </div>
+                  </a>
+                  <a
+                    href={PLAY_STORE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-3 rounded-xl border border-gray-200 px-3 py-2.5 transition hover:border-[#0b66d1] hover:bg-blue-50"
+                  >
+                    <Smartphone className="h-5 w-5 text-gray-700" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">Play Store</p>
+                      <p className="text-xs text-gray-500">Download for Android</p>
+                    </div>
+                  </a>
+                </div>
 
                 <div className="mt-4 flex flex-col gap-2">
                   {user ? (

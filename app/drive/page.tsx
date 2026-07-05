@@ -123,9 +123,6 @@ export default function DrivePage() {
           }}
         />
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-16 md:px-8">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">
-            the blackdrivo standard
-          </p>
           <h1 className="font-['Georgia',serif] text-5xl font-bold leading-tight text-white md:text-7xl">
             Elevate Your Career.<br />Drive with BlackDrivo.
           </h1>
@@ -150,11 +147,9 @@ export default function DrivePage() {
           </div>
 
           {/* Stats strip */}
-          <div className="mt-10 grid grid-cols-2 gap-px border border-white/10 bg-white/10 sm:grid-cols-4">
+          <div className="mt-10 grid grid-cols-2 gap-px border border-white/10 bg-white/10 sm:grid-cols-2">
             {[
               { value: "24/7",  label: "Dispatch Support" },
-              { value: "4.9★",  label: "Chauffeur Rating"  },
-              { value: "3",     label: "States Served"     },
               { value: "100%",  label: "Tips Yours to Keep" },
             ].map((s) => (
               <div key={s.label} className="bg-black/30 px-6 py-4 backdrop-blur-sm">
@@ -170,9 +165,6 @@ export default function DrivePage() {
       <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-14 text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">
-              Why Chauffeurs Choose BlackDrivo
-            </p>
             <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
               The BlackDrivo Advantage
             </h2>

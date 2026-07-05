@@ -20,7 +20,7 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    detail: "bilal@blackdrivo.com",
+    detail: "support@blackdrivo.com",
     sub: "Response within 2 hours",
     href: "mailto:support@blackdrivo.com",
   },
@@ -29,7 +29,7 @@ const contactInfo = [
     title: "WhatsApp",
     detail: "+1 (800) 555-0199",
     sub: "Quick replies during business hours",
-    href: "https://wa.me/18005550199",
+    href: "https://wa.me/+923454449433",
   },
   {
     icon: MapPin,
@@ -51,7 +51,7 @@ const faqs = [
   },
   {
     q: "Can I cancel my booking?",
-    a: "Yes. Cancellations made more than 24 hours before the scheduled pickup are free of charge. Late cancellations may incur a fee.",
+    a: "Yes. Cancellations made more than 24 hours before. Late cancellations may incur a fee.",
   },
   {
     q: "Do you offer corporate accounts?",
@@ -94,7 +94,7 @@ export default function ContactPage() {
 
       {/* Contact cards */}
       <section className="px-4 py-12 md:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {contactInfo.map((item) => (
             <motion.a
               key={item.title}
@@ -120,7 +120,7 @@ export default function ContactPage() {
 
       {/* Contact form + FAQ */}
       <section className="px-4 py-12 md:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+        <div className="mx-auto grid w-full gap-8 lg:grid-cols-[1.2fr_0.8fr]">
           {/* Form card */}
           <div className="rounded-2xl border border-gray-100 bg-white p-7 shadow-sm md:p-9">
             {submitted ? (
