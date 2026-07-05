@@ -707,9 +707,6 @@ await (supabase as any).from("drivers").update(updatePayload).eq("user_id", user
                   {missingDocs.length}
                 </span>
               )}
-              {tab.key === "chat" && chatMsgs.filter(m => m.sender_type !== "driver").length > 0 && (
-                <span className="h-2 w-2 rounded-full bg-[#0b66d1]" />
-              )}
             </button>
           ))}
         </div>
