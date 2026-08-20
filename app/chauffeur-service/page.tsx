@@ -59,7 +59,7 @@ export default function ChauffeurServicePage() {
             Available in 40+ cities — 24 hours a day, 7 days a week.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Link href="/booking"
+            <Link href="/#book"
               className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]">
               Book a Chauffeur <ArrowRight className="h-4 w-4" />
             </Link>
@@ -88,7 +88,7 @@ export default function ChauffeurServicePage() {
 
       {/* City grid */}
       <section className="px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-10 text-center">
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">Service Areas</p>
             <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">Chauffeur service in your city</h2>
@@ -115,7 +115,7 @@ export default function ChauffeurServicePage() {
         <div className="mx-auto max-w-xl">
           <h2 className="text-2xl font-bold text-gray-900">Ready to book your chauffeur?</h2>
           <p className="mt-3 text-base text-gray-500">Fixed pricing · Professional drivers · Flight tracking included</p>
-          <Link href="/booking"
+          <Link href="/#book"
             className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]">
             Book Now <ArrowRight className="h-4 w-4" />
           </Link>

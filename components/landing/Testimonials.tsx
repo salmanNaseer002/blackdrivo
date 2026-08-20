@@ -83,7 +83,7 @@ const Testimonials = forwardRef<HTMLElement>((props, ref) => {
       id="testimonials"
       className="w-full py-16 md:py-24 bg-gray-50"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-center space-y-8 text-center">
           <div className="space-y-4">
             <div className="inline-block rounded-full bg-blue-100 px-4 py-1 text-sm font-bold tracking-wider text-blue-700">

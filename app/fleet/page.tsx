@@ -212,7 +212,7 @@ export default function FleetPage() {
         />
 
         <div className="relative z-10 mx-auto w-full w-full px-4 pb-14 md:px-8">
-          <h1 className="font-['Georgia',serif] text-5xl font-bold text-white md:text-7xl">
+          <h1 className="text-5xl font-bold text-white md:text-7xl">
             Our Fleet
           </h1>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-white/60 md:text-base">
@@ -257,7 +257,7 @@ export default function FleetPage() {
           className="border-t border-gray-100 px-4 py-16 md:px-6 lg:px-8"
         >
           <div className="mx-auto w-full">
-            <h2 className="mb-10 font-['Georgia',serif] text-3xl font-bold text-gray-900 md:text-4xl">
+            <h2 className="mb-10 text-3xl font-bold text-gray-900 md:text-4xl">
               {cat.title}
             </h2>
 
@@ -289,7 +289,7 @@ export default function FleetPage() {
 
                   {/* Content */}
                   <div className="flex flex-1 flex-col p-6">
-                    <h3 className="font-['Georgia',serif] text-xl font-bold text-gray-900">
+                    <h3 className="text-xl font-bold text-gray-900">
                       {v.name}
                     </h3>
                     <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-[#0b66d1]">
@@ -314,7 +314,7 @@ export default function FleetPage() {
 
                     {/* Book now */}
                     <Link
-                      href="/booking"
+                      href="/#book"
                       className={`mt-6 block py-3 text-center text-xs font-bold uppercase tracking-widest transition-colors ${
                         v.featured
                           ? "bg-[#0b66d1] text-white hover:bg-[#0952a8]"
@@ -334,7 +334,7 @@ export default function FleetPage() {
       {/* ── Bottom CTA ───────────────────────────────────────────────────── */}
       <section className="border-t border-gray-100 bg-gray-950 px-4 py-16 text-center md:px-6 lg:px-8">
         <div className="mx-auto max-w-xl">
-          <h2 className="font-['Georgia',serif] text-3xl font-bold text-white md:text-4xl">
+          <h2 className="text-3xl font-bold text-white md:text-4xl">
             Need help choosing?
           </h2>
           <p className="mx-auto mt-4 max-w-sm text-sm leading-6 text-white/50">
@@ -342,7 +342,7 @@ export default function FleetPage() {
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
-              href="/booking"
+              href="/#book"
               className="inline-flex items-center gap-2 bg-[#0b66d1] px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-white transition hover:bg-[#0952a8]"
             >
               Book Now <ArrowRight className="h-4 w-4" />

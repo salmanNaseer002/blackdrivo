@@ -124,12 +124,12 @@ export default function DriverLandingPage() {
 
       {/* The BlackDrivo Advantage */}
       <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-14 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">
               Why Chauffeurs Choose BlackDrivo
             </p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
+            <h2 className="text-4xl font-bold text-gray-900 md:text-5xl">
               The BlackDrivo Advantage
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-500">
@@ -144,7 +144,7 @@ export default function DriverLandingPage() {
                 className="border border-gray-100 bg-white p-8 shadow-sm transition hover:border-[#0b66d1]/30 hover:shadow-md"
               >
                 <a.icon className="mb-4 h-7 w-7 text-[#0b66d1]" />
-                <h3 className="font-['Georgia',serif] text-lg font-bold text-gray-900">{a.title}</h3>
+                <h3 className="text-lg font-bold text-gray-900">{a.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-gray-500">{a.description}</p>
               </div>
             ))}
@@ -154,12 +154,12 @@ export default function DriverLandingPage() {
 
       {/* Fleet teaser — dark */}
       <section className="bg-gray-950 px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-12 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">
               The BlackDrivo Fleet
             </p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-white md:text-5xl">
+            <h2 className="text-4xl font-bold text-white md:text-5xl">
               Step into Your New Corner Office.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-white/55">
@@ -184,7 +184,7 @@ export default function DriverLandingPage() {
                   />
                 </div>
                 <div className="p-5">
-                  <h3 className="font-['Georgia',serif] text-base font-bold text-white">{v.name}</h3>
+                  <h3 className="text-base font-bold text-white">{v.name}</h3>
                   <p className="mt-1 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">{v.type}</p>
                 </div>
               </div>
@@ -208,7 +208,7 @@ export default function DriverLandingPage() {
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">
               Join the Fleet
             </p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
+            <h2 className="text-4xl font-bold text-gray-900 md:text-5xl">
               Drive with BlackDrivo
             </h2>
           </div>
@@ -259,10 +259,10 @@ export default function DriverLandingPage() {
 
       {/* How It Works */}
       <section id="how-it-works" className="border-t border-gray-100 bg-gray-50 px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-14 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">Simple Process</p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
+            <h2 className="text-4xl font-bold text-gray-900 md:text-5xl">
               The Application &amp; Onboarding Process
             </h2>
           </div>
@@ -270,7 +270,7 @@ export default function DriverLandingPage() {
             {steps.map((s) => (
               <div key={s.num} className="border border-gray-100 bg-white p-8 shadow-sm">
                 <p className="mb-4 text-4xl font-extrabold text-[#0b66d1]/20">{s.num}</p>
-                <h3 className="font-['Georgia',serif] text-lg font-bold text-gray-900">{s.title}</h3>
+                <h3 className="text-lg font-bold text-gray-900">{s.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-gray-500">{s.desc}</p>
               </div>
             ))}
@@ -291,13 +291,13 @@ export default function DriverLandingPage() {
         className="bg-[#0b66d1] px-4 py-20 md:px-6 lg:px-8"
         style={{ backgroundImage: "linear-gradient(135deg, #0b66d1 0%, #0952a8 100%)" }}
       >
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div>
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-white/60">
                 Earning Potential
               </p>
-              <h2 className="font-['Georgia',serif] text-4xl font-bold text-white md:text-5xl">
+              <h2 className="text-4xl font-bold text-white md:text-5xl">
                 Average drivers earn<br />
                 <span className="text-white/90">$2,800–$4,500/month</span>
               </h2>
@@ -344,10 +344,10 @@ export default function DriverLandingPage() {
 
       {/* Driver Testimonials */}
       <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-12 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">Driver Stories</p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
+            <h2 className="text-4xl font-bold text-gray-900 md:text-5xl">
               Hear from our drivers
             </h2>
           </div>
@@ -385,7 +385,7 @@ export default function DriverLandingPage() {
         <div className="mx-auto max-w-3xl">
           <div className="mb-12 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">FAQ</p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900">
+            <h2 className="text-4xl font-bold text-gray-900">
               Common Questions
             </h2>
           </div>
@@ -411,7 +411,7 @@ export default function DriverLandingPage() {
       <section className="bg-gray-950 px-4 py-20 text-center md:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl">
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">Join the Fleet</p>
-          <h2 className="font-['Georgia',serif] text-4xl font-bold text-white md:text-5xl">
+          <h2 className="text-4xl font-bold text-white md:text-5xl">
             Ready to start earning?
           </h2>
           <p className="mx-auto mt-5 max-w-lg text-base text-white/60">

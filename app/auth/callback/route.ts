@@ -4,7 +4,7 @@ import { NextResponse, type NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
-  const next = url.searchParams.get("next") ?? "/user/dashboard";
+  const next = url.searchParams.get("next") ?? "/";
 
   if (code) {
     const supabase = await createClient();
@@ -35,5 +35,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.redirect(new URL("/login?error=auth", request.url));
+  return NextResponse.redirect(new URL("/driver/login?error=auth", request.url));
 }

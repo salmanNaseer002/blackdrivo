@@ -152,7 +152,7 @@ export default async function BlogPostPage({ params }: Props) {
                   Fixed prices, professional chauffeurs, flight tracking included.
                 </p>
                 <div className="mt-4 flex flex-wrap gap-3">
-                  <Link href="/booking"
+                  <Link href="/#book"
                     className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]">
                     Book a ride <ArrowRight className="h-4 w-4" />
                   </Link>
@@ -199,7 +199,7 @@ export default async function BlogPostPage({ params }: Props) {
                   <p className="mt-1 text-xs text-white/70">
                     Fixed fares · Professional drivers · 24/7
                   </p>
-                  <Link href="/booking"
+                  <Link href="/#book"
                     className="mt-4 flex items-center justify-center gap-2 rounded-full bg-white py-2.5 text-sm font-semibold text-[#0b66d1] transition hover:bg-blue-50">
                     Book now <ArrowRight className="h-4 w-4" />
                   </Link>
@@ -233,7 +233,7 @@ export default async function BlogPostPage({ params }: Props) {
       {/* Related posts */}
       {related.length > 0 && (
         <section className="border-t border-gray-100 bg-gray-50 px-4 py-16 md:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-[1600px]">
             <div className="mb-8 flex items-center justify-between">
               <h2 className="text-xl font-bold text-gray-900">Related articles</h2>
               <Link href="/blog" className="flex items-center gap-1 text-sm font-medium text-[#0b66d1] hover:underline">

@@ -118,7 +118,7 @@ export default function HIPAACompliancePage() {
 
       {/* Safeguards */}
       <section className="px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-12 text-center">
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">Framework</p>
             <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">Our HIPAA safeguards</h2>

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ShieldCheck, BadgeCheck, Headphones, CreditCard, Smartphone, Clock } from "lucide-react";
+import { fadeUp, scaleIn, staggerContainer, viewportOnce } from "@/lib/animations";
 
 const reasons = [
   {
@@ -46,33 +47,34 @@ const stats = [
 export default function WhyChooseUs() {
   return (
     <section className="w-full bg-white px-4 py-20 md:px-6 lg:px-8 lg:py-28">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-[1600px]">
         {/* Stats bar */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-16 grid grid-cols-2 gap-px rounded-2xl bg-gray-50 border border-gray-100 overflow-hidden sm:grid-cols-4"
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportOnce}
+          variants={staggerContainer}
+          className="mb-20 grid grid-cols-2 divide-x divide-y divide-gray-200 border-y border-gray-200 sm:grid-cols-4 sm:divide-y-0"
         >
-          {stats.map((stat, i) => (
-            <div
+          {stats.map((stat) => (
+            <motion.div
               key={stat.label}
-              className={`bg-white p-6 text-center ${i < stats.length - 1 ? "border-r border-gray-100" : ""}`}
+              variants={fadeUp}
+              className="px-2 py-8 text-center"
             >
-              <p className="text-3xl font-bold text-gray-900 md:text-4xl">{stat.value}</p>
-              <p className="mt-1 text-sm text-gray-500">{stat.label}</p>
-            </div>
+              <p className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">{stat.value}</p>
+              <p className="mt-1.5 text-sm text-gray-500">{stat.label}</p>
+            </motion.div>
           ))}
         </motion.div>
 
         <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
           {/* Left */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55 }}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportOnce}
+            variants={scaleIn}
           >
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">
               Why BlackDrivo
@@ -107,24 +109,27 @@ export default function WhyChooseUs() {
           </motion.div>
 
           {/* Right */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            {reasons.map((reason, i) => (
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportOnce}
+            variants={staggerContainer}
+            className="divide-y divide-gray-200 lg:mt-16"
+          >
+            {reasons.map((reason) => (
               <motion.div
                 key={reason.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.45 }}
-                className="rounded-2xl bg-white border border-gray-100 shadow-sm p-5 transition hover:shadow-md hover:border-[#0b66d1]/25"
+                variants={fadeUp}
+                className="group flex items-start gap-4 py-5 first:pt-0"
               >
-                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-[#0b66d1]">
-                  <reason.icon className="h-5 w-5" />
+                <reason.icon className="mt-0.5 h-5 w-5 shrink-0 text-[#0b66d1] transition group-hover:scale-110" />
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900">{reason.title}</h3>
+                  <p className="mt-1.5 text-xs leading-5 text-gray-500">{reason.description}</p>
                 </div>
-                <h3 className="text-sm font-semibold text-gray-900">{reason.title}</h3>
-                <p className="mt-1.5 text-xs leading-5 text-gray-500">{reason.description}</p>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

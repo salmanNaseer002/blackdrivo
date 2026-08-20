@@ -26,7 +26,7 @@ export default function Expertise() {
 
   return (
     <section className="relative w-full py-16 md:py-24 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20">
         {/* ------------------ Heading ------------------ */}
         <div className="mb-16" data-aos="fade-down">
           <h2 className="text-4xl font-bold text-[#172737]">Expertise</h2>

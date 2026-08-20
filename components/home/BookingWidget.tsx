@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { MapPin, Calendar, Clock, Users, ArrowRight } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 type BookingType = "one_way" | "hourly" | "city_to_city";
 
@@ -21,19 +20,13 @@ export default function BookingWidget() {
   const [time, setTime] = useState("");
   const [hours, setHours] = useState("2");
   const [passengers, setPassengers] = useState("1");
-  const router = useRouter();
 
+  // Online booking is being rebuilt — the widget stays visible as a lead
+  // capture / preview, but no longer routes to a booking flow.
   const handleSearch = () => {
-    const params = new URLSearchParams({
-      type,
-      pickup,
-      dropoff: type !== "hourly" ? dropoff : "",
-      date,
-      time,
-      hours: type === "hourly" ? hours : "",
-      passengers,
+    toast.info("Online booking is launching soon", {
+      description: "Call us 24/7 at 1 (800) 555-0199 to reserve your ride.",
     });
-    router.push(`/booking?${params.toString()}`);
   };
 
   return (

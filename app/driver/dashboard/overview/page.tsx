@@ -41,7 +41,7 @@ export default function OverviewPage() {
     const load = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       const user = session?.user;
-      if (!user) { router.replace("/login"); return; }
+      if (!user) { router.replace("/driver/login"); return; }
       const [{ data: drv }, ] = await Promise.all([
         supabase.from("drivers").select("*").eq("user_id", user.id).maybeSingle(),
       ]);

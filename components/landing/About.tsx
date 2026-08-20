@@ -92,7 +92,7 @@ const About = forwardRef<HTMLElement>((props, ref) => {
       id="about"
       className="w-full py-16 md:py-24 bg-gray-50 transition-opacity duration-500"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-12 items-center">
           {/* Image Section */}
           <div className="flex justify-center order-2 lg:order-1 about-item">

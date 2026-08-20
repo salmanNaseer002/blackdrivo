@@ -60,7 +60,7 @@ const Footer = forwardRef<HTMLElement>((props, ref) => {
       ref={setRefs}
       className="w-full border-t bg-[#172737] text-white py-12"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:gap-20 lg:grid-cols-4 lg:place-items-start p-2">
           {/* Logo and Tagline */}
           <div className="space-y-4">

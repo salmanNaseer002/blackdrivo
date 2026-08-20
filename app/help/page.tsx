@@ -175,7 +175,7 @@ export default function HelpPage() {
 
       {/* Categories */}
       <section className="px-4 py-16 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <h2 className="mb-8 text-center text-2xl font-bold text-gray-900">Browse by topic</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {categories.map(cat => (

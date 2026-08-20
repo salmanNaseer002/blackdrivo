@@ -30,5 +30,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.redirect(new URL("/login?error=auth_callback_failed", request.url));
+  return NextResponse.redirect(new URL("/driver/login?error=auth_callback_failed", request.url));
 }

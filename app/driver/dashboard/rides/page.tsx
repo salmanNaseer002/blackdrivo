@@ -19,7 +19,7 @@ export default function RidesPage() {
     const load = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       const user = session?.user;
-      if (!user) { router.replace("/login"); return; }
+      if (!user) { router.replace("/driver/login"); return; }
       const { data: drv } = await supabase.from("drivers").select("id").eq("user_id", user.id).maybeSingle();
       if (!drv) return;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

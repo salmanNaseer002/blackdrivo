@@ -96,7 +96,7 @@ function DriverLoginForm() {
 
         <p className="text-xs text-white/30">
           Looking to book a ride?{" "}
-          <Link href="/login" className="text-white/60 hover:text-white underline">Passenger login</Link>
+          <Link href="/#book" className="text-white/60 hover:text-white underline">Book online</Link>
         </p>
       </div>
 
@@ -192,10 +192,10 @@ function DriverLoginForm() {
             </Link>
           </p>
 
-          {/* Passenger login link */}
+          {/* Book online link */}
           <p className="mt-3 text-center text-xs text-gray-400">
             Looking to book a ride?{" "}
-            <Link href="/login" className="text-[#0b66d1] hover:underline">Passenger login</Link>
+            <Link href="/#book" className="text-[#0b66d1] hover:underline">Book online</Link>
           </p>
 
         </motion.div>

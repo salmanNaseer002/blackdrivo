@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/lib/context/AuthContext";
 
-const geistSans = Geist({
+// Replaces the Geist/Geist Mono default that Next.js (and most AI-scaffolded
+// projects) ship with, so the site doesn't read as generic template output —
+// DM Sans matches the Admin panel's body font for brand consistency. Keeping
+// a real monospace face (JetBrains Mono, not Geist Mono) since `font-mono`
+// is used app-wide for booking refs/codes and shouldn't become proportional.
+const bodyFont = DM_Sans({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const geistMono = Geist_Mono({
+const monoFont = JetBrains_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
@@ -130,7 +136,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${bodyFont.variable} ${monoFont.variable} antialiased`}
         suppressHydrationWarning
       >
         <AuthProvider>{children}</AuthProvider>

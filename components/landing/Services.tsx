@@ -98,7 +98,7 @@ const Services = forwardRef<HTMLElement>((props, ref) => {
           </div>
         </div>
 
-        <div className="mx-auto grid max-w-7xl items-center gap-6 py-12 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-[1600px] items-center gap-6 py-12 md:grid-cols-2 lg:grid-cols-4">
           {serviceCards.map((service, index) => (
             <div
               key={index}

@@ -239,7 +239,7 @@ export default function ServicesPage() {
           <p className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-white/60">
             BlackDrivo
           </p>
-          <h1 className="font-['Georgia',serif] text-5xl font-bold text-white md:text-6xl lg:text-7xl">
+          <h1 className="text-5xl font-bold text-white md:text-6xl lg:text-7xl">
             Our Services
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/65">
@@ -247,7 +247,7 @@ export default function ServicesPage() {
             satisfaction guarantees a professional, pleasurable ride in cities across the globe.
           </p>
           <Link
-            href="/booking"
+            href="/#book"
             className="mt-8 inline-flex items-center gap-2 bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]"
           >
             Book a Ride <ArrowRight className="h-4 w-4" />
@@ -260,7 +260,7 @@ export default function ServicesPage() {
         <div className="mx-auto w-full">
           <div className="mb-14 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">What We Offer</p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
+            <h2 className="text-4xl font-bold text-gray-900 md:text-5xl">
               Our Services
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-500">
@@ -284,7 +284,7 @@ export default function ServicesPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 </div>
 
-                <h3 className="font-['Georgia',serif] text-2xl font-bold text-gray-900">
+                <h3 className="text-2xl font-bold text-gray-900">
                   {service.title}
                 </h3>
                 <p className="mt-1 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">
@@ -303,7 +303,7 @@ export default function ServicesPage() {
 
                 <div className="mt-6">
                   <Link
-                    href={`/booking?service=${service.id}`}
+                    href="/#book"
                     className="inline-flex items-center gap-2 bg-gray-900 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-[#0b66d1]"
                   >
                     Book Chauffeur <ArrowRight className="h-3.5 w-3.5" />
@@ -327,7 +327,7 @@ export default function ServicesPage() {
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center px-4">
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">Premium Fleet</p>
-          <h2 className="font-['Georgia',serif] text-3xl font-bold text-white md:text-5xl">
+          <h2 className="text-3xl font-bold text-white md:text-5xl">
             Every Vehicle. Every Occasion.
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-white/65">
@@ -344,7 +344,7 @@ export default function ServicesPage() {
             <p className="mb-3 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">
               Our Fleet
             </p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900">
+            <h2 className="text-4xl font-bold text-gray-900">
               Vehicle Classes
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-sm text-gray-500">
@@ -358,7 +358,7 @@ export default function ServicesPage() {
                 key={v.name}
                 className="rounded-none border border-gray-100 bg-white p-6 shadow-sm transition hover:border-[#0b66d1]/30 hover:shadow-md"
               >
-                <h3 className="font-['Georgia',serif] text-lg font-bold text-gray-900">{v.name}</h3>
+                <h3 className="text-lg font-bold text-gray-900">{v.name}</h3>
                 <p className="mt-2 text-xs leading-5 text-gray-500">{v.description}</p>
                 <div className="mt-4 space-y-1 text-xs text-gray-500">
                   <p>Up to {v.seats} passengers</p>
@@ -384,7 +384,7 @@ export default function ServicesPage() {
         <div className="mx-auto w-full">
           <div className="mb-12 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">FAQ</p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900">
+            <h2 className="text-4xl font-bold text-gray-900">
               Frequently Asked Questions
             </h2>
             <p className="mx-auto mt-4 w-full text-sm leading-6 text-gray-500">
@@ -414,7 +414,7 @@ export default function ServicesPage() {
               Call us 24/7
             </a>{" "}
             or{" "}
-            <Link href="/booking" className="font-semibold text-[#0b66d1] hover:underline">
+            <Link href="/#book" className="font-semibold text-[#0b66d1] hover:underline">
               book online
             </Link>
             .
@@ -428,7 +428,7 @@ export default function ServicesPage() {
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">
             Ready to Ride?
           </p>
-          <h2 className="font-['Georgia',serif] text-3xl font-bold text-white md:text-4xl">
+          <h2 className="text-3xl font-bold text-white md:text-4xl">
             Book your chauffeur today.
           </h2>
           <p className="mx-auto mt-4 max-w-sm text-sm leading-6 text-white/50">
@@ -437,7 +437,7 @@ export default function ServicesPage() {
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
-              href="/booking"
+              href="/#book"
               className="inline-flex items-center gap-2 bg-[#0b66d1] px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-white transition hover:bg-[#0952a8]"
             >
               Book Now <ArrowRight className="h-4 w-4" />

@@ -104,7 +104,7 @@ export default function DriverHeroSlider() {
 
       {/* Content */}
       <div className="relative z-20 flex flex-1 flex-col justify-end">
-        <div className="mx-auto w-full max-w-7xl px-4 pb-12 md:px-8 md:pb-16">
+        <div className="mx-auto w-full max-w-[1600px] px-4 pb-12 md:px-8 md:pb-16">
 
           {/* Badge */}
           <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.4em] text-[#0b66d1]">
@@ -112,7 +112,7 @@ export default function DriverHeroSlider() {
           </p>
 
           {/* Heading */}
-          <h1 className="font-['Georgia',serif] text-5xl font-bold leading-[1.08] text-white md:text-7xl">
+          <h1 className="text-5xl font-bold leading-[1.08] text-white md:text-7xl">
             Elevate Your Career.<br />
             Drive with BlackDrivo.
           </h1>

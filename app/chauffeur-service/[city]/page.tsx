@@ -114,7 +114,7 @@ export default async function CityPage({ params }: Props) {
             and 24/7 availability — serving {city.airport} and all destinations across {city.state}.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <Link href="/booking"
+            <Link href="/#book"
               className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]">
               Book in {city.name} <ArrowRight className="h-4 w-4" />
             </Link>
@@ -187,7 +187,7 @@ export default async function CityPage({ params }: Props) {
               </ul>
             </div>
             <div>
-              <Link href="/booking"
+              <Link href="/#book"
                 className="flex items-center justify-between rounded-2xl border border-gray-100 bg-gray-50 px-5 py-4 transition hover:border-[#0b66d1]/30 hover:bg-blue-50">
                 <div>
                   <p className="font-semibold text-gray-900">Book {city.airport} Transfer</p>
@@ -232,7 +232,7 @@ export default async function CityPage({ params }: Props) {
           <p className="mt-2 text-sm text-gray-500">
             Fixed pricing · Professional drivers · Available 24/7 in {city.name}, {city.state}
           </p>
-          <Link href="/booking"
+          <Link href="/#book"
             className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]">
             Book in {city.name} <ArrowRight className="h-4 w-4" />
           </Link>

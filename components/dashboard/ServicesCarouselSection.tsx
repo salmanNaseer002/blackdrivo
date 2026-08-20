@@ -30,7 +30,7 @@ export default function ServicesCarouselSection() {
           <p className="mb-3 inline-flex rounded-full border border-[#f6b73c]/40 bg-[#f6b73c]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[#ffd889]">
             Black Drivo.
           </p>
-          <h2 className="font-serif text-[42px] leading-tight tracking-tight text-white md:text-[72px]">
+          <h2 className="text-[42px] leading-tight tracking-tight text-white md:text-[72px]">
             Arrive at your best.
           </h2>
           <p className="mt-4 text-base font-medium text-white/80 md:text-[21px]">

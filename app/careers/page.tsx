@@ -103,7 +103,7 @@ export default function CareersPage() {
 
       {/* Culture image band */}
       <section className="px-4 py-4 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-3xl">
+        <div className="mx-auto max-w-[1600px] overflow-hidden rounded-3xl">
           <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
             {[
               "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=600&q=80",
@@ -120,7 +120,7 @@ export default function CareersPage() {
 
       {/* Perks */}
       <section className="px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-12 text-center">
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">Why BlackDrivo</p>
             <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">What we offer</h2>

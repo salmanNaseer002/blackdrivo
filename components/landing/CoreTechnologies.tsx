@@ -196,7 +196,7 @@ export const CoreTechnologies: React.FC = () => {
 
   return (
     <section className="w-full py-16 bg-gray-50 text-center">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 text-gray-900">
           SOPHISTICATED RCM & MEDICAL BILLING SERVICES
         </h2>

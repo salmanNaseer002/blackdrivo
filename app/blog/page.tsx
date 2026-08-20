@@ -39,7 +39,7 @@ export default function BlogPage() {
 
       {/* Hero */}
       <section className="border-b border-gray-100 bg-gradient-to-b from-gray-50 to-white px-4 pb-12 pt-32 md:pt-44">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="max-w-2xl">
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">
               BlackDrivo Journal
@@ -68,7 +68,7 @@ export default function BlogPage() {
 
       {/* Featured post */}
       <section className="px-4 py-12 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <Link href={`/blog/${featured.slug}`}
             className="group grid overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition hover:shadow-lg md:grid-cols-2">
             <div className="relative h-64 md:h-auto">
@@ -106,7 +106,7 @@ export default function BlogPage() {
 
       {/* Post grid */}
       <section className="px-4 pb-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-8 flex items-center justify-between">
             <h2 className="text-xl font-bold text-gray-900">Latest articles</h2>
             <span className="text-sm text-gray-400">{blogPosts.length} articles</span>
@@ -152,7 +152,7 @@ export default function BlogPage() {
             Book a premium chauffeur in minutes — fixed prices, professional drivers, zero surprises.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Link href="/booking"
+            <Link href="/#book"
               className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-[#0b66d1] transition hover:bg-blue-50">
               Book a ride <ArrowRight className="h-4 w-4" />
             </Link>

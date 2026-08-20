@@ -130,10 +130,10 @@ export default function HeroSection() {
               >
                 <div className="text-center">
                   <div className="mx-auto mb-5 h-4 w-4 rounded-full bg-[#0b66d1]" />
-                  <p className="font-serif text-3xl leading-tight text-white/95 md:text-[52px]">
+                  <p className="text-3xl leading-tight text-white/95 md:text-[52px]">
                     Set your pickup in over 64 countries.
                   </p>
-                  <p className="font-serif text-3xl leading-tight text-white/95 md:text-[52px]">
+                  <p className="text-3xl leading-tight text-white/95 md:text-[52px]">
                     We&apos;ll be there on time.
                   </p>
                 </div>

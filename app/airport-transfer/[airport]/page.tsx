@@ -110,7 +110,7 @@ export default async function AirportPage({ params }: Props) {
             live flight tracking, and fixed pricing — available 24/7.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <Link href="/booking"
+            <Link href="/#book"
               className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]">
               Book {ap.code} Transfer <ArrowRight className="h-4 w-4" />
             </Link>
@@ -207,7 +207,7 @@ export default async function AirportPage({ params }: Props) {
           <p className="mt-2 text-sm text-gray-500">
             Fixed pricing · Flight tracking · Professional chauffeur · Available 24/7
           </p>
-          <Link href="/booking"
+          <Link href="/#book"
             className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]">
             Book {ap.code} Transfer <ArrowRight className="h-4 w-4" />
           </Link>

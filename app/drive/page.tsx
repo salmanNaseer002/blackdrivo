@@ -122,8 +122,8 @@ export default function DrivePage() {
               "linear-gradient(to bottom, rgba(10,15,26,0.25) 0%, rgba(10,15,26,0.70) 55%, rgba(10,15,26,0.95) 100%)",
           }}
         />
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-16 md:px-8">
-          <h1 className="font-['Georgia',serif] text-5xl font-bold leading-tight text-white md:text-7xl">
+        <div className="relative z-10 mx-auto w-full max-w-[1600px] px-4 pb-16 md:px-8">
+          <h1 className="text-5xl font-bold leading-tight text-white md:text-7xl">
             Elevate Your Career.<br />Drive with BlackDrivo.
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-7 text-white/65 md:text-lg">
@@ -163,9 +163,9 @@ export default function DrivePage() {
 
       {/* The BlackDrivo Advantage */}
       <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-14 text-center">
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
+            <h2 className="text-4xl font-bold text-gray-900 md:text-5xl">
               The BlackDrivo Advantage
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-500">
@@ -177,7 +177,7 @@ export default function DrivePage() {
             {advantages.map((a) => (
               <div key={a.title} className="border border-gray-100 bg-white p-8 shadow-sm transition hover:border-[#0b66d1]/30 hover:shadow-md">
                 <a.icon className="mb-4 h-7 w-7 text-[#0b66d1]" />
-                <h3 className="font-['Georgia',serif] text-lg font-bold text-gray-900">{a.title}</h3>
+                <h3 className="text-lg font-bold text-gray-900">{a.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-gray-500">{a.description}</p>
               </div>
             ))}
@@ -187,10 +187,10 @@ export default function DrivePage() {
 
       {/* Fleet teaser */}
       <section className="bg-gray-950 px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-12 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">The BlackDrivo Fleet</p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-white md:text-5xl">
+            <h2 className="text-4xl font-bold text-white md:text-5xl">
               Step into Your New Corner Office.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-white/55">
@@ -215,7 +215,7 @@ export default function DrivePage() {
                   />
                 </div>
                 <div className="p-5">
-                  <h3 className="font-['Georgia',serif] text-base font-bold text-white">{v.name}</h3>
+                  <h3 className="text-base font-bold text-white">{v.name}</h3>
                   <p className="mt-1 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">{v.type}</p>
                 </div>
               </div>
@@ -231,10 +231,10 @@ export default function DrivePage() {
 
       {/* Two paths */}
       <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-14 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">Choose the Path That Fits You</p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
+            <h2 className="text-4xl font-bold text-gray-900 md:text-5xl">
               Your Journey Starts Here
             </h2>
           </div>
@@ -243,7 +243,7 @@ export default function DrivePage() {
             {/* Company Chauffeur */}
             <div className="border border-gray-100 bg-white p-10 shadow-sm">
               <p className="mb-2 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">Option 1</p>
-              <h3 className="font-['Georgia',serif] text-3xl font-bold text-gray-900">Drive with BlackDrivo</h3>
+              <h3 className="text-3xl font-bold text-gray-900">Drive with BlackDrivo</h3>
               <p className="mt-4 text-sm leading-7 text-gray-500">
                 Join a professional chauffeur team trusted to serve executive, corporate, and VIP
                 travelers. Company Chauffeur opportunities are available for qualified drivers who
@@ -276,7 +276,7 @@ export default function DrivePage() {
             {/* Owner-Operator */}
             <div className="border border-gray-100 bg-gray-50 p-10">
               <p className="mb-2 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">Option 2</p>
-              <h3 className="font-['Georgia',serif] text-3xl font-bold text-gray-900">Partner with BlackDrivo</h3>
+              <h3 className="text-3xl font-bold text-gray-900">Partner with BlackDrivo</h3>
               <p className="mt-4 text-sm leading-7 text-gray-500">
                 Partner with us to maximize your vehicle's earning potential. Gain exclusive access
                 to high-volume corporate and VIP travel routes. Owner-operators benefit from our
@@ -311,10 +311,10 @@ export default function DrivePage() {
 
       {/* How It Works */}
       <section className="border-t border-gray-100 bg-gray-50 px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-14 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">Simple Process</p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900 md:text-5xl">
+            <h2 className="text-4xl font-bold text-gray-900 md:text-5xl">
               The Application & Onboarding Process
             </h2>
           </div>
@@ -322,7 +322,7 @@ export default function DrivePage() {
             {steps.map((s) => (
               <div key={s.num} className="bg-white border border-gray-100 p-8 shadow-sm">
                 <p className="mb-4 text-4xl font-extrabold text-[#0b66d1]/20">{s.num}</p>
-                <h3 className="font-['Georgia',serif] text-lg font-bold text-gray-900">{s.title}</h3>
+                <h3 className="text-lg font-bold text-gray-900">{s.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-gray-500">{s.desc}</p>
               </div>
             ))}
@@ -335,7 +335,7 @@ export default function DrivePage() {
         <div className="mx-auto max-w-3xl">
           <div className="mb-12 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">FAQ</p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-gray-900">
+            <h2 className="text-4xl font-bold text-gray-900">
               Common Questions
             </h2>
           </div>
@@ -362,7 +362,7 @@ export default function DrivePage() {
         <div className="mx-auto max-w-2xl">
           <div className="mb-10 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">Join the Fleet</p>
-            <h2 className="font-['Georgia',serif] text-4xl font-bold text-white md:text-5xl">
+            <h2 className="text-4xl font-bold text-white md:text-5xl">
               Apply to Join BlackDrivo
             </h2>
             <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-white/50">

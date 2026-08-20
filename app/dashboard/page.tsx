@@ -1,11 +1,12 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/home/HeroSection";
+import AppDownloadSection from "@/components/home/AppDownloadSection";
 import ServicesSection from "@/components/home/ServicesSection";
 import FleetPreview from "@/components/home/FleetPreview";
 import AirportSection from "@/components/home/AirportSection";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
-import Testimonials from "@/components/home/Testimonials";
+import OurClients from "@/components/home/OurClients";
 import CTASection from "@/components/home/CTASection";
 
 export default function HomePage() {
@@ -13,11 +14,12 @@ export default function HomePage() {
     <div className="min-h-screen">
       <Navbar />
       <HeroSection />
+      <AppDownloadSection />
       <ServicesSection />
       <FleetPreview />
       <AirportSection />
       <WhyChooseUs />
-      <Testimonials />
+      <OurClients />
       <CTASection />
       <Footer />
     </div>

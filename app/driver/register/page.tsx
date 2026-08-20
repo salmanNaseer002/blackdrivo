@@ -436,7 +436,7 @@ export default function DriverRegisterPage() {
             ))}
           </div>
           <button
-            onClick={() => router.push("/login")}
+            onClick={() => router.push("/driver/login")}
             className="mt-6 block w-full rounded-xl bg-[#0b66d1] py-3 text-sm font-semibold text-white transition hover:bg-[#0952a8]"
           >
             Go to Login
@@ -450,7 +450,7 @@ export default function DriverRegisterPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="border-b border-gray-100 bg-white shadow-sm">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
+        <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0b66d1]">
               <Image src="/B Logo Black Theme.png" alt="BlackDrivo" width={18} height={18} className="object-contain invert mix-blend-screen" />
@@ -463,7 +463,7 @@ export default function DriverRegisterPage() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 lg:py-14">
+      <div className="mx-auto max-w-[1600px] px-4 py-10 md:px-6 lg:py-14">
         <div className="grid gap-10 lg:grid-cols-[1fr_360px]">
           <div>
             <div className="mb-8">
@@ -522,7 +522,7 @@ export default function DriverRegisterPage() {
                       </div>
                       <p className="text-xs text-gray-400">
                         Already have an account?{" "}
-                        <Link href="/login" className="text-[#0b66d1] hover:text-[#0952a8]">Sign in here</Link>
+                        <Link href="/driver/login" className="text-[#0b66d1] hover:text-[#0952a8]">Sign in here</Link>
                       </p>
                     </div>
                   </motion.div>

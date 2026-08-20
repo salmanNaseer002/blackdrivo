@@ -120,7 +120,7 @@ export default function PressPage() {
 
       {/* Press coverage */}
       <section className="px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-10">
             <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">Coverage</p>
             <h2 className="text-3xl font-bold text-gray-900">Recent press</h2>

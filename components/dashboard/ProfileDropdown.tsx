@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { User, Calendar, CreditCard, LogOut, ChevronDown, Car, UserCircle, LayoutDashboard, Loader2 } from "lucide-react";
+import { LogOut, ChevronDown, LayoutDashboard, Loader2 } from "lucide-react";
 
 interface Props {
   initials: string;
@@ -42,18 +42,10 @@ export default function ProfileDropdown({ initials, displayName, email, role = "
 
   const firstName = displayName.split(" ")[0];
 
-  const driverMenuItems = [
-    { icon: LayoutDashboard, label: "My Dashboard",  href: "/driver/dashboard" },
-    { icon: UserCircle,      label: "As Passenger",  href: "/user/dashboard"   },
+  // Passenger sign-in/dashboard is gone — this dropdown only ever renders for drivers now
+  const menuItems = [
+    { icon: LayoutDashboard, label: "My Dashboard", href: "/driver/dashboard" },
   ];
-
-  const userMenuItems = [
-    { icon: User,       label: "Profile Settings", href: "/user/profile"  },
-    { icon: Calendar,   label: "My Bookings",      href: "/user/dashboard" },
-    { icon: CreditCard, label: "Payment History",  href: "/user/payments"  },
-  ];
-
-  const menuItems = role === "driver" ? driverMenuItems : userMenuItems;
 
   return (
     <div className="relative" ref={ref}>

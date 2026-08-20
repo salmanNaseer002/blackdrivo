@@ -29,7 +29,7 @@ export default function RCMStats() {
       id="stats"
       className="w-full py-12 md:py-24 bg-gray-900 text-white shadow-2xl"
     >
-      <div className="w-full max-w-7xl mx-auto px-8 md:px-16 lg:px-24 state-item">
+      <div className="w-full max-w-[1600px] mx-auto px-8 md:px-16 lg:px-24 state-item">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
           {/* Stat Item 1: Practices Served (More than 50 as requested) */}
           <div className="space-y-2 stat-item">

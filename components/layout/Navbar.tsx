@@ -83,14 +83,14 @@ export default function Navbar() {
     }`;
   };
 
-  // Dashboard link based on role
-  const dashboardHref  = role === "driver" ? "/driver/dashboard" : "/user/dashboard";
-  const dashboardLabel = role === "driver" ? "My Rides" : "My Bookings";
+  // Passenger sign-in/account is gone — only the driver dashboard remains reachable
+  const dashboardHref  = "/driver/dashboard";
+  const dashboardLabel = "My Rides";
 
   return (
     <>
       <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${solidBg ? "bg-white border-b border-gray-100 shadow-sm" : "bg-transparent"}`}>
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:h-20 md:px-6 lg:px-8">
+        <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between px-4 md:h-20 md:px-6 lg:px-8">
 
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0">
@@ -130,12 +130,12 @@ export default function Navbar() {
               </AnimatePresence>
             </div>
 
-            <Link href="/fleet"   className={navLinkClass("/fleet")}>Fleet</Link>
             <Link href="/about"   className={navLinkClass("/about")}>About</Link>
+            <Link href="/fleet"   className={navLinkClass("/fleet")}>Fleet</Link>
             <Link href="/contact" className={navLinkClass("/contact")}>Contact</Link>
             <Link href="/driver"   className={navLinkClass("/driver")}>Drive with Us</Link>
 
-            {user && (
+            {user && role === "driver" && (
               <Link href={dashboardHref} className={navLinkClass(dashboardHref)}>
                 {dashboardLabel}
               </Link>
@@ -144,13 +144,8 @@ export default function Navbar() {
 
           {/* Desktop right */}
           <div className="hidden items-center gap-2 lg:flex">
-            {user ? (
+            {user && role === "driver" && (
               <ProfileDropdown initials={initials} displayName={displayName} email={user.email ?? ""} role={role} />
-            ) : (
-              <Link href="/login"
-                className={`rounded-full px-4 py-2 text-sm font-medium transition ${loading ? "opacity-0 pointer-events-none" : ""} ${solidBg ? "text-gray-700 hover:text-[#0b66d1] hover:bg-blue-50" : "text-white/90 hover:bg-white/10 hover:text-white"}`}>
-                Sign in
-              </Link>
             )}
 
             {/* Download App dropdown */}
@@ -206,14 +201,14 @@ export default function Navbar() {
               </AnimatePresence>
             </div>
 
-            <Link href="/booking" className="rounded-full bg-[#0b66d1] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#0952a8] active:scale-95">
+            <Link href="/#book" className="rounded-full bg-[#0b66d1] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#0952a8] active:scale-95">
               Book now
             </Link>
           </div>
 
           {/* Mobile */}
           <div className="flex items-center gap-2 lg:hidden">
-            <Link href="/booking" className="rounded-full bg-[#0b66d1] px-4 py-2 text-xs font-semibold text-white">Book</Link>
+            <Link href="/#book" className="rounded-full bg-[#0b66d1] px-4 py-2 text-xs font-semibold text-white">Book</Link>
             <button onClick={() => setMobileOpen(true)} className={`rounded-lg p-2 transition ${solidBg ? "text-gray-700 hover:bg-gray-100" : "text-white hover:bg-white/10"}`}>
               <Menu className="h-5 w-5" />
             </button>
@@ -256,8 +251,8 @@ export default function Navbar() {
                 <div className="my-3 border-t border-gray-100" />
 
                 {[
-                  { label: "Our Fleet",       href: "/fleet"   },
                   { label: "About Us",        href: "/about"   },
+                  { label: "Our Fleet",       href: "/fleet"   },
                   { label: "Contact",         href: "/contact" },
                   { label: "Drive with Us",   href: "/driver"  },
                 ].map(item => (
@@ -307,17 +302,12 @@ export default function Navbar() {
                 </div>
 
                 <div className="mt-4 flex flex-col gap-2">
-                  {user ? (
+                  {user && role === "driver" && (
                     <div className="rounded-2xl border border-gray-100 bg-gray-50 p-3">
                       <ProfileDropdown initials={initials} displayName={displayName} email={user.email ?? ""} role={role} />
                     </div>
-                  ) : (
-                    <Link href="/login" onClick={() => setMobileOpen(false)}
-                      className="rounded-full border-2 border-gray-200 py-2.5 text-center text-sm font-medium text-gray-700 transition hover:border-[#0b66d1] hover:text-[#0b66d1]">
-                      Sign in
-                    </Link>
                   )}
-                  <Link href="/booking" onClick={() => setMobileOpen(false)}
+                  <Link href="/#book" onClick={() => setMobileOpen(false)}
                     className="rounded-full bg-[#0b66d1] py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[#0952a8]">
                     Book a ride
                   </Link>

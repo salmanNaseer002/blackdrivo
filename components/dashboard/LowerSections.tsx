@@ -61,7 +61,7 @@ export default function LowerSections() {
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-black/60">
               We move with you
             </p>
-            <h2 className="mt-3 font-serif text-4xl leading-tight text-black/90 md:text-6xl">
+            <h2 className="mt-3 text-4xl leading-tight text-black/90 md:text-6xl">
               Book in seconds.
               <br />
               Manage every ride.
@@ -131,7 +131,7 @@ export default function LowerSections() {
         </motion.p>
         <motion.h2
           variants={revealUp}
-          className="mx-auto mt-5 max-w-3xl font-serif text-4xl leading-[1.02] tracking-tight text-black/90 md:text-7xl"
+          className="mx-auto mt-5 max-w-3xl text-4xl leading-[1.02] tracking-tight text-black/90 md:text-7xl"
         >
           Step in. Breathe
           <br />
@@ -229,7 +229,7 @@ export default function LowerSections() {
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/70">
               BlackDrivo Promise
             </p>
-            <h3 className="mt-4 font-serif text-4xl leading-tight md:text-5xl">
+            <h3 className="mt-4 text-4xl leading-tight md:text-5xl">
               Premium rides, done right.
             </h3>
             <p className="mt-4 text-sm leading-7 text-white/80 md:text-base">
@@ -289,7 +289,7 @@ export default function LowerSections() {
         </div>
 
         <div className="relative mx-auto w-full max-w-[1240px] text-center">
-          <motion.h2 variants={revealUp} className="font-serif text-4xl tracking-tight md:text-7xl">
+          <motion.h2 variants={revealUp} className="text-4xl tracking-tight md:text-7xl">
             Expect excellence.
           </motion.h2>
           <motion.p

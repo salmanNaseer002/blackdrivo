@@ -464,7 +464,7 @@ export default function LimousineServicePage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
         </div>
 
-        <div className="relative mx-auto w-full max-w-7xl px-4 py-32 md:px-8 md:py-44">
+        <div className="relative mx-auto w-full max-w-[1600px] px-4 py-32 md:px-8 md:py-44">
           <div className="max-w-3xl">
             {/* eyebrow */}
             <p className="mb-5 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-[#C5A028]">
@@ -487,7 +487,7 @@ export default function LimousineServicePage() {
             {/* CTAs */}
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/booking"
+                href="/#book"
                 className="inline-flex items-center justify-center gap-2 bg-[#C5A028] px-8 py-4 text-sm font-bold uppercase tracking-widest text-black transition hover:bg-[#A8871E]"
               >
                 Book Now <ArrowRight className="h-4 w-4" />
@@ -531,7 +531,7 @@ export default function LimousineServicePage() {
 
       {/* ── VEHICLE SHOWCASE ──────────────────────────────────────────────── */}
       <section className="px-4 py-24 md:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           {/* Section header */}
           <div className="mb-16 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#C5A028]">Our Fleet</p>
@@ -597,7 +597,7 @@ export default function LimousineServicePage() {
 
                   <div className="mt-7 flex gap-3">
                     <Link
-                      href="/booking"
+                      href="/#book"
                       className="flex flex-1 items-center justify-center gap-2 bg-[#0b66d1] py-3.5 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-[#0952a8]"
                     >
                       Book This Vehicle <ArrowRight className="h-3.5 w-3.5" />
@@ -628,7 +628,7 @@ export default function LimousineServicePage() {
 
       {/* ── WHY CHOOSE BLACKDRIVO ─────────────────────────────────────────── */}
       <section className="border-y border-gray-100 bg-[#FAFAFA] px-4 py-24 md:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-16 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#C5A028]">
               Why BlackDrivo
@@ -662,7 +662,7 @@ export default function LimousineServicePage() {
 
       {/* ── OCCASIONS ────────────────────────────────────────────────────── */}
       <section className="px-4 py-24 md:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-16 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#C5A028]">
               Every Occasion
@@ -694,7 +694,7 @@ export default function LimousineServicePage() {
                   <h3 className="text-lg font-extrabold text-white">{o.title}</h3>
                   <p className="mt-2.5 text-sm leading-6 text-white/55">{o.desc}</p>
                   <Link
-                    href="/booking"
+                    href="/#book"
                     className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#C5A028] transition group-hover:gap-3"
                   >
                     Book Now <ArrowRight className="h-3.5 w-3.5 transition-all" />
@@ -708,7 +708,7 @@ export default function LimousineServicePage() {
 
       {/* ── GALLERY ──────────────────────────────────────────────────────── */}
       <section className="bg-gray-950 px-4 py-24 md:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-16 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#C5A028]">
               Fleet Gallery
@@ -745,7 +745,7 @@ export default function LimousineServicePage() {
 
       {/* ── TESTIMONIALS ─────────────────────────────────────────────────── */}
       <section className="px-4 py-24 md:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1600px]">
           <div className="mb-16 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#C5A028]">
               Client Reviews
@@ -830,7 +830,7 @@ export default function LimousineServicePage() {
 
           <div className="mt-14 text-center">
             <Link
-              href="/booking"
+              href="/#book"
               className="inline-flex items-center gap-2 bg-[#C5A028] px-10 py-4 text-sm font-bold uppercase tracking-widest text-black transition hover:bg-[#A8871E]"
             >
               Start Your Booking <ArrowRight className="h-4 w-4" />
@@ -1084,7 +1084,7 @@ export default function LimousineServicePage() {
 
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
-              href="/booking"
+              href="/#book"
               className="inline-flex items-center gap-2 bg-[#C5A028] px-10 py-4 text-sm font-bold uppercase tracking-widest text-black transition hover:bg-[#A8871E]"
             >
               Book Now <ArrowRight className="h-4 w-4" />
