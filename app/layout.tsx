@@ -140,11 +140,9 @@ export default function RootLayout({
         className={`${bodyFont.variable} ${monoFont.variable} antialiased`}
         suppressHydrationWarning
       >
-        <div className="overflow-x-hidden">
-          <AuthProvider>
-            <CountryProvider>{children}</CountryProvider>
-          </AuthProvider>
-        </div>
+        <AuthProvider>
+          <CountryProvider>{children}</CountryProvider>
+        </AuthProvider>
         <Toaster position="top-right" richColors closeButton />
       </body>
     </html>

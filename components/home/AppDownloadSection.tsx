@@ -118,7 +118,7 @@ export default function AppDownloadSection() {
   return (
     <section
       ref={ref}
-      className="relative w-full overflow-hidden bg-white px-4 py-20 md:px-6 lg:px-8 lg:py-28"
+      className="relative z-10 w-full overflow-hidden rounded-t-[2.5rem] bg-white px-4 py-20 md:px-6 lg:px-8 lg:py-28"
     >
       {/* Floating ride-hailing icons + comments — kept to the phone's half only, drift with scroll for parallax */}
       <motion.div

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { Plane, Clock, MapPin, CheckCircle } from "lucide-react";
 import { slideInLeft, slideInRight, viewportOnce } from "@/lib/animations";
@@ -66,10 +67,16 @@ export default function AirportSection() {
             viewport={viewportOnce}
             variants={slideInRight}
           >
-            <div
-              className="h-80 w-full overflow-hidden rounded-2xl bg-cover bg-center md:h-[26rem]"
-              style={{ backgroundImage: "url('/A%20welcome%20like%20no%20other.png')" }}
-            />
+            <div className="relative h-80 w-full overflow-hidden rounded-2xl md:h-[26rem]">
+              <Image
+                src="/A welcome like no other.png"
+                alt="A BlackDrivo chauffeur welcoming a passenger"
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                quality={70}
+                className="object-cover"
+              />
+            </div>
           </motion.div>
         </div>
       </div>

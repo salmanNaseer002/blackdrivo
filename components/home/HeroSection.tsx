@@ -1,20 +1,36 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import BookingWidget from "./BookingWidget";
 
 export default function HeroSection() {
   return (
     <section
       id="book"
-      className="relative flex min-h-screen w-full items-end"
-      style={{
-        backgroundImage:
-          "linear-gradient(to bottom, rgba(10,15,26,0.28) 0%, rgba(10,15,26,0.58) 55%, rgba(10,15,26,0.88) 100%), url('/BlackDrivo%20Main%20Page%20-%202403x1603.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center 30%",
-      }}
+      className="sticky top-0 z-0 flex min-h-screen w-full items-end"
     >
+      {/* Background photo — served through next/image so it's resized/compressed/served as WebP instead of the raw ~6MB PNG */}
+      <Image
+        src="/BlackDrivo Main Page - 2403x1603.png"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        quality={65}
+        className="object-cover"
+        style={{ objectPosition: "center 30%" }}
+      />
+
+      {/* Darkening gradient over the photo */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(to bottom, rgba(10,15,26,0.28) 0%, rgba(10,15,26,0.58) 55%, rgba(10,15,26,0.88) 100%)",
+        }}
+      />
+
       {/* Gradient overlay bottom — fades to white */}
       <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent" />
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { MapPin, Calendar, Clock, ArrowRight, Loader2, LocateFixed } from "lucide-react";
 import { toast } from "sonner";
@@ -9,6 +10,31 @@ import { fetchAvailablePackages } from "@/lib/booking/pricing";
 import { useSiteCountry } from "@/components/providers/CountryProvider";
 import { getGroupedTimeSlots, getEarliestBookableDate } from "@/lib/booking/timeSlots";
 import type { PlaceResult } from "@/lib/booking/types";
+
+// The Hero section is `position: sticky` with its own stacking context (needed for the
+// "App section slides up and covers it" scroll effect), which traps any z-index inside it —
+// no z-index value on a dropdown panel here can ever paint above a sibling section. Portal
+// the panel to <body> and position it with `fixed` + the trigger's live viewport rect instead.
+function useDropdownPosition(open: boolean, triggerRef: React.RefObject<HTMLElement | null>) {
+  const [rect, setRect] = useState<{ top: number; left: number; width: number } | null>(null);
+
+  useEffect(() => {
+    if (!open) { setRect(null); return; }
+    const update = () => {
+      const r = triggerRef.current?.getBoundingClientRect();
+      if (r) setRect({ top: r.bottom, left: r.left, width: r.width });
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true, capture: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update, { capture: true });
+      window.removeEventListener("resize", update);
+    };
+  }, [open, triggerRef]);
+
+  return rect;
+}
 
 // Time field — a click-to-open panel of grouped slot pills (Early Morning /
 // Morning / Midday / Afternoon / Evening / Night), matching PassApp's
@@ -22,13 +48,17 @@ function TimePicker({
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const groups = getGroupedTimeSlots(date);
   const label = groups.flatMap((g) => g.slots).find((s) => s.value === time)?.label;
+  const rect = useDropdownPosition(open, ref);
 
   useEffect(() => {
     if (!open) return;
     const onClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      const t = e.target as Node;
+      if (ref.current?.contains(t) || panelRef.current?.contains(t)) return;
+      setOpen(false);
     };
     document.addEventListener("mousedown", onClick);
     return () => document.removeEventListener("mousedown", onClick);
@@ -46,8 +76,12 @@ function TimePicker({
       >
         {label || "Select time"}
       </button>
-      {open && (
-        <div className="absolute left-0 top-[calc(100%+6px)] z-20 max-h-72 w-72 overflow-y-auto rounded-xl border border-white/12 bg-[#0b1117] p-3 shadow-2xl">
+      {open && rect && createPortal(
+        <div
+          ref={panelRef}
+          style={{ position: "fixed", top: rect.top + 6, left: rect.left, width: Math.max(rect.width, 288) }}
+          className="z-[200] max-h-72 overflow-y-auto rounded-xl border border-white/12 bg-[#0b1117] p-3 shadow-2xl"
+        >
           {groups.length === 0 ? (
             <p className="px-2 py-2 text-xs text-white/40">No times available for this date.</p>
           ) : (
@@ -71,7 +105,8 @@ function TimePicker({
               </div>
             ))
           )}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
@@ -106,6 +141,8 @@ function AddressInput({
   const [open, setOpen] = useState(false);
   const [resolvingId, setResolvingId] = useState<string | null>(null);
   const [locating, setLocating] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const rect = useDropdownPosition(open && results.length > 0, wrapRef);
 
   useEffect(() => {
     if (!open) return;
@@ -144,7 +181,7 @@ function AddressInput({
   };
 
   return (
-    <div className="relative">
+    <div className="relative" ref={wrapRef}>
       {showLocate ? (
         <button
           type="button"
@@ -166,8 +203,11 @@ function AddressInput({
         placeholder={placeholder}
         className="w-full rounded-xl border border-white/12 bg-white/8 py-3.5 pl-10 pr-4 text-sm text-white placeholder-white/40 outline-none ring-[#0b66d1] focus:border-[#0b66d1]/50 focus:ring-2 transition"
       />
-      {open && results.length > 0 && (
-        <div className="absolute z-[200] mt-2 w-full rounded-2xl border border-gray-100 bg-white p-2 shadow-2xl">
+      {open && results.length > 0 && rect && createPortal(
+        <div
+          style={{ position: "fixed", top: rect.top + 6, left: rect.left, width: rect.width }}
+          className="z-[200] rounded-2xl border border-gray-100 bg-white p-2 shadow-2xl"
+        >
           {results.map((r) => (
             <button
               key={r.placeId}
@@ -186,7 +226,8 @@ function AddressInput({
               </div>
             </button>
           ))}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
