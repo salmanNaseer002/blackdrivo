@@ -7,8 +7,8 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/lib/animations";
 
 export default function CTASection() {
   return (
-    <section className="relative z-10 w-full bg-white px-4 py-20 md:px-6 lg:px-8">
-      <div className="mx-auto max-w-[1600px]">
+    <section className="relative z-10 flex min-h-screen w-full items-center bg-white px-4 py-20 md:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-[1800px]">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -24,13 +24,12 @@ export default function CTASection() {
             <motion.div
               className="pointer-events-none absolute -bottom-8 -right-8 text-white/[0.05] transition-colors duration-500 group-hover:text-white/[0.08]"
               animate={{ y: [0, -16, 0], rotate: [0, 3, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
               <Car className="h-48 w-48" strokeWidth={0.75} />
             </motion.div>
             <div className="relative">
-              <p className="text-xs font-semibold uppercase tracking-widest text-[#3b8ff0]">For riders</p>
-              <h3 className="mt-3 text-3xl font-bold tracking-tight text-white md:text-4xl">
+              <h3 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
                 Book your first ride
               </h3>
               <p className="mt-3 max-w-sm text-sm leading-6 text-white/60">
@@ -62,13 +61,12 @@ export default function CTASection() {
             <motion.div
               className="pointer-events-none absolute -bottom-8 -right-8 text-gray-900/[0.05] transition-colors duration-500 group-hover:text-gray-900/[0.08]"
               animate={{ y: [0, -16, 0], rotate: [0, -3, 0] }}
-              transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
             >
               <Building2 className="h-48 w-48" strokeWidth={0.75} />
             </motion.div>
             <div className="relative">
-              <p className="text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">For business</p>
-              <h3 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
+              <h3 className="text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
                 BlackDrivo for Business
               </h3>
               <p className="mt-3 max-w-sm text-sm leading-6 text-gray-600">

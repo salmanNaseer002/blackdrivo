@@ -37,7 +37,7 @@ export default function HeroSection() {
       {/* Gradient overlay bottom — fades to white, also gives the trust-badge row readable contrast */}
       <div className="absolute inset-x-0 bottom-0 z-[5] h-32 bg-gradient-to-t from-white to-transparent" />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1600px] px-4 pb-8 pt-24 md:px-6 md:pb-16 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-[1800px] px-4 pb-8 pt-24 md:px-6 md:pb-16 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}

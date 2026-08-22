@@ -9,8 +9,13 @@ import { fadeUp, viewportOnce } from "@/lib/animations";
 export default function FleetPreview() {
   return (
     <>
-      {/* ── Always There For You ───────────────────────────────────── */}
-      <section className="relative z-10 flex min-h-[34rem] items-center overflow-hidden md:min-h-[42rem]">
+      {/* ── Always There For You — plain sticky, NO extra-height wrapper. A taller wrapper
+          makes the sticky content release (scroll away) BEFORE AirportSection's opaque
+          content has scrolled up far enough to cover it — leaving a gap where Hero's
+          permanent `fixed` background peeks through. Sticky must stay engaged the entire
+          time until AirportSection visually covers it; a wrapper exactly the section's own
+          height (i.e. none) is what keeps it stuck for the whole hand-off. */}
+      <section className="sticky top-0 z-0 flex min-h-screen items-center overflow-hidden">
         <Image
           src="/Exterior-with-door-open.jpg"
           alt="Professional Chauffeur Service"
@@ -19,7 +24,7 @@ export default function FleetPreview() {
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-black/72" />
-        <div className="relative z-10 mx-auto w-full max-w-[1600px] px-4 py-20 text-center md:px-6 lg:px-8">
+        <div className="relative z-10 mx-auto w-full max-w-[1800px] px-4 py-20 text-center md:px-6 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="show"

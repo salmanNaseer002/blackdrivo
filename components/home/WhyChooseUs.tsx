@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ShieldCheck, BadgeCheck, Headphones, CreditCard, Smartphone, Clock } from "lucide-react";
 import { fadeUp, scaleIn, staggerContainer, viewportOnce } from "@/lib/animations";
 
@@ -45,51 +46,50 @@ const stats = [
 ];
 
 export default function WhyChooseUs() {
+  const statsRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: statsRef,
+    offset: ["start end", "end start"],
+  });
+  const statsScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.85, 1, 0.85]);
+  const statsOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+
   return (
-    <section className="relative z-10 w-full bg-white px-4 py-20 md:px-6 lg:px-8 lg:py-28">
-      <div className="mx-auto max-w-[1600px]">
-        {/* Stats bar */}
+    <section className="relative z-10 flex min-h-screen w-full items-center bg-white px-4 py-20 md:px-6 lg:px-8 lg:py-28">
+      <div className="mx-auto w-full max-w-[1800px]">
+        {/* Stats — big, scroll-animated, like the "Every ride" heading */}
         <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={viewportOnce}
-          variants={staggerContainer}
-          className="mb-20 grid grid-cols-2 divide-x divide-y divide-gray-200 border-y border-gray-200 sm:grid-cols-4 sm:divide-y-0"
+          ref={statsRef}
+          style={{ scale: statsScale, opacity: statsOpacity }}
+          className="mb-20 grid grid-cols-2 gap-y-10 sm:grid-cols-4"
         >
           {stats.map((stat) => (
-            <motion.div
-              key={stat.label}
-              variants={fadeUp}
-              className="px-2 py-8 text-center"
-            >
-              <p className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">{stat.value}</p>
-              <p className="mt-1.5 text-sm text-gray-500">{stat.label}</p>
-            </motion.div>
+            <div key={stat.label} className="px-2 text-center">
+              <p className="text-6xl font-bold tracking-tight text-gray-900 md:text-7xl">{stat.value}</p>
+              <p className="mt-2 text-base text-gray-500">{stat.label}</p>
+            </div>
           ))}
         </motion.div>
 
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
+        <div className="grid gap-12 lg:grid-cols-2">
           {/* Left */}
           <motion.div
             initial="hidden"
             whileInView="show"
             viewport={viewportOnce}
             variants={scaleIn}
+            className="flex flex-col lg:h-full"
           >
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">
-              Why BlackDrivo
-            </p>
             <h2 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
-              Premium isn&apos;t just
-              <br />a vehicle class.
+              Premium isn&apos;t just a vehicle class.
             </h2>
             <p className="mt-4 text-base leading-7 text-gray-600 md:text-lg">
               It&apos;s the professionalism of every driver, the punctuality of every pickup, and the
               peace of mind that comes from knowing everything is handled.
             </p>
-            <div className="mt-8">
+            <div className="mt-8 flex-1">
               <div
-                className="relative h-64 overflow-hidden rounded-2xl md:h-80"
+                className="relative h-64 overflow-hidden rounded-2xl md:h-80 lg:h-full lg:min-h-[24rem]"
                 style={{
                   backgroundImage:
                     "linear-gradient(to bottom, rgba(10,15,26,0.15) 0%, rgba(10,15,26,0.55) 100%), url('/Departure%202.png')",

@@ -392,7 +392,7 @@ export default function BookingWidget() {
           onClick={handleSearch}
           className="flex items-center justify-center gap-2 rounded-xl bg-[#0b66d1] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#1a75e8] active:scale-95"
         >
-          Book
+          View Options
           <ArrowRight className="h-4 w-4" />
         </button>
       </div>

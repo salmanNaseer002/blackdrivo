@@ -132,7 +132,7 @@ export default function Navbar() {
 
           {/* Everything else — one right-aligned group, no centered nav */}
           <div className="hidden items-center gap-1 lg:flex">
-            <nav className="flex items-center gap-1">
+            <nav className="mr-[6.25rem] flex items-center gap-1">
               <Link href="/about" className={navLinkClass("/about")}>About</Link>
 
               <div className="relative" ref={servicesRef}>
@@ -177,7 +177,7 @@ export default function Navbar() {
             {country.helpline_number && (
               <a
                 href={`tel:${country.helpline_number.replace(/[^\d+]/g, "")}`}
-                className={`ml-10 flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition ${
+                className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition ${
                   solidBg ? "text-gray-700 hover:text-[#0b66d1]" : "text-white/90 hover:text-white"
                 }`}
               >

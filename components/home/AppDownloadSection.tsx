@@ -46,13 +46,16 @@ const FLOATERS = [
   { Icon: Car,        top: "78%", left: "88%", size: 20, dur: 3,   delay: 0.55 },
 ];
 
-// Gen-Z style floating comment bubbles — pinned to the corners, clear of the phone
+// Floating credibility badges — positioned relative to the FULL section width (not just
+// the phone's half), so some sit near the copy on the left and some near the phone on the
+// right. Rendered in their own top-level layer with a high z-index so they always float
+// above both the text column and the phone mockup, never getting hidden behind either.
 const COMMENTS = [
-  { text: "this app hits different 🔥",   top: "8%",  left: "0%",  dur: 4,   delay: 0.2,  rotate: -4 },
-  { text: "no cap, best ride ever 💯",     top: "70%", left: "2%",  dur: 4.6, delay: 0.6,  rotate: 3 },
-  { text: "bestie you NEED this app",      top: "16%", left: "62%", dur: 3.8, delay: 0.1,  rotate: 4 },
-  { text: "driver was on time... shook 😭", top: "86%", left: "58%", dur: 5,   delay: 0.9,  rotate: -3 },
-  { text: "it's giving premium fr fr ✨",   top: "0%",  left: "58%", dur: 4.2, delay: 0.4,  rotate: -2 },
+  { text: "4.9★ average rating",              top: "8%",  left: "44%", dur: 4,   delay: 0.2,  rotate: -4 },
+  { text: "no more standing in the rain 🌧️",  top: "68%", left: "42%", dur: 4.6, delay: 0.6,  rotate: 3 },
+  { text: "on time, every time",              top: "3%",  left: "55%", dur: 3.8, delay: 0.1,  rotate: 4 },
+  { text: "this is the move fr 🖤",            top: "92%", left: "58%", dur: 5,   delay: 0.9,  rotate: -3 },
+  { text: "50,000+ rides and counting",       top: "38%", left: "44%", dur: 4.2, delay: 0.4,  rotate: -2 },
 ];
 
 interface AppDownloadData {
@@ -101,12 +104,11 @@ export default function AppDownloadSection() {
     load();
   }, []);
 
-  const kicker = data?.kicker || "Get the app";
   const heading1 = data?.heading_line1 || "BlackDrivo,";
   const heading2 = data?.heading_line2 || "now in your pocket.";
   const description =
     data?.description ||
-    "Book, track, and manage your premium rides from anywhere. Available for iOS and Android.";
+    "Every ride, from booking to drop-off, lives in your pocket. Track your driver in real time, manage trips on the go, and travel with total confidence.";
   const highlights =
     data?.highlights && data.highlights.length > 0 ? data.highlights : DEFAULT_HIGHLIGHTS;
   const ratingEnabled = data?.rating_enabled ?? true;
@@ -118,9 +120,9 @@ export default function AppDownloadSection() {
   return (
     <section
       ref={ref}
-      className="relative z-10 w-full overflow-hidden bg-white px-4 py-20 md:px-6 lg:px-8 lg:py-28"
+      className="relative z-10 flex min-h-screen w-full items-center overflow-hidden bg-white px-4 py-20 md:px-6 lg:px-8 lg:py-28"
     >
-      {/* Floating ride-hailing icons + comments — kept to the phone's half only, drift with scroll for parallax */}
+      {/* Floating ride-hailing icons — kept to the phone's half only, drift with scroll for parallax */}
       <motion.div
         className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-1/2 lg:block"
         style={{ y: layerY, x: layerX }}
@@ -168,20 +170,26 @@ export default function AppDownloadSection() {
           </motion.div>
         ))}
 
-        {COMMENTS.map((c, i) => (
-          <motion.div
-            key={i}
-            className="absolute whitespace-nowrap rounded-2xl border border-gray-100 bg-white px-3.5 py-2 text-xs font-medium text-gray-700 shadow-md"
-            style={{ top: c.top, left: c.left, rotate: c.rotate }}
-            animate={{ y: [0, -14, 0] }}
-            transition={{ duration: c.dur, repeat: Infinity, ease: "easeInOut", delay: c.delay }}
-          >
-            {c.text}
-          </motion.div>
-        ))}
       </motion.div>
 
-      <div className="relative mx-auto grid max-w-[1600px] items-center gap-14 lg:grid-cols-2">
+      <div className="relative mx-auto grid w-full max-w-[1800px] items-center gap-14 lg:grid-cols-2">
+        {/* Floating credibility badges — positioned relative to this content container
+            (not the full-bleed section) so percentages land near the actual copy/phone
+            instead of the outer section's edges on wide screens. */}
+        <div className="pointer-events-none absolute inset-0 z-30 hidden lg:block">
+          {COMMENTS.map((c, i) => (
+            <motion.div
+              key={i}
+              className="absolute whitespace-nowrap rounded-2xl border border-gray-100 bg-white px-3.5 py-2 text-xs font-medium text-gray-700 shadow-md"
+              style={{ top: c.top, left: c.left, rotate: c.rotate }}
+              animate={{ y: [0, -14, 0] }}
+              transition={{ duration: c.dur, repeat: Infinity, ease: "easeInOut", delay: c.delay }}
+            >
+              {c.text}
+            </motion.div>
+          ))}
+        </div>
+
         {/* Left — copy */}
         <motion.div
           initial="hidden"
@@ -189,64 +197,61 @@ export default function AppDownloadSection() {
           viewport={viewportOnce}
           variants={slideInLeft}
         >
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">
-            {kicker}
-          </p>
-          <h2 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
+          <h2 className="text-5xl font-bold tracking-tight text-gray-900 md:text-6xl lg:text-7xl">
             {heading1}
             <br />
             {heading2}
           </h2>
-          <p className="mt-4 max-w-md text-base leading-7 text-gray-600 md:text-lg">
+          <p className="mt-5 max-w-lg text-lg leading-8 text-gray-600 md:text-xl">
             {description}
           </p>
 
-          <div className="mt-7 space-y-3">
+          <div className="mt-9 space-y-4">
             {highlights.map((text, i) => {
               const Icon = HIGHLIGHT_ICONS[i] || MapPin;
               return (
-                <div key={text} className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[#0b66d1]">
-                    <Icon className="h-4 w-4" />
+                <div key={text} className="flex items-center gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-[#0b66d1] shadow-sm">
+                    <Icon className="h-5 w-5" />
                   </div>
-                  <p className="text-sm text-gray-600">{text}</p>
+                  <p className="text-base font-medium text-gray-700">{text}</p>
                 </div>
               );
             })}
           </div>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-10 flex flex-wrap gap-4">
             <a
               href={appStoreUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-black px-5 py-3 transition hover:border-gray-400"
+              className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-black px-6 py-4 transition hover:border-gray-400"
             >
-              <AppleIcon className="h-7 w-7 text-white" />
+              <AppleIcon className="h-8 w-8 text-white" />
               <div className="text-left leading-tight">
-                <p className="text-[10px] text-white/60">Download on the</p>
-                <p className="text-sm font-semibold text-white">App Store</p>
+                <p className="text-xs text-white/60">Download on the</p>
+                <p className="text-base font-semibold text-white">App Store</p>
               </div>
             </a>
             <a
               href={googlePlayUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-black px-5 py-3 transition hover:border-gray-400"
+              className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-black px-6 py-4 transition hover:border-gray-400"
             >
-              <PlayIcon className="h-6 w-6 text-white" />
+              <PlayIcon className="h-7 w-7 text-white" />
               <div className="text-left leading-tight">
-                <p className="text-[10px] text-white/60">Get it on</p>
-                <p className="text-sm font-semibold text-white">Google Play</p>
+                <p className="text-xs text-white/60">Get it on</p>
+                <p className="text-base font-semibold text-white">Google Play</p>
               </div>
             </a>
           </div>
 
           {ratingEnabled && (
-            <div className="mt-6 flex items-center gap-2 text-sm text-gray-500">
+            <div className="mt-7 flex items-center gap-2.5 text-base font-medium text-gray-600">
               <div className="flex text-[#f5a623]">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-current" />
+                  <Star key={i} className="h-5 w-5 fill-current" />
                 ))}
               </div>
               {ratingText}
@@ -265,7 +270,7 @@ export default function AppDownloadSection() {
         >
           <motion.div
             style={{ rotateY, rotateX, y: translateY, scale, transformStyle: "preserve-3d" }}
-            className="relative w-[260px] sm:w-[300px]"
+            className="relative w-[280px] sm:w-[340px]"
           >
             {/* Glow */}
             <div className="absolute inset-0 -z-10 scale-90 rounded-[3rem] bg-[#0b66d1]/15 blur-3xl" />
@@ -326,7 +331,7 @@ export default function AppDownloadSection() {
 
             <motion.div
               style={{ transform: "translateZ(70px) translateX(30px)" }}
-              className="absolute -right-8 bottom-16 hidden rounded-xl bg-white p-3 shadow-xl sm:block"
+              className="absolute -right-16 bottom-16 hidden rounded-xl bg-white p-3 shadow-xl sm:block"
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
             >
