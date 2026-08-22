@@ -1,21 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import BookingWidget from "./BookingWidget";
 
 export default function HeroSection() {
-  // On mobile, the trust-badge strip stays hidden until the user scrolls a little —
-  // keeps the first paint focused on the booking widget instead of front-loading everything.
-  const [revealBadges, setRevealBadges] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setRevealBadges(window.scrollY > 80);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
     <section
       id="book"
@@ -61,11 +49,9 @@ export default function HeroSection() {
 
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: revealBadges ? 1 : 0 }}
-          transition={{ duration: 0.5 }}
-          className={`mt-6 flex-wrap items-center justify-center gap-6 text-sm text-white/50 ${
-            revealBadges ? "flex" : "hidden md:flex"
-          }`}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7, duration: 0.6 }}
+          className="mt-6 flex flex-wrap items-center justify-center gap-6 text-sm text-white/50"
         >
           {["Flight tracking included", "No hidden fees", "24/7 support", "Instant confirmation"].map((item) => (
             <div key={item} className="flex items-center gap-2">
