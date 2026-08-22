@@ -7,7 +7,7 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/lib/animations";
 
 export default function CTASection() {
   return (
-    <section className="w-full bg-white px-4 py-20 md:px-6 lg:px-8">
+    <section className="relative z-10 w-full bg-white px-4 py-20 md:px-6 lg:px-8">
       <div className="mx-auto max-w-[1600px]">
         <motion.div
           initial="hidden"

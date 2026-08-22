@@ -46,7 +46,7 @@ const stats = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="w-full bg-white px-4 py-20 md:px-6 lg:px-8 lg:py-28">
+    <section className="relative z-10 w-full bg-white px-4 py-20 md:px-6 lg:px-8 lg:py-28">
       <div className="mx-auto max-w-[1600px]">
         {/* Stats bar */}
         <motion.div

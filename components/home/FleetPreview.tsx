@@ -10,7 +10,7 @@ export default function FleetPreview() {
   return (
     <>
       {/* ── Always There For You ───────────────────────────────────── */}
-      <section className="relative flex min-h-[34rem] items-center overflow-hidden md:min-h-[42rem]">
+      <section className="relative z-10 flex min-h-[34rem] items-center overflow-hidden md:min-h-[42rem]">
         <Image
           src="/Exterior-with-door-open.jpg"
           alt="Professional Chauffeur Service"

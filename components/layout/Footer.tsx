@@ -48,7 +48,7 @@ const socialLinks = [
 ];
 export default function Footer() {
   return (
-    <footer className="bg-[#0a0f1a] text-white">
+    <footer className="relative z-10 bg-[#0a0f1a] text-white">
       <div className="w-full px-6 py-16 lg:px-12 xl:px-16">
         {/* Top section */}
         <div className="grid gap-12 lg:grid-cols-[1.5fr_3fr]">
