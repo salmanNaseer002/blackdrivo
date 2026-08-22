@@ -24,11 +24,10 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser();
   const pathname = request.nextUrl.pathname;
 
-  // Passenger sign-in/booking/dashboard has been removed from this site
-  // (will be rebuilt against a fresh Supabase setup later) — only the
-  // driver login/dashboard flow is still gated here.
   const protectedPaths = ["/driver/dashboard"];
+  const passengerProtectedPaths = ["/booking/review"];
   const driverAuthPaths = ["/driver/login", "/driver/signup"];
+  const passengerAuthPaths = ["/login", "/signup"];
 
   // Login required — protected routes
   if (!user && protectedPaths.some(p => pathname.startsWith(p))) {
@@ -38,10 +37,25 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  if (!user && passengerProtectedPaths.some(p => pathname.startsWith(p))) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    url.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(url);
+  }
+
    // Driver already logged in — driver auth pages pe mat jaao
   if (user && driverAuthPaths.some(p => pathname.startsWith(p))) {
     const url = request.nextUrl.clone();
     url.pathname = "/driver/dashboard/overview";
+    return NextResponse.redirect(url);
+  }
+
+  // Passenger already logged in — passenger auth pages pe mat jaao
+  if (user && passengerAuthPaths.some(p => pathname === p)) {
+    const url = request.nextUrl.clone();
+    url.pathname = request.nextUrl.searchParams.get("redirect") || "/booking/review";
+    url.search = "";
     return NextResponse.redirect(url);
   }
 

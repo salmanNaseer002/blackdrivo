@@ -3,6 +3,7 @@ import { DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/lib/context/AuthContext";
+import { CountryProvider } from "@/components/providers/CountryProvider";
 
 // Replaces the Geist/Geist Mono default that Next.js (and most AI-scaffolded
 // projects) ship with, so the site doesn't read as generic template output —
@@ -139,7 +140,11 @@ export default function RootLayout({
         className={`${bodyFont.variable} ${monoFont.variable} antialiased`}
         suppressHydrationWarning
       >
-        <AuthProvider>{children}</AuthProvider>
+        <div className="overflow-x-hidden">
+          <AuthProvider>
+            <CountryProvider>{children}</CountryProvider>
+          </AuthProvider>
+        </div>
         <Toaster position="top-right" richColors closeButton />
       </body>
     </html>

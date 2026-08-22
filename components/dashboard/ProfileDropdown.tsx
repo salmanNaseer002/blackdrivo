@@ -3,16 +3,20 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { LogOut, ChevronDown, LayoutDashboard, Loader2 } from "lucide-react";
+import Image from "next/image";
+import { LogOut, ChevronDown, LayoutDashboard, User, MapPinned, Gift, Briefcase, Loader2 } from "lucide-react";
 
 interface Props {
   initials: string;
   displayName: string;
   email: string;
-  role?: string;
+  isDriver?: boolean;
+  avatarUrl?: string | null;
+  /** Mobile-drawer usage — button fills the available width and always shows the full name. */
+  fullWidth?: boolean;
 }
 
-export default function ProfileDropdown({ initials, displayName, email, role = "user" }: Props) {
+export default function ProfileDropdown({ initials, displayName, email, isDriver = false, avatarUrl = null, fullWidth = false }: Props) {
   const [open, setOpen]           = useState(false);
   const [signingOut, setSigningOut] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -42,27 +46,42 @@ export default function ProfileDropdown({ initials, displayName, email, role = "
 
   const firstName = displayName.split(" ")[0];
 
-  // Passenger sign-in/dashboard is gone — this dropdown only ever renders for drivers now
-  const menuItems = [
-    { icon: LayoutDashboard, label: "My Dashboard", href: "/driver/dashboard" },
-  ];
+  const menuItems = isDriver
+    ? [{ icon: LayoutDashboard, label: "My Dashboard", href: "/driver/dashboard" }]
+    : [
+        { icon: User,       label: "Account",           href: "/account" },
+        { icon: MapPinned,  label: "Journey",            href: "/journey" },
+        { icon: Gift,       label: "Offers & Rewards",   href: "/offers" },
+        { icon: Briefcase,  label: "Corporate",          href: "/corporate" },
+      ];
+
+  const Avatar = ({ size }: { size: number }) =>
+    avatarUrl ? (
+      <Image src={avatarUrl} alt={displayName} width={size} height={size}
+        className="shrink-0 rounded-full object-cover" style={{ width: size, height: size }} />
+    ) : (
+      <div className="flex shrink-0 items-center justify-center rounded-full bg-[#0b66d1] font-bold text-white"
+        style={{ width: size, height: size, fontSize: size * 0.4 }}>
+        {initials}
+      </div>
+    );
 
   return (
-    <div className="relative" ref={ref}>
+    <div className={`relative ${fullWidth ? "w-full" : "w-fit"}`} ref={ref}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 rounded-full border border-gray-200 bg-white py-1 pl-1 pr-3 shadow-sm transition hover:border-gray-300 hover:shadow"
+        className={`flex items-center gap-2 rounded-full border border-gray-200 bg-white py-1 pl-1 pr-3 shadow-sm transition hover:border-gray-300 hover:shadow ${
+          fullWidth ? "w-full" : ""
+        }`}
       >
-        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#0b66d1] text-xs font-bold text-white">
-          {initials}
-        </div>
-        <span className="hidden text-sm font-medium text-gray-700 md:flex md:items-center gap-1">
-          {firstName}
-          {role === "driver" && (
+        <Avatar size={fullWidth ? 40 : 28} />
+        <span className={`flex items-center gap-1 text-sm font-medium text-gray-700 ${fullWidth ? "" : "hidden md:flex"}`}>
+          {fullWidth ? displayName : firstName}
+          {isDriver && (
             <span className="rounded-full bg-blue-100 px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#0b66d1]">Driver</span>
           )}
         </span>
-        <ChevronDown className={`h-3.5 w-3.5 text-gray-400 transition-transform ${open ? "rotate-180" : ""}`} />
+        <ChevronDown className={`h-3.5 w-3.5 shrink-0 text-gray-400 transition-transform ${fullWidth ? "ml-auto" : ""} ${open ? "rotate-180" : ""}`} />
       </button>
 
       <AnimatePresence>
@@ -72,18 +91,18 @@ export default function ProfileDropdown({ initials, displayName, email, role = "
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.97 }}
             transition={{ duration: 0.15 }}
-            className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl"
+            className={`absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl ${
+              fullWidth ? "max-w-full" : ""
+            }`}
           >
             {/* Header */}
             <div className="border-b border-gray-100 bg-gray-50 px-4 py-3">
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0b66d1] text-sm font-bold text-white">
-                  {initials}
-                </div>
+                <Avatar size={36} />
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5">
                     <p className="truncate text-sm font-semibold text-gray-900">{displayName}</p>
-                    {role === "driver" && (
+                    {isDriver && (
                       <span className="shrink-0 rounded-full bg-blue-100 px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#0b66d1]">Driver</span>
                     )}
                   </div>

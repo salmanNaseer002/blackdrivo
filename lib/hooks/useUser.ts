@@ -41,9 +41,33 @@ export function useUser(): UseUserReturn {
 
       if (row && !rowError) {
         const p = row as Profile & { user_type?: string };
-        setProfile(p);
+        const resolvedType = p.user_type ?? (metaRole === "driver" ? "driver" : "passenger");
         setRole(p.role ?? "user");
-        setUserType(p.user_type ?? (metaRole === "driver" ? "driver" : "passenger"));
+        setUserType(resolvedType);
+
+        // `passengers` is the single profile record edited from both the website's
+        // /account page and the PassApp mobile app — always prefer its name/phone/
+        // avatar over the generic `users` row so an edit made anywhere shows up
+        // everywhere (Navbar included) instead of only within its own app.
+        if (resolvedType !== "driver") {
+          const { data: passengerRow } = await (supabase as any)
+            .from("passengers")
+            .select("name, phone, avatar_url")
+            .eq("id", u.id)
+            .maybeSingle();
+          if (!active) return;
+          if (passengerRow) {
+            setProfile({
+              ...p,
+              full_name: passengerRow.name || p.full_name,
+              phone: passengerRow.phone || p.phone,
+              avatar_url: passengerRow.avatar_url || p.avatar_url,
+            });
+            return;
+          }
+        }
+
+        setProfile(p);
         return;
       }
 

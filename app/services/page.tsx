@@ -2,7 +2,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import Image from "next/image";
-import { Plane, Clock, MapPin, Briefcase, Star, Heart, Moon, CheckCircle, ArrowRight } from "lucide-react";
+import { Plane, Clock, MapPin, Briefcase, Star, Heart, Moon, CheckCircle, ArrowRight, Car } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -164,57 +164,6 @@ const vehicleClasses = [
   },
 ];
 
-const faqs = [
-  {
-    q: "How far in advance should I book?",
-    a: "We recommend booking as early as possible to ensure availability, especially during peak travel times. We do accept last-minute bookings based on availability.",
-  },
-  {
-    q: "Do you track flights for airport pickups?",
-    a: "Yes. We utilize real-time FAA flight tracking to adjust arrival times automatically for delays or early landings. Your chauffeur will be on-site and prepared the moment you deplane.",
-  },
-  {
-    q: "How long will my chauffeur wait at the airport?",
-    a: "Complimentary wait time is included for all airport pickups — typically 60 minutes for domestic flights and 90 minutes for international arrivals.",
-  },
-  {
-    q: "Are your vehicles equipped with Wi-Fi?",
-    a: "Yes. Every vehicle is equipped with high-speed Wi-Fi, chilled mineral water, and mobile charging interfaces. Specific requests for additional refreshments can be accommodated during booking.",
-  },
-  {
-    q: "Are your chauffeurs background-checked?",
-    a: "All chauffeurs undergo rigorous background checks, defensive driving certification, and non-disclosure training. They are professionals committed to absolute discretion and passenger privacy.",
-  },
-  {
-    q: "Is luggage assistance included?",
-    a: "Yes. Chauffeurs provide full-service luggage handling and door-to-door assistance for every passenger.",
-  },
-  {
-    q: "Do you offer child seats?",
-    a: "Yes, child seats can be provided upon request. Please specify during the booking process.",
-  },
-  {
-    q: "Are pets allowed?",
-    a: "We accommodate small pets in secure carriers to maintain the immaculate condition of our late-model interiors. Service animals are always permitted in accordance with all regulations.",
-  },
-  {
-    q: "What is your cancellation policy?",
-    a: "Cancellations must be made within the specified time frame to avoid charges. Policies may vary depending on vehicle type and service. Contact our 24/7 support team for details.",
-  },
-  {
-    q: "Can I modify my reservation?",
-    a: "Yes, modifications can be made prior to your scheduled pickup time, subject to availability. Our 24/7 concierge desk is always available to assist.",
-  },
-  {
-    q: "How do I receive my receipt?",
-    a: "Digital receipts are generated automatically and delivered to your email immediately upon trip completion. Corporate partners also have access to historical billing data through a secure dashboard.",
-  },
-  {
-    q: "Do you serve areas outside NYC?",
-    a: "Yes. BlackDrivo serves New York City, New Jersey, and Philadelphia, with city-to-city service to Boston, Washington DC, and other major destinations along the East Coast.",
-  },
-];
-
 export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-white">
@@ -236,8 +185,8 @@ export default function ServicesPage() {
           style={{ background: "linear-gradient(to bottom, rgba(10,15,26,0.35) 0%, rgba(10,15,26,0.80) 100%)" }}
         />
         <div className="relative z-10 mx-auto w-full max-w-5xl px-4 text-center md:px-6 lg:px-8">
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-white/60">
-            BlackDrivo
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-[#3b8ff0]">
+            What we offer ✦
           </p>
           <h1 className="text-5xl font-bold text-white md:text-6xl lg:text-7xl">
             Our Services
@@ -246,12 +195,20 @@ export default function ServicesPage() {
             At BlackDrivo, the client always comes first. Our focus on customer service and client
             satisfaction guarantees a professional, pleasurable ride in cities across the globe.
           </p>
-          <Link
-            href="/#book"
-            className="mt-8 inline-flex items-center gap-2 bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]"
-          >
-            Book a Ride <ArrowRight className="h-4 w-4" />
-          </Link>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/#book"
+              className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:gap-3 hover:bg-[#0952a8]"
+            >
+              Book a Ride <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a
+              href="tel:+18005550199"
+              className="inline-flex items-center gap-2 rounded-full bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
+            >
+              Call 24/7
+            </a>
+          </div>
         </div>
       </section>
 
@@ -259,7 +216,6 @@ export default function ServicesPage() {
       <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
         <div className="mx-auto w-full">
           <div className="mb-14 text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">What We Offer</p>
             <h2 className="text-4xl font-bold text-gray-900 md:text-5xl">
               Our Services
             </h2>
@@ -269,10 +225,14 @@ export default function ServicesPage() {
             </p>
           </div>
 
-          <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service, i) => (
-              <article key={service.id} id={service.id} className="group">
-                <div className="relative mb-6 h-60 overflow-hidden">
+              <article
+                key={service.id}
+                id={service.id}
+                className="group relative overflow-hidden rounded-3xl bg-gray-50 transition hover:bg-gray-100"
+              >
+                <div className="relative h-48 overflow-hidden">
                   <Image
                     src={service.image}
                     alt={service.title}
@@ -281,59 +241,35 @@ export default function ServicesPage() {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     priority={i < 3}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 </div>
 
-                <h3 className="text-2xl font-bold text-gray-900">
-                  {service.title}
-                </h3>
-                <p className="mt-1 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">
-                  {service.tagline}
-                </p>
-                <p className="mt-3 text-sm leading-6 text-gray-500">{service.description}</p>
-
-                <ul className="mt-4 space-y-1.5">
-                  {service.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs text-gray-400">
-                      <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#0b66d1]" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-6">
-                  <Link
-                    href="/#book"
-                    className="inline-flex items-center gap-2 bg-gray-900 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-[#0b66d1]"
+                <div className="relative p-6">
+                  <div
+                    className="animate-float-slow pointer-events-none absolute -bottom-4 -right-4 text-[#0b66d1]/[0.06]"
+                    style={{ animationDelay: `${i * 0.25}s` }}
                   >
-                    Book Chauffeur <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
+                    <service.icon className="h-28 w-28" strokeWidth={0.75} />
+                  </div>
+
+                  <div className="relative">
+                    <h3 className="text-xl font-bold text-gray-900">
+                      {service.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-6 text-gray-600">{service.description}</p>
+
+                    <ul className="mt-4 space-y-1.5">
+                      {service.features.slice(0, 3).map((f) => (
+                        <li key={f} className="flex items-start gap-2 text-xs text-gray-500">
+                          <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#0b66d1]" />
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </article>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Fleet Banner */}
-      <section className="relative h-72 overflow-hidden md:h-96">
-        <Image
-          src="/el-image-1.webp"
-          alt="BlackDrivo Fleet"
-          fill
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center px-4">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">Premium Fleet</p>
-          <h2 className="text-3xl font-bold text-white md:text-5xl">
-            Every Vehicle. Every Occasion.
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-white/65">
-            Luxury sedans, premium SUVs, executive vans, and Sprinter vans to accommodate
-            individuals and groups of all sizes — maintained to pristine showroom standards.
-          </p>
         </div>
       </section>
 
@@ -353,25 +289,33 @@ export default function ServicesPage() {
             </p>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {vehicleClasses.map((v) => (
+            {vehicleClasses.map((v, i) => (
               <div
                 key={v.name}
-                className="rounded-none border border-gray-100 bg-white p-6 shadow-sm transition hover:border-[#0b66d1]/30 hover:shadow-md"
+                className="group relative overflow-hidden rounded-3xl bg-white p-6 transition hover:bg-gray-100"
               >
-                <h3 className="text-lg font-bold text-gray-900">{v.name}</h3>
-                <p className="mt-2 text-xs leading-5 text-gray-500">{v.description}</p>
-                <div className="mt-4 space-y-1 text-xs text-gray-500">
-                  <p>Up to {v.seats} passengers</p>
-                  <p>{v.bags} bags</p>
+                <div
+                  className="animate-float-slow pointer-events-none absolute -bottom-4 -right-4 text-gray-900/[0.04]"
+                  style={{ animationDelay: `${i * 0.25}s` }}
+                >
+                  <Car className="h-24 w-24" strokeWidth={0.75} />
                 </div>
-                <p className="mt-3 text-xs text-gray-400">{v.examples}</p>
+                <div className="relative">
+                  <h3 className="text-lg font-bold text-gray-900">{v.name}</h3>
+                  <p className="mt-2 text-xs leading-5 text-gray-500">{v.description}</p>
+                  <div className="mt-4 space-y-1 text-xs text-gray-500">
+                    <p>Up to {v.seats} passengers</p>
+                    <p>{v.bags} bags</p>
+                  </div>
+                  <p className="mt-3 text-xs text-gray-400">{v.examples}</p>
+                </div>
               </div>
             ))}
           </div>
           <div className="mt-10 text-center">
             <Link
               href="/fleet"
-              className="inline-flex items-center gap-2 border border-gray-900 px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-gray-900 transition hover:bg-gray-900 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full bg-gray-900 px-8 py-3.5 text-sm font-semibold text-white transition hover:gap-3 hover:bg-[#0b66d1]"
             >
               View Full Fleet <ArrowRight className="h-4 w-4" />
             </Link>
@@ -379,53 +323,10 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="bg-white px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto w-full">
-          <div className="mb-12 text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-[#0b66d1]">FAQ</p>
-            <h2 className="text-4xl font-bold text-gray-900">
-              Frequently Asked Questions
-            </h2>
-            <p className="mx-auto mt-4 w-full text-sm leading-6 text-gray-500">
-              Everything you need to know about BlackDrivo's chauffeur service.
-            </p>
-          </div>
-
-          <div className="divide-y divide-gray-100 border-y border-gray-100">
-            {faqs.map((faq) => (
-              <details key={faq.q} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
-                  <span className="text-sm font-semibold text-gray-900">{faq.q}</span>
-                  <span className="mt-0.5 shrink-0 text-[#0b66d1] transition group-open:rotate-45">
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                    </svg>
-                  </span>
-                </summary>
-                <p className="mt-3 text-sm leading-6 text-gray-500">{faq.a}</p>
-              </details>
-            ))}
-          </div>
-
-          <p className="mt-8 text-center text-sm text-gray-400">
-            Still have questions?{" "}
-            <a href="tel:+18005550199" className="font-semibold text-[#0b66d1] hover:underline">
-              Call us 24/7
-            </a>{" "}
-            or{" "}
-            <Link href="/#book" className="font-semibold text-[#0b66d1] hover:underline">
-              book online
-            </Link>
-            .
-          </p>
-        </div>
-      </section>
-
       {/* Bottom CTA */}
       <section className="bg-gray-950 px-4 py-16 text-center md:px-6 lg:px-8">
         <div className="mx-auto w-full">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#0b66d1]">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#3b8ff0]">
             Ready to Ride?
           </p>
           <h2 className="text-3xl font-bold text-white md:text-4xl">
@@ -438,13 +339,13 @@ export default function ServicesPage() {
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
               href="/#book"
-              className="inline-flex items-center gap-2 bg-[#0b66d1] px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-white transition hover:bg-[#0952a8]"
+              className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:gap-3 hover:bg-[#0952a8]"
             >
               Book Now <ArrowRight className="h-4 w-4" />
             </Link>
             <a
               href="tel:+18005550199"
-              className="inline-flex items-center gap-2 border border-white/20 px-8 py-3.5 text-sm font-semibold text-white transition hover:border-white"
+              className="inline-flex items-center gap-2 rounded-full bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
             >
               Call 24/7
             </a>

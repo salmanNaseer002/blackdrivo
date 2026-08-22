@@ -1,39 +1,36 @@
+import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { NextResponse, type NextRequest } from "next/server";
 
+// Handles the redirect back from Supabase after OAuth (Google) sign-in:
+// exchanges the ?code for a session, then makes sure a `passengers` row
+// exists for this user — bookings.passenger_id foreign-keys to `passengers`,
+// not `auth.users`, so a Google sign-in with no prior signup would otherwise
+// leave the passenger profile (name/phone) empty, same issue this whole
+// auth flow was rebuilt to avoid.
 export async function GET(request: NextRequest) {
-  const url = new URL(request.url);
-  const code = url.searchParams.get("code");
-  const next = url.searchParams.get("next") ?? "/";
+  const { searchParams, origin } = request.nextUrl;
+  const code = searchParams.get("code");
+  const redirect = searchParams.get("redirect") || "/booking/review";
 
   if (code) {
     const supabase = await createClient();
-    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error && data.session) {
-      const { user } = data.session;
-      const role = user.user_metadata?.role as string | undefined;
+    const { data } = await supabase.auth.exchangeCodeForSession(code);
 
-      // Drivers are self-contained in public.drivers — no public.users row needed.
-      // For users/admins, ensure the public.users record exists in case the trigger missed it.
-      if (role !== "driver") {
-        const upsertPayload: Record<string, unknown> = {
-          id: user.id,
-          email: user.email!,
-          name: (user.user_metadata?.full_name as string) || user.email!.split("@")[0],
-          full_name: user.user_metadata?.full_name ?? null,
-          phone: user.user_metadata?.phone ?? null,
-          // role omitted for regular users — DB uses column DEFAULT ('ops')
-        };
-        if (role === "admin") upsertPayload.role = "admin";
-        await (supabase as any).from("users").upsert(upsertPayload, { onConflict: "id" });
+    if (data.user) {
+      const { data: existing } = await (supabase as any)
+        .from("passengers").select("id").eq("id", data.user.id).maybeSingle();
+      if (!existing) {
+        const name = data.user.user_metadata?.full_name || data.user.user_metadata?.name || data.user.email?.split("@")[0] || "Passenger";
+        await (supabase as any).from("passengers").upsert({
+          id: data.user.id,
+          name,
+          email: data.user.email,
+          status: "active",
+          source: "website_google",
+        }, { onConflict: "id" });
       }
-      const dest =
-        role === "driver" ? "/driver/dashboard" :
-        role === "admin"  ? "/admin" :
-        next;
-      return NextResponse.redirect(new URL(dest, request.url));
     }
   }
 
-  return NextResponse.redirect(new URL("/driver/login?error=auth", request.url));
+  return NextResponse.redirect(`${origin}${redirect}`);
 }
