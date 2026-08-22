@@ -13,6 +13,33 @@ interface RouteMapProps {
   dropoff: { lat: number; lng: number; label: string; time?: string } | null;
 }
 
+// ── Directions cache — a booking's pickup/dropoff never changes once set, so
+// re-opening the same ride's route map shouldn't re-bill the Directions API every time.
+const ROUTE_CACHE_PREFIX = "blackdrivo_route_cache_";
+const ROUTE_CACHE_TTL_MS = 30 * 24 * 3600 * 1000; // 30 days
+
+function routeCacheKey(points: { lat: number; lng: number }[]) {
+  const r = (n: number) => n.toFixed(4);
+  return ROUTE_CACHE_PREFIX + points.map((p) => `${r(p.lat)}_${r(p.lng)}`).join("_");
+}
+
+function readRouteCache(key: string): any[] | null {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (Date.now() - parsed.savedAt >= ROUTE_CACHE_TTL_MS) {
+      localStorage.removeItem(key);
+      return null;
+    }
+    return parsed.result;
+  } catch { return null; }
+}
+
+function writeRouteCache(key: string, result: any[]) {
+  try { localStorage.setItem(key, JSON.stringify({ result, savedAt: Date.now() })); } catch {}
+}
+
 function pinContent(label: string, time: string | undefined, color: string, title: string) {
   const div = document.createElement("div");
   div.style.cssText = "display:flex;align-items:center;gap:8px;padding:2px 2px;font-family:inherit;";
@@ -131,33 +158,48 @@ export default function RouteMap({ pickup, dropoff }: RouteMapProps) {
       dropoffIw.open({ map, anchor: dropoffMarker });
       infoWindowsRef.current.push(dropoffIw);
 
-      const service = new window.google.maps.DirectionsService();
-      service.route(
-        {
-          origin: { lat: pickup.lat, lng: pickup.lng },
-          destination: { lat: dropoff.lat, lng: dropoff.lng },
-          travelMode: window.google.maps.TravelMode.DRIVING,
-        },
-        (result: any, status: string) => {
-          if (status === "OK") {
-            polylineRef.current = new window.google.maps.Polyline({
-              path: result.routes[0].overview_path,
-              strokeColor: "#0b66d1",
-              strokeWeight: 4,
-              strokeOpacity: 0.85,
-              map,
-            });
+      const drawPath = (path: any[]) => {
+        polylineRef.current = new window.google.maps.Polyline({
+          path,
+          strokeColor: "#0b66d1",
+          strokeWeight: 4,
+          strokeOpacity: 0.85,
+          map,
+        });
 
-            const bounds = new window.google.maps.LatLngBounds();
-            result.routes[0].overview_path.forEach((p: any) => bounds.extend(p));
+        const bounds = new window.google.maps.LatLngBounds();
+        path.forEach((p: any) => bounds.extend(p));
 
-            const width = wrapperRef.current?.clientWidth || 400;
-            const pad = width < 500 ? { top: 56, bottom: 24, left: 24, right: 24 } : { top: 24, bottom: 24, left: 24, right: 24 };
-            window.google.maps.event.trigger(map, "resize");
-            map.fitBounds(bounds, pad);
+        const width = wrapperRef.current?.clientWidth || 400;
+        const pad = width < 500 ? { top: 56, bottom: 24, left: 24, right: 24 } : { top: 24, bottom: 24, left: 24, right: 24 };
+        window.google.maps.event.trigger(map, "resize");
+        map.fitBounds(bounds, pad);
+      };
+
+      const cacheKey = routeCacheKey([
+        { lat: pickup.lat, lng: pickup.lng },
+        { lat: dropoff.lat, lng: dropoff.lng },
+      ]);
+      const cachedPath = readRouteCache(cacheKey);
+      if (cachedPath) {
+        drawPath(cachedPath);
+      } else {
+        const service = new window.google.maps.DirectionsService();
+        service.route(
+          {
+            origin: { lat: pickup.lat, lng: pickup.lng },
+            destination: { lat: dropoff.lat, lng: dropoff.lng },
+            travelMode: window.google.maps.TravelMode.DRIVING,
+          },
+          (result: any, status: string) => {
+            if (status === "OK") {
+              const path = result.routes[0].overview_path.map((p: any) => p.toJSON());
+              drawPath(path);
+              writeRouteCache(cacheKey, path);
+            }
           }
-        }
-      );
+        );
+      }
     } else {
       window.google.maps.event.trigger(map, "resize");
       map.setCenter({ lat: pickup.lat, lng: pickup.lng });
