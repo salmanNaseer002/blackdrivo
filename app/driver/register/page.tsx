@@ -457,7 +457,7 @@ export default function DriverRegisterPage() {
             </div>
             <span className="text-lg font-bold text-gray-900">BlackDrivo</span>
           </Link>
-          <Link href="/driver" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900">
+          <Link href="/partner" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900">
             <ArrowLeft className="h-4 w-4" /> Back
           </Link>
         </div>

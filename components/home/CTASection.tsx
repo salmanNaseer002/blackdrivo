@@ -118,7 +118,7 @@ export default function CTASection() {
             </p>
           </div>
           <Link
-            href="/driver"
+            href="/partner"
             className="group inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-[#0b66d1] transition hover:gap-3"
           >
             Apply to drive <ArrowRight className="h-4 w-4" />

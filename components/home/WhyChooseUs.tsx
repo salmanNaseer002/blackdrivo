@@ -65,7 +65,7 @@ export default function WhyChooseUs() {
         >
           {stats.map((stat) => (
             <div key={stat.label} className="px-2 text-center">
-              <p className="text-6xl font-bold tracking-tight text-gray-900 md:text-7xl">{stat.value}</p>
+              <p className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:text-6xl lg:text-7xl">{stat.value}</p>
               <p className="mt-2 text-base text-gray-500">{stat.label}</p>
             </div>
           ))}

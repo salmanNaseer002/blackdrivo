@@ -197,7 +197,7 @@ export default function AppDownloadSection() {
           viewport={viewportOnce}
           variants={slideInLeft}
         >
-          <h2 className="text-5xl font-bold tracking-tight text-gray-900 md:text-6xl lg:text-7xl">
+          <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl lg:text-7xl">
             {heading1}
             <br />
             {heading2}

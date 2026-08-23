@@ -7,6 +7,7 @@ import FleetPreview from "@/components/home/FleetPreview";
 import AirportSection from "@/components/home/AirportSection";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import OurClients from "@/components/home/OurClients";
+import WhoWeAre from "@/components/home/WhoWeAre";
 import CTASection from "@/components/home/CTASection";
 
 export default function HomePage() {
@@ -17,6 +18,7 @@ export default function HomePage() {
       <AppDownloadSection />
       <ServicesSection />
       <FleetPreview />
+      <WhoWeAre />
       <AirportSection />
       <WhyChooseUs />
       <OurClients />

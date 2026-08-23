@@ -55,7 +55,7 @@ export default function OurClients() {
           <motion.h2
             ref={headingRef}
             style={{ scale: headingScale, opacity: headingOpacity }}
-            className="text-6xl font-bold tracking-tight text-gray-900 md:text-7xl lg:text-8xl"
+            className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-7xl lg:text-8xl"
           >
             Who we serve
           </motion.h2>

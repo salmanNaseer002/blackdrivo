@@ -46,9 +46,7 @@ export default function HeroSection() {
         >
 
           <h1 className="text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl lg:text-8xl">
-            Your chauffeur
-            <br />
-            <span className="text-[#0b66d1]">awaits.</span>
+            Your <span className="text-[#0b66d1]">chauffeur</span> awaits.
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-white/65 md:text-lg">
             Premium black car service across New Jersey, and all surrounding areas.

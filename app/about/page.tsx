@@ -1,3 +1,10 @@
+// ── About page temporarily disabled — not deleted. The real implementation
+// below is kept fully intact but is no longer the route's default export or
+// metadata (JSX comments inside the component make a literal /* */ block-
+// comment wrap unsafe, so it's disabled by renaming its exports instead).
+// To re-enable: delete the `AboutPageDisabled` export below, then restore
+// `export default` on `AboutPage` and `export const` on `pageMetadata`.
+import { notFound } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Image from "next/image";
@@ -9,7 +16,11 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+export default function AboutPageDisabled() {
+  notFound();
+}
+
+const pageMetadata: Metadata = {
   title: "About BlackDrivo | Premium Chauffeur Service NJ, Philadelphia",
   description:
     "BlackDrivo is a premier luxury chauffeur service serving corporate clients, private travelers, and VIP guests across New Jersey, and Philadelphia. Professionalism, discretion, and excellence on every ride.",
@@ -60,7 +71,7 @@ const commitments = [
   },
 ];
 
-export default function AboutPage() {
+function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -259,7 +270,7 @@ export default function AboutPage() {
               </div>
               <div className="mt-8 flex gap-4">
                 <Link
-                  href="/driver"
+                  href="/partner"
                   className="inline-flex items-center gap-2 border border-gray-900 px-7 py-3.5 text-sm font-bold uppercase tracking-widest text-gray-900 transition hover:bg-gray-900 hover:text-white"
                 >
                   Drive with Us <ArrowRight className="h-4 w-4" />

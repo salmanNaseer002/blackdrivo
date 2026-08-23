@@ -64,7 +64,7 @@ export default function ServicesSection() {
         <div ref={headingRef} className="mb-16 flex flex-col items-center text-center">
           <motion.h2
             style={{ scale: headingScale, opacity: headingOpacity }}
-            className="text-6xl font-bold tracking-tight text-gray-900 md:text-7xl lg:text-8xl"
+            className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-7xl lg:text-9xl"
           >
             Every ride, a premium experience
           </motion.h2>

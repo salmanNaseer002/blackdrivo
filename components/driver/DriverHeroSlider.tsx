@@ -28,13 +28,6 @@ const slides = [
   },
 ];
 
-const stats = [
-  { value: "24/7",  label: "Dispatch Support"   },
-  { value: "4.9★",  label: "Driver Rating"       },
-  { value: "3",     label: "States Served"       },
-  { value: "100%",  label: "Tips Yours to Keep"  },
-];
-
 export default function DriverHeroSlider() {
   const [current, setCurrent]  = useState(0);
   const [fading,  setFading]   = useState(false);
@@ -70,7 +63,7 @@ export default function DriverHeroSlider() {
 
   return (
     <section
-      className="relative flex min-h-[88vh] flex-col overflow-hidden"
+      className="relative flex min-h-screen flex-col overflow-hidden"
       onMouseEnter={stopAuto}
       onMouseLeave={startAuto}
     >
@@ -106,15 +99,9 @@ export default function DriverHeroSlider() {
       <div className="relative z-20 flex flex-1 flex-col justify-end">
         <div className="mx-auto w-full max-w-[1600px] px-4 pb-12 md:px-8 md:pb-16">
 
-          {/* Badge */}
-          <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.4em] text-[#0b66d1]">
-            the blackdrivo standard
-          </p>
-
           {/* Heading */}
-          <h1 className="text-5xl font-bold leading-[1.08] text-white md:text-7xl">
-            Elevate Your Career.<br />
-            Drive with BlackDrivo.
+          <h1 className="max-w-3xl text-5xl font-bold leading-[1.08] text-white md:text-7xl">
+            Become a BlackDrivo Service Provider
           </h1>
 
           {/* Gold-style rule */}
@@ -122,26 +109,9 @@ export default function DriverHeroSlider() {
 
           {/* Description */}
           <p className="mt-6 max-w-2xl text-base leading-7 text-white/65 md:text-lg">
-            Leave the ordinary behind and step into a career that respects your professionalism.
-            Gain access to premium clientele, consistent high-end volume, and 24/7 dispatch support
-            across NYC, New Jersey, and Philadelphia.
+            Grow your business with a premium mobility partner built for quality, reliability,
+            and long-term partnerships.
           </p>
-
-          {/* CTAs */}
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/driver/signup"
-              className="inline-flex items-center gap-2 bg-[#0b66d1] px-9 py-3.5 text-sm font-bold uppercase tracking-[0.15em] text-white transition hover:bg-[#0952a8]"
-            >
-              Apply Now <ArrowRight className="h-4 w-4" />
-            </Link>
-            <a
-              href="#how-it-works"
-              className="inline-flex items-center gap-2 border border-white/35 px-9 py-3.5 text-sm font-semibold uppercase tracking-[0.15em] text-white transition hover:border-white hover:bg-white/5"
-            >
-              Explore Career Paths
-            </a>
-          </div>
 
           {/* Slide dots */}
           <div className="mt-8 flex items-center gap-2.5">
@@ -158,14 +128,20 @@ export default function DriverHeroSlider() {
           </div>
         </div>
 
-        {/* Stats bar */}
-        <div className="relative z-20 grid grid-cols-2 border-t border-white/10 bg-black/60 backdrop-blur-sm sm:grid-cols-4">
-          {stats.map((s) => (
-            <div key={s.label} className="border-r border-white/10 px-6 py-5 last:border-r-0">
-              <p className="text-xl font-extrabold text-white">{s.value}</p>
-              <p className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white/45">{s.label}</p>
-            </div>
-          ))}
+        {/* Banner bar — merged into the hero */}
+        <div className="relative z-20 border-t border-white/10 bg-[#0b66d1]">
+          <div className="mx-auto flex max-w-[1600px] flex-col items-center justify-between gap-5 px-4 py-8 text-center sm:flex-row sm:text-left md:px-8">
+            <p className="max-w-2xl text-sm font-medium leading-6 text-white md:text-base">
+              Join BlackDrivo with a simple onboarding process and dedicated support to help you
+              get started smoothly.
+            </p>
+            <Link
+              href="#"
+              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-[#0b66d1] transition hover:gap-3 hover:bg-gray-100"
+            >
+              Become a Partner <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </div>
     </section>

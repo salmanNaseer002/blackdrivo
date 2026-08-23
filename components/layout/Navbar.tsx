@@ -16,23 +16,35 @@ const APP_STORE_URL = "https://apps.apple.com/app/idXXXXXXXXX";
 const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.blackdrivo.app";
 
 const services = [
-  { label: "Airport Transfers",    href: "/services#airport",   desc: "Flight-tracked pickups"      },
-  { label: "Hourly Chauffeur",     href: "/services#hourly",    desc: "From 2 to 24 hours"          },
-  { label: "City-to-City Rides",   href: "/services#city",      desc: "Long distance in comfort"    },
-  { label: "Corporate Travel",     href: "/services#corporate", desc: "Business travel solutions"   },
-  { label: "Event Transportation", href: "/services#events",    desc: "Weddings, galas & more"      },
+  { label: "Overview",             href: "/services",           desc: "See everything we offer"     },
+  { label: "Airport Transfers",    href: "/services/airport",   desc: "Flight-tracked pickups"      },
+  { label: "Hourly Chauffeur",     href: "/services/hourly",    desc: "From 2 to 24 hours"          },
+  { label: "City-to-City Rides",   href: "/services/city",      desc: "Long distance in comfort"    },
+  { label: "Corporate Travel",     href: "/services/corporate", desc: "Business travel solutions"   },
+  { label: "Weddings",             href: "/services/weddings",  desc: "Your perfect day, arrived"   },
+  { label: "Special Events",       href: "/services/events",    desc: "Galas, fundraisers & more"   },
+];
+
+const business = [
+  { label: "Overview",               href: "/business",                  desc: "Ground transport for your company" },
+  { label: "Corporate",               href: "/business/corporate",        desc: "Centralized billing & travel policy" },
+  { label: "Travel Partner",          href: "/business/travel-partner",   desc: "For agencies & travel managers"     },
+  { label: "Business Partnerships",   href: "/business/partnerships",     desc: "Hotels, venues & referral partners" },
 ];
 
 export default function Navbar() {
   const [isScrolled,   setIsScrolled]   = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [businessOpen, setBusinessOpen] = useState(false);
   const [mobileOpen,   setMobileOpen]   = useState(false);
   const [countryOpen,  setCountryOpen]  = useState(false);
   const [countryOpenMobile, setCountryOpenMobile] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mobileBusinessOpen, setMobileBusinessOpen] = useState(false);
   const [showFloatingBook, setShowFloatingBook] = useState(false);
   const [pendingCountry, setPendingCountry] = useState<SiteCountry | null>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
+  const businessRef = useRef<HTMLDivElement>(null);
   const countryRef  = useRef<HTMLDivElement>(null);
   const countryRefMobile = useRef<HTMLDivElement>(null);
   const pathname    = usePathname();
@@ -40,6 +52,15 @@ export default function Navbar() {
   const { country, countries, setCountry } = useSiteCountry();
 
   const isHomePage = pathname === "/";
+  // Pages that open with a fixed hero photo (Home, Services, Business — overview + slugs)
+  // get the same transparent-over-hero-then-solid-on-scroll navbar as the homepage.
+  const hasHeroBackground =
+    isHomePage ||
+    pathname === "/services" ||
+    pathname.startsWith("/services/") ||
+    pathname === "/business" ||
+    pathname.startsWith("/business/") ||
+    pathname === "/partner";
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 50);
@@ -51,6 +72,7 @@ export default function Navbar() {
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (!servicesRef.current?.contains(e.target as Node)) setServicesOpen(false);
+      if (!businessRef.current?.contains(e.target as Node)) setBusinessOpen(false);
       if (!countryRef.current?.contains(e.target as Node)) setCountryOpen(false);
       if (!countryRefMobile.current?.contains(e.target as Node)) setCountryOpenMobile(false);
     };
@@ -79,7 +101,7 @@ export default function Navbar() {
     return () => observer.disconnect();
   }, [pathname]);
 
-  const solidBg = isScrolled || !isHomePage;
+  const solidBg = isScrolled || !hasHeroBackground;
 
   // Returns true when the current path matches this nav item
   const isActive = (href: string) =>
@@ -87,14 +109,14 @@ export default function Navbar() {
 
   const navLinkClass = (href: string) => {
     const active = isActive(href);
-    return `rounded-lg px-3.5 py-2 text-sm font-medium transition ${
+    return `border-b-2 px-3.5 py-2 text-sm transition ${
       solidBg
         ? active
-          ? "text-[#0b66d1] bg-blue-50 font-semibold"
-          : "text-gray-700 hover:text-[#0b66d1] hover:bg-blue-50"
+          ? "border-[#0b66d1] font-semibold text-[#0b66d1]"
+          : "border-transparent font-medium text-gray-700 hover:border-[#0b66d1] hover:text-[#0b66d1]"
         : active
-          ? "text-white bg-white/20 font-semibold"
-          : "text-white/90 hover:bg-white/10 hover:text-white"
+          ? "border-white font-semibold text-white"
+          : "border-transparent font-medium text-white/90 hover:border-white hover:text-white"
     }`;
   };
 
@@ -133,8 +155,6 @@ export default function Navbar() {
           {/* Everything else — one right-aligned group, no centered nav */}
           <div className="hidden items-center gap-1 lg:flex">
             <nav className="mr-[6.25rem] flex items-center gap-1">
-              <Link href="/about" className={navLinkClass("/about")}>About</Link>
-
               <div className="relative" ref={servicesRef}>
                 <button onClick={() => setServicesOpen(!servicesOpen)} className={`flex items-center gap-1.5 ${navLinkClass("/services")}`}>
                   Services
@@ -147,12 +167,13 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -8, scale: 0.97 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute left-0 top-full mt-2 w-64 rounded-2xl border border-gray-100 bg-white p-2 shadow-xl"
+                      className="absolute left-0 top-full mt-2 w-64 rounded-xl border border-gray-100 bg-white py-2 shadow-lg"
                     >
                       {services.map(s => (
                         <Link key={s.label} href={s.href} onClick={() => setServicesOpen(false)}
-                          className="block rounded-xl px-4 py-3 transition hover:bg-blue-50">
-                          <p className="text-sm font-medium text-gray-900">{s.label}</p>
+                          className="group relative block py-2 pl-5 pr-4 transition">
+                          <span className="absolute left-0 top-1.5 bottom-1.5 w-[3px] origin-center scale-y-0 rounded-full bg-[#0b66d1] transition-transform duration-150 group-hover:scale-y-100" />
+                          <p className="text-sm text-gray-800 transition group-hover:font-semibold group-hover:text-[#0b66d1]">{s.label}</p>
                           <p className="text-xs text-gray-500">{s.desc}</p>
                         </Link>
                       ))}
@@ -161,10 +182,35 @@ export default function Navbar() {
                 </AnimatePresence>
               </div>
 
-              <Link href="/fleet"   className={navLinkClass("/fleet")}>Fleet</Link>
+              <div className="relative" ref={businessRef}>
+                <button onClick={() => setBusinessOpen(!businessOpen)} className={`flex items-center gap-1.5 ${navLinkClass("/business")}`}>
+                  Business
+                  <ChevronDown className={`h-4 w-4 transition-transform ${businessOpen ? "rotate-180" : ""}`} />
+                </button>
+                <AnimatePresence>
+                  {businessOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute left-0 top-full mt-2 w-64 rounded-xl border border-gray-100 bg-white py-2 shadow-lg"
+                    >
+                      {business.map(b => (
+                        <Link key={b.label} href={b.href} onClick={() => setBusinessOpen(false)}
+                          className="group relative block py-2 pl-5 pr-4 transition">
+                          <span className="absolute left-0 top-1.5 bottom-1.5 w-[3px] origin-center scale-y-0 rounded-full bg-[#0b66d1] transition-transform duration-150 group-hover:scale-y-100" />
+                          <p className="text-sm text-gray-800 transition group-hover:font-semibold group-hover:text-[#0b66d1]">{b.label}</p>
+                          <p className="text-xs text-gray-500">{b.desc}</p>
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
               <Link href="/contact" className={navLinkClass("/contact")}>Corporate</Link>
               <Link href="/contact" className={navLinkClass("/contact")}>Contact</Link>
-              <Link href="/driver"   className={navLinkClass("/driver")}>Drive with Us</Link>
+              <Link href="/partner"   className={navLinkClass("/partner")}>Become a Partner</Link>
 
               {user && isDriver && (
                 <Link href={dashboardHref} className={navLinkClass(dashboardHref)}>
@@ -344,10 +390,6 @@ export default function Navbar() {
                   </div>
                 )}
 
-                <Link href="/about" onClick={() => setMobileOpen(false)} className={mobileNavLinkClass("/about")}>
-                  About
-                </Link>
-
                 <div>
                   <button onClick={() => setMobileServicesOpen((v) => !v)}
                     className="flex w-full items-center justify-between rounded-xl px-3 py-3 text-sm font-medium text-gray-700 transition hover:bg-blue-50 hover:text-[#0b66d1]">
@@ -374,11 +416,36 @@ export default function Navbar() {
                   </AnimatePresence>
                 </div>
 
+                <div>
+                  <button onClick={() => setMobileBusinessOpen((v) => !v)}
+                    className="flex w-full items-center justify-between rounded-xl px-3 py-3 text-sm font-medium text-gray-700 transition hover:bg-blue-50 hover:text-[#0b66d1]">
+                    Business
+                    <ChevronDown className={`h-4 w-4 text-gray-400 transition-transform ${mobileBusinessOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  <AnimatePresence>
+                    {mobileBusinessOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden pl-2"
+                      >
+                        {business.map(b => (
+                          <Link key={b.label} href={b.href} onClick={() => setMobileOpen(false)}
+                            className="block rounded-lg px-3 py-2.5 text-sm text-gray-600 transition hover:bg-blue-50 hover:text-[#0b66d1]">
+                            {b.label}
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
                 {[
-                  { label: "Fleet",         href: "/fleet"   },
                   { label: "Corporate",     href: "/contact" },
                   { label: "Contact",       href: "/contact" },
-                  { label: "Drive with Us", href: "/driver"  },
+                  { label: "Become a Partner", href: "/partner"  },
                 ].map(item => (
                   <Link key={item.label} href={item.href} onClick={() => setMobileOpen(false)}
                     className={mobileNavLinkClass(item.href)}>
