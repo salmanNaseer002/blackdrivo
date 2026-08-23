@@ -1,25 +1,21 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, Mail, MapPin, Instagram, Twitter, Linkedin, Facebook } from "lucide-react";
+import { Instagram, Twitter, Linkedin, Facebook, Apple } from "lucide-react";
 
 const footerLinks = {
   Services: [
-    { label: "Airport Transfers", href: "/services#airport" },
-    { label: "Hourly Chauffeur", href: "/services#hourly" },
-    { label: "City-to-City Rides", href: "/services#city" },
-    { label: "Corporate Travel", href: "/services#corporate" },
-    { label: "Event Transportation", href: "/services#events" },
+    { label: "Airport Transfer", href: "/services/airport" },
+    { label: "Hourly Chauffeur", href: "/services/hourly" },
+    { label: "City-to-City Rides", href: "/services/city" },
+    { label: "Corporate Travel", href: "/services/corporate" },
+    { label: "Event Transportation", href: "/services/events" },
   ],
   Company: [
-    { label: "About Us", href: "/about" },
     { label: "Careers", href: "/careers" },
     { label: "Blog", href: "/blog" },
     { label: "Press", href: "/press" },
     { label: "Become a Partner", href: "/partner" },
   ],
-
-
- 
 
   Support: [
     { label: "Help Center", href: "/help" },
@@ -29,7 +25,7 @@ const footerLinks = {
    "Mobile Apps": [
   { label: "Download on iOS", href: "#" },
   { label: "Get it on Android", href: "#" },
-  { label: "Driver App", href: "#" },
+  { label: "Driver App", href: "/partner" },
 ],
 };
 
@@ -67,20 +63,6 @@ export default function Footer() {
               Premium chauffeur service across New Jersey, and the surrounding tri-state area.
               Available 24/7.
             </p>
-            <div className="mt-6 space-y-2.5 text-sm text-white/55">
-              <a href="tel:+18005550199" className="flex items-center gap-2.5 hover:text-white transition">
-                <Phone className="h-4 w-4 text-[#0b66d1]" />
-                +1 (800) 555-0199
-              </a>
-              <a href="mailto:support@blackdrivo.com" className="flex items-center gap-2.5 hover:text-white transition">
-                <Mail className="h-4 w-4 text-[#0b66d1]" />
-                Hello@blackdrivo.com
-              </a>
-              <div className="flex items-start gap-2.5">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#0b66d1]" />
-                <span>NJ & surrounding areas</span>
-              </div>
-            </div>
             <div className="mt-6 flex items-center gap-3">
   {socialLinks.map(({ Icon, href, label }) => (
     <a
@@ -121,37 +103,35 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* App Download Strip */}
-<div className="mt-16 flex flex-col items-center gap-6 rounded-2xl border border-white/10 bg-white/4 p-8 md:flex-row md:justify-between">
+        {/* App Download Strip — flat */}
+<div className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-white/8 pt-10 md:flex-row">
   <div>
     <p className="text-lg font-semibold text-white">Ride smarter with the BlackDrivo app</p>
     <p className="mt-1 text-sm text-white/55">Book, track, and manage rides from your phone.</p>
   </div>
-  <div className="flex gap-3">
+  <div className="flex items-center gap-6">
     {/* App Store */}
-    <a href="#" className="flex items-center gap-3 rounded-xl border border-white/15 bg-white/8 px-5 py-3 transition hover:bg-white/14">
-      <svg className="h-7 w-7 text-white" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-      </svg>
+    <a href="#" className="flex items-center gap-2.5 text-white/70 transition hover:text-white">
+      <Apple className="h-6 w-6" />
       <div>
-        <p className="text-xs text-white/50">Download on the</p>
-        <p className="text-sm font-semibold text-white">App Store</p>
+        <p className="text-[11px] leading-tight text-white/45">Download on the</p>
+        <p className="text-sm font-semibold leading-tight">App Store</p>
       </div>
     </a>
     {/* Google Play */}
-    <a href="#" className="flex items-center gap-3 rounded-xl border border-white/15 bg-white/8 px-5 py-3 transition hover:bg-white/14">
-      <svg className="h-7 w-7 text-white" viewBox="0 0 24 24" fill="currentColor">
+    <a href="#" className="flex items-center gap-2.5 text-white/70 transition hover:text-white">
+      <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
         <path d="M3.18 23.76c.3.17.64.24.99.2l12.6-7.26-2.75-2.75-10.84 9.81zM.54 1.18C.2 1.51 0 2.06 0 2.78v18.44c0 .72.2 1.27.54 1.6l.08.08 10.33-10.33v-.24L.62 1.1l-.08.08zM20.4 10.66l-2.94-1.7-3.07 3.07 3.07 3.07 2.96-1.71c.84-.49.84-1.24-.02-1.73zM3.18.24L15.78 7.5l-2.75 2.75L2.19.44c.3-.37.68-.37.99-.2z"/>
       </svg>
       <div>
-        <p className="text-xs text-white/50">Get it on</p>
-        <p className="text-sm font-semibold text-white">Google Play</p>
+        <p className="text-[11px] leading-tight text-white/45">Get it on</p>
+        <p className="text-sm font-semibold leading-tight">Google Play</p>
       </div>
     </a>
   </div>
 </div>
 
-      
+
 
         {/* Bottom */}
         <div className="mt-10 flex flex-col gap-4 border-t border-white/8 pt-8 text-sm text-white/35 md:flex-row md:items-center md:justify-between">

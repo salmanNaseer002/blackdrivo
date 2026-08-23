@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Menu, X, Smartphone, Apple, User, Phone } from "lucide-react";
+import { ChevronDown, Menu, X, Apple, User, Phone } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -476,7 +476,9 @@ export default function Navbar() {
                     onClick={() => setMobileOpen(false)}
                     className="flex items-center gap-3 rounded-xl border border-gray-200 px-3 py-2.5 transition hover:border-[#0b66d1] hover:bg-blue-50"
                   >
-                    <Smartphone className="h-5 w-5 text-gray-700" />
+                    <svg className="h-5 w-5 text-gray-700" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M3.18 23.76c.3.17.64.24.99.2l12.6-7.26-2.75-2.75-10.84 9.81zM.54 1.18C.2 1.51 0 2.06 0 2.78v18.44c0 .72.2 1.27.54 1.6l.08.08 10.33-10.33v-.24L.62 1.1l-.08.08zM20.4 10.66l-2.94-1.7-3.07 3.07 3.07 3.07 2.96-1.71c.84-.49.84-1.24-.02-1.73zM3.18.24L15.78 7.5l-2.75 2.75L2.19.44c.3-.37.68-.37.99-.2z"/>
+                    </svg>
                     <div>
                       <p className="text-sm font-medium text-gray-900">Play Store</p>
                       <p className="text-xs text-gray-500">Download for Android</p>

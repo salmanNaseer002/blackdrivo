@@ -10,7 +10,7 @@ export interface ServiceEntry {
 export const services: ServiceEntry[] = [
   {
     id: "airport",
-    title: "Airport & Seaport Transfers",
+    title: "Airport Transfer",
     tagline: "Smooth landings, every time.",
     description:
       "At BlackDrivo, the client always comes first. Our focus on customer service and client satisfaction guarantees a professional, pleasurable ride. Whether traveling for business or leisure, our chauffeurs provide the ultimate relaxing experience in the safety and comfort of our top-of-the-line vehicles.",
