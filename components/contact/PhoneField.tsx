@@ -48,7 +48,9 @@ export default function PhoneField({
 
   return (
     <div>
-      <label className="mb-1.5 block text-xs font-medium text-gray-700">Phone</label>
+      <label className="mb-1.5 block text-xs font-medium text-gray-700">
+        Phone <span className="text-red-500">*</span>
+      </label>
       <div className="flex gap-2">
         <div className="relative shrink-0" ref={ref}>
           <button

@@ -45,7 +45,7 @@ export default function HeroSection() {
           className="text-center text-white"
         >
 
-          <h1 className="text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl lg:text-8xl">
+          <h1 className="text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
             Your <span className="text-[#0b66d1]">chauffeur</span> awaits.
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-white/65 md:text-lg">

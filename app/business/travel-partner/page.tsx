@@ -50,6 +50,7 @@ export default function TravelPartnerBusinessPage() {
         heroImage="/Exterior-with-door-open.jpg"
         points={points}
         ctaLabel="Become a travel partner"
+        accountType="agency"
       />
       <Footer />
     </div>

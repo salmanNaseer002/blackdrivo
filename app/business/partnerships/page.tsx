@@ -50,6 +50,7 @@ export default function BusinessPartnershipsPage() {
         heroImage="/suv-2.jpg"
         points={points}
         ctaLabel="Explore a partnership"
+        accountType="business"
       />
       <Footer />
     </div>

@@ -85,7 +85,14 @@ export const querySchema = z
       .transform((v) => v.trim()),
   })
   .superRefine((data, ctx) => {
-    if (data.phone === "") return;
+    if (data.phone === "") {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["phone"],
+        message: "Phone number is required",
+      });
+      return;
+    }
     const country = DEFAULT_COUNTRIES.find((c) => c.code === data.phone_country);
     const digitsNeeded = (country?.phoneFormat.match(/#/g) ?? []).length;
     const digits = data.phone.replace(/\D/g, "");

@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { fadeUp, scaleIn, staggerContainer, viewportOnce } from "@/lib/animations";
+import BusinessInquiryForm from "./BusinessInquiryForm";
 
 const solutions = [
   {
@@ -81,12 +82,12 @@ export default function BusinessOverviewContent() {
             with the transparency and support your business demands.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/contact"
+            <a
+              href="#business-form"
               className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:gap-3 hover:bg-[#0952a8]"
             >
               Talk to our business team <ArrowRight className="h-4 w-4" />
-            </Link>
+            </a>
             <Link
               href="/login"
               className="inline-flex items-center gap-2 rounded-full bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
@@ -273,15 +274,17 @@ export default function BusinessOverviewContent() {
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 md:text-5xl">
               Ready to move your business forward?
             </h2>
-            <Link
-              href="/contact"
+            <a
+              href="#business-form"
               className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:gap-3 hover:bg-[#0952a8]"
             >
               Talk to our business team <ArrowRight className="h-4 w-4" />
-            </Link>
+            </a>
           </motion.div>
         </div>
       </section>
+
+      <BusinessInquiryForm accountType="business" />
     </>
   );
 }

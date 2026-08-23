@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/animations";
+import BusinessInquiryForm from "./BusinessInquiryForm";
+import type { AccountType } from "@/validations/query";
 
 type Point = { title: string; desc: string };
 
@@ -14,12 +15,14 @@ export default function BusinessSubPageContent({
   heroImage,
   points,
   ctaLabel,
+  accountType,
 }: {
   title: string;
   intro: string;
   heroImage: string;
   points: Point[];
   ctaLabel: string;
+  accountType: AccountType;
 }) {
   return (
     <>
@@ -51,12 +54,12 @@ export default function BusinessSubPageContent({
             {intro}
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/contact"
+            <a
+              href="#business-form"
               className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:gap-3 hover:bg-[#0952a8]"
             >
               {ctaLabel} <ArrowRight className="h-4 w-4" />
-            </Link>
+            </a>
           </div>
         </motion.div>
       </section>
@@ -101,12 +104,12 @@ export default function BusinessSubPageContent({
             Our business team will help you find the right fit — no obligation, no pressure.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Link
-              href="/contact"
+            <a
+              href="#business-form"
               className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:gap-3 hover:bg-[#0952a8]"
             >
               {ctaLabel} <ArrowRight className="h-4 w-4" />
-            </Link>
+            </a>
             <a
               href="tel:+18005550199"
               className="inline-flex items-center gap-2 rounded-full bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
@@ -116,6 +119,8 @@ export default function BusinessSubPageContent({
           </div>
         </motion.div>
       </section>
+
+      <BusinessInquiryForm accountType={accountType} />
     </>
   );
 }

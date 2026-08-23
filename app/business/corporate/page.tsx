@@ -50,6 +50,7 @@ export default function CorporateBusinessPage() {
         heroImage="/Exterior-from-rear-door-open.jpg"
         points={points}
         ctaLabel="Set up a corporate account"
+        accountType="business"
       />
       <Footer />
     </div>
