@@ -91,7 +91,7 @@ export default function ProfileDropdown({ initials, displayName, email, isDriver
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.97 }}
             transition={{ duration: 0.15 }}
-            className={`absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl ${
+            className={`absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-lg ${
               fullWidth ? "max-w-full" : ""
             }`}
           >
@@ -112,12 +112,13 @@ export default function ProfileDropdown({ initials, displayName, email, isDriver
             </div>
 
             {/* Menu */}
-            <div className="p-1.5">
+            <div className="py-1.5">
               {menuItems.map((item) => (
                 <Link key={item.label} href={item.href} onClick={() => setOpen(false)}
-                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-gray-700 transition hover:bg-gray-50 hover:text-gray-900">
-                  <item.icon className="h-4 w-4 text-gray-400" />
-                  {item.label}
+                  className="group relative flex items-center gap-3 py-2.5 pl-5 pr-4 text-sm text-gray-700 transition">
+                  <span className="absolute left-0 top-1.5 bottom-1.5 w-[3px] origin-center scale-y-0 rounded-full bg-[#0b66d1] transition-transform duration-150 group-hover:scale-y-100" />
+                  <item.icon className="h-4 w-4 text-gray-400 transition group-hover:text-[#0b66d1]" />
+                  <span className="transition group-hover:font-semibold group-hover:text-[#0b66d1]">{item.label}</span>
                 </Link>
               ))}
             </div>

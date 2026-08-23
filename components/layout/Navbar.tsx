@@ -60,7 +60,8 @@ export default function Navbar() {
     pathname.startsWith("/services/") ||
     pathname === "/business" ||
     pathname.startsWith("/business/") ||
-    pathname === "/partner";
+    pathname === "/partner" ||
+    pathname === "/contact";
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 50);
@@ -208,7 +209,6 @@ export default function Navbar() {
                   )}
                 </AnimatePresence>
               </div>
-              <Link href="/contact" className={navLinkClass("/contact")}>Corporate</Link>
               <Link href="/contact" className={navLinkClass("/contact")}>Contact</Link>
               <Link href="/partner"   className={navLinkClass("/partner")}>Become a Partner</Link>
 
@@ -443,7 +443,6 @@ export default function Navbar() {
                 </div>
 
                 {[
-                  { label: "Corporate",     href: "/contact" },
                   { label: "Contact",       href: "/contact" },
                   { label: "Become a Partner", href: "/partner"  },
                 ].map(item => (

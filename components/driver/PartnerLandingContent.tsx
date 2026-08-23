@@ -8,7 +8,7 @@ import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import { CheckCircle, ArrowRight, Phone, ChevronDown } from "lucide-react";
 import DriverHeroSlider from "@/components/driver/DriverHeroSlider";
-import { fadeUp, scaleIn, staggerContainer, viewportOnce } from "@/lib/animations";
+import { fadeUp, staggerContainer, viewportOnce } from "@/lib/animations";
 
 const leftCards = [
   {
@@ -84,14 +84,14 @@ export default function PartnerLandingContent() {
       <DriverHeroSlider />
 
       {/* Unlock New Demand — 2 cards / phone mockup / 2 cards */}
-      <section className="flex min-h-screen w-full items-center bg-white px-4 py-20 md:px-6 lg:px-8 lg:py-28">
-        <div className="mx-auto max-w-[1600px]">
+      <section className="relative flex min-h-screen w-full items-center overflow-hidden bg-white px-4 py-12 md:px-6 lg:px-8">
+        <div className="relative z-10 mx-auto w-full max-w-[1600px]">
           <motion.div
             initial="hidden"
             whileInView="show"
             viewport={viewportOnce}
             variants={fadeUp}
-            className="mb-14 text-center"
+            className="mb-8 text-center"
           >
             <h2 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               Unlock New Demand
@@ -114,16 +114,16 @@ export default function PartnerLandingContent() {
                 <motion.div
                   key={c.title}
                   variants={fadeUp}
-                  className="flex min-h-[19rem] w-full max-w-sm flex-col justify-center rounded-xl bg-blue-50 p-8 lg:mx-auto"
+                  className="flex min-h-[250px] w-full max-w-lg flex-col items-center justify-center rounded-xl bg-black p-8 text-center shadow-lg lg:mx-auto"
                 >
-                  <h3 className="text-lg font-bold text-gray-900">{c.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-gray-500">{c.description}</p>
+                  <h3 className="text-lg font-bold text-white">{c.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-white/60">{c.description}</p>
                 </motion.div>
               ))}
             </div>
 
-            <motion.div variants={fadeUp} className="mx-auto w-72 lg:w-80">
-              <div className="relative aspect-[9/19] overflow-hidden rounded-xl border-[6px] border-gray-900 bg-gray-900 shadow-xl">
+            <motion.div variants={fadeUp} className="mx-auto w-60 lg:w-64">
+              <div className="relative aspect-[9/19] overflow-hidden rounded-[2.5rem] border-[8px] border-black bg-black shadow-2xl">
                 <Image
                   src="/drive-hero.webp"
                   alt="BlackDrivo driver app"
@@ -131,6 +131,10 @@ export default function PartnerLandingContent() {
                   className="object-cover"
                   sizes="256px"
                 />
+                {/* Notch */}
+                <div className="absolute left-1/2 top-0 z-10 h-6 w-32 -translate-x-1/2 rounded-b-2xl bg-black" />
+                {/* Home indicator */}
+                <div className="absolute bottom-1.5 left-1/2 z-10 h-1 w-28 -translate-x-1/2 rounded-full bg-white/80" />
               </div>
             </motion.div>
 
@@ -139,10 +143,10 @@ export default function PartnerLandingContent() {
                 <motion.div
                   key={c.title}
                   variants={fadeUp}
-                  className="flex min-h-[19rem] w-full max-w-sm flex-col justify-center rounded-xl bg-blue-50 p-8 lg:mx-auto"
+                  className="flex min-h-[250px] w-full max-w-lg flex-col items-center justify-center rounded-xl bg-black p-8 text-center shadow-lg lg:mx-auto"
                 >
-                  <h3 className="text-lg font-bold text-gray-900">{c.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-gray-500">{c.description}</p>
+                  <h3 className="text-lg font-bold text-white">{c.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-white/60">{c.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -189,58 +193,41 @@ export default function PartnerLandingContent() {
         </motion.div>
       </section>
 
-      {/* Onboarding ↔ Requirements — tabbed */}
-      <section id="how-it-works" className="flex min-h-[50vh] w-full items-center bg-white px-4 py-8 md:px-6 lg:px-8">
-        <PartnerTabsContent />
-      </section>
+      {/* Common questions (left) ↔ How to become a partner (right) */}
+      <section id="how-it-works" className="flex min-h-screen w-full items-center bg-white px-4 py-12 md:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[1600px]">
+          <div className="grid gap-16 lg:grid-cols-2">
+            <div>
+              <motion.div
+                initial="hidden"
+                whileInView="show"
+                viewport={viewportOnce}
+                variants={fadeUp}
+                className="mb-6"
+              >
+                <h2 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">Common questions</h2>
+              </motion.div>
 
-      {/* FAQ — accordion left, image right */}
-      <section className="flex min-h-[50vh] w-full items-center border-t border-gray-100 bg-gray-50 px-4 py-8 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-[1600px]">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={viewportOnce}
-            variants={fadeUp}
-            className="mb-6 text-center"
-          >
-            <h2 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">Common questions</h2>
-          </motion.div>
+              <motion.div
+                initial="hidden"
+                whileInView="show"
+                viewport={viewportOnce}
+                variants={fadeUp}
+                className="divide-y divide-gray-200 border-y border-gray-200"
+              >
+                {faqs.map((faq) => (
+                  <details key={faq.q} className="group py-3">
+                    <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
+                      <span className="text-sm font-semibold text-gray-900">{faq.q}</span>
+                      <ChevronDown className="mt-0.5 h-4 w-4 shrink-0 text-gray-500 transition-transform duration-200 group-open:rotate-180" />
+                    </summary>
+                    <p className="mt-3 text-sm leading-6 text-gray-500">{faq.a}</p>
+                  </details>
+                ))}
+              </motion.div>
+            </div>
 
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            <motion.div
-              initial="hidden"
-              whileInView="show"
-              viewport={viewportOnce}
-              variants={fadeUp}
-              className="divide-y divide-gray-200 border-y border-gray-200"
-            >
-              {faqs.map((faq) => (
-                <details key={faq.q} className="group py-3">
-                  <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
-                    <span className="text-sm font-semibold text-gray-900">{faq.q}</span>
-                    <ChevronDown className="mt-0.5 h-4 w-4 shrink-0 text-gray-500 transition-transform duration-200 group-open:rotate-180" />
-                  </summary>
-                  <p className="mt-3 text-sm leading-6 text-gray-500">{faq.a}</p>
-                </details>
-              ))}
-            </motion.div>
-
-            <motion.div
-              initial="hidden"
-              whileInView="show"
-              viewport={viewportOnce}
-              variants={scaleIn}
-              className="relative h-56 overflow-hidden rounded-3xl md:h-72"
-            >
-              <Image
-                src="/Exterior-with-door-open.jpg"
-                alt="BlackDrivo partner opening the vehicle door"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </motion.div>
+            <PartnerTabsContent />
           </div>
         </div>
       </section>
