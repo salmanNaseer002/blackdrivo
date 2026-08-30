@@ -62,17 +62,22 @@ export default function Navbar() {
     return `/pk${href}`;
   };
 
+  // /pk/services, /pk/business, etc. render the exact same content as their
+  // un-prefixed page (middleware rewrite) — strip the prefix before checking
+  // which page this effectively is, so the hero-photo pages get the same
+  // transparent navbar under /pk too instead of always falling back to solid.
+  const effectivePath = pathname === "/pk" ? "/" : pathname.startsWith("/pk/") ? pathname.slice(3) : pathname;
   const isHomePage = pathname === "/";
   // Pages that open with a fixed hero photo (Home, Services, Business — overview + slugs)
   // get the same transparent-over-hero-then-solid-on-scroll navbar as the homepage.
   const hasHeroBackground =
-    isHomePage ||
-    pathname === "/services" ||
-    pathname.startsWith("/services/") ||
-    pathname === "/business" ||
-    pathname.startsWith("/business/") ||
-    pathname === "/partner" ||
-    pathname === "/contact";
+    effectivePath === "/" ||
+    effectivePath === "/services" ||
+    effectivePath.startsWith("/services/") ||
+    effectivePath === "/business" ||
+    effectivePath.startsWith("/business/") ||
+    effectivePath === "/partner" ||
+    effectivePath === "/contact";
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 50);
@@ -115,9 +120,10 @@ export default function Navbar() {
 
   const solidBg = isScrolled || !hasHeroBackground;
 
-  // Returns true when the current path matches this nav item
+  // Returns true when the current path matches this nav item — compares
+  // against effectivePath so /pk/services still highlights "Services".
   const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href.split("#")[0]);
+    href === "/" ? effectivePath === "/" : effectivePath.startsWith(href.split("#")[0]);
 
   const navLinkClass = (href: string) => {
     const active = isActive(href);
