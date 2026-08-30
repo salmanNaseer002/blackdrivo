@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "BlackDrivo for Business | Corporate Chauffeur Solutions",
   description:
     "Corporate travel, agency bookings, and referral partnerships — one platform for every kind of business ground transportation.",
+  alternates: { canonical: "https://www.blackdrivo.com/business" },
 };
 
 export default function BusinessPage() {

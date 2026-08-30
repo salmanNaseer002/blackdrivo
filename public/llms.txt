@@ -30,10 +30,22 @@ Rides can be booked through the BlackDrivo website (blackdrivo.com) or the Black
 - Chauffeur service: https://www.blackdrivo.com/chauffeur-service
 - Airport transfer: https://www.blackdrivo.com/airport-transfer
 - Limousine service: https://www.blackdrivo.com/limousine-service
+- Fleet: https://www.blackdrivo.com/fleet
+- Business (corporate travel, agency bookings, referral partnerships): https://www.blackdrivo.com/business
+  - https://www.blackdrivo.com/business/corporate
+  - https://www.blackdrivo.com/business/partnerships
+  - https://www.blackdrivo.com/business/travel-partner
 - About: https://www.blackdrivo.com/about
 - Contact: https://www.blackdrivo.com/contact
-- Become a driver: https://www.blackdrivo.com/driver
+- Careers: https://www.blackdrivo.com/careers
+- Press: https://www.blackdrivo.com/press
+- Help Center: https://www.blackdrivo.com/help
+- Offers: https://www.blackdrivo.com/offers
+- Become a driver: https://www.blackdrivo.com/drive
 - Blog: https://www.blackdrivo.com/blog
+- Individual service pages exist under https://www.blackdrivo.com/services/<slug> (e.g. airport transfer, chauffeur service, hourly, corporate travel).
+- City-specific pages: https://www.blackdrivo.com/chauffeur-service/new-york, https://www.blackdrivo.com/chauffeur-service/los-angeles, etc. — see sitemap.xml for the full list.
+- Airport-specific pages: https://www.blackdrivo.com/airport-transfer/jfk, https://www.blackdrivo.com/airport-transfer/lax, etc. — see sitemap.xml for the full list.
 
 ## Contact
 For business inquiries, use the contact form at https://www.blackdrivo.com/contact.

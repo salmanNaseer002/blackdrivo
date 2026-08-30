@@ -111,7 +111,7 @@ export default function RootLayout({
               name: "BlackDrivo",
               url: "https://www.blackdrivo.com",
               logo: "https://www.blackdrivo.com/favicon.ico",
-              image: "https://www.blackdrivo.com/og-image.jpg",
+              image: "https://www.blackdrivo.com/BlackDrivo%20Main%20Page%20-%202403x1603.png",
               description:
                 "Premium chauffeur service for airport transfers, hourly rides, and city-to-city travel across New York, New Jersey, and the US.",
               telephone: "+1-800-555-0199",

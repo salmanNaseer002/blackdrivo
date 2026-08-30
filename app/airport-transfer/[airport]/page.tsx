@@ -20,6 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${ap.code} Airport Transfer | Black Car Service ${ap.city}, ${ap.state} — BlackDrivo`,
     description: `Premium airport transfer to and from ${ap.name} (${ap.code}) in ${ap.city}, ${ap.state}. Fixed pricing, live flight tracking, professional chauffeurs 24/7. Book instantly.`,
     keywords: `${ap.code} airport transfer, ${ap.city} airport car service, ${ap.name} chauffeur, black car ${ap.code}, airport pickup ${ap.city}`,
+    alternates: { canonical: `https://www.blackdrivo.com/airport-transfer/${ap.slug}` },
     openGraph: {
       title: `BlackDrivo ${ap.code} Airport Transfer — ${ap.city}, ${ap.state}`,
       description: `Book a professional chauffeur at ${ap.name} (${ap.code}). Fixed pricing, flight tracking, meet & greet available.`,

@@ -13,10 +13,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { city: citySlug } = await params;
   const city = cities.find(c => c.slug === citySlug);
   if (!city) return { title: "Not Found" };
+  // This route is statically generated (generateStaticParams) — the same
+  // pre-built HTML is served for both /chauffeur-service/<city> and (via
+  // middleware.ts's rewrite) /pk/chauffeur-service/<city>, since a static
+  // page can't vary per-request. Metadata/JSON-LD here always describe the
+  // US-worded version to match what's actually baked into that HTML; only
+  // CityPageContent's client-side text (via usePathname()) differs for /pk
+  // visitors, which is a real, if imperfect, tradeoff of reusing one static
+  // page for both regions instead of two separate builds.
   return {
     title: `Chauffeur Service ${city.name} | Black Car Service ${city.name}, ${city.state}`,
     description: `Premium chauffeur service in ${city.name}, ${city.state}. Fixed pricing, professional drivers, 24/7 availability. Book a black car in ${city.name} instantly — serving ${city.airport}.`,
     keywords: `chauffeur service ${city.name}, black car service ${city.name}, private driver ${city.name}, luxury car service ${city.state}, airport transfer ${city.airport}`,
+    alternates: { canonical: `https://www.blackdrivo.com/chauffeur-service/${city.slug}` },
     openGraph: {
       title: `BlackDrivo Chauffeur Service ${city.name}, ${city.state}`,
       description: `Book a professional chauffeur in ${city.name}. Fixed pricing, vetted drivers, 24/7 available. Serving ${city.airport}.`,
@@ -59,6 +68,8 @@ export default async function CityPage({ params }: Props) {
     serviceType: "Chauffeur Service",
   };
 
+  // Matches the US-worded metadata above (this static page can't vary per
+  // request — see the note in generateMetadata).
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",

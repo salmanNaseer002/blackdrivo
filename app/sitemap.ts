@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { blogPosts } from "@/lib/data/blog-posts";
 import { cities, airports } from "@/lib/data/seo-locations";
+import { services } from "@/lib/services/data";
 
 const BASE = "https://www.blackdrivo.com";
 const NOW  = new Date().toISOString();
@@ -16,7 +17,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/limousine-service`,           lastModified: NOW, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/about`,                       lastModified: NOW, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/contact`,                     lastModified: NOW, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/driver`,                      lastModified: NOW, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${BASE}/drive`,                       lastModified: NOW, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${BASE}/fleet`,                       lastModified: NOW, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/business`,                    lastModified: NOW, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/business/corporate`,          lastModified: NOW, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/business/partnerships`,       lastModified: NOW, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/business/travel-partner`,     lastModified: NOW, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/corporate`,                   lastModified: NOW, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${BASE}/corporate/join`,               lastModified: NOW, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${BASE}/offers`,                      lastModified: NOW, changeFrequency: "weekly",  priority: 0.6 },
+    { url: `${BASE}/partner`,                     lastModified: NOW, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/careers`,                     lastModified: NOW, changeFrequency: "monthly", priority: 0.5 },
     { url: `${BASE}/press`,                       lastModified: NOW, changeFrequency: "monthly", priority: 0.5 },
     { url: `${BASE}/blog`,                        lastModified: NOW, changeFrequency: "weekly",  priority: 0.7 },
@@ -48,5 +58,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticPages, ...blogPages, ...cityPages, ...airportPages];
+  const servicePages: MetadataRoute.Sitemap = services.map(s => ({
+    url: `${BASE}/services/${s.id}`,
+    lastModified: NOW,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  return [...staticPages, ...blogPages, ...cityPages, ...airportPages, ...servicePages];
 }

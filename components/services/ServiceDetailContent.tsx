@@ -72,12 +72,22 @@ export default function ServiceDetailContent({ service }: { service: ServiceEntr
             {service.description}
           </motion.p>
 
+          <motion.h2
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportOnce}
+            variants={fadeUp}
+            className="mt-10 text-sm font-bold uppercase tracking-widest text-gray-400"
+          >
+            What&apos;s Included
+          </motion.h2>
+
           <motion.ul
             initial="hidden"
             whileInView="show"
             viewport={viewportOnce}
             variants={staggerContainer}
-            className="mt-8 divide-y divide-gray-100 border-t border-gray-100"
+            className="mt-4 divide-y divide-gray-100 border-t border-gray-100"
           >
             {service.features.map((f) => (
               <motion.li

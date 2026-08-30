@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Become a Partner | BlackDrivo Chauffeur Network",
   description:
     "Join the BlackDrivo chauffeur network. We're hiring professional chauffeur partners in NYC, New Jersey, and Philadelphia. Premium clientele, 24/7 dispatch, competitive pay. Apply today.",
+  alternates: { canonical: "https://www.blackdrivo.com/partner" },
 };
 
 export default function PartnerPage() {

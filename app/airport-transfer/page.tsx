@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Airport Transfer Service | Premium Black Car Airport Rides",
   description: "Professional airport transfer service at major airports worldwide. Flight tracking included, fixed pricing, meet & greet available. Book instantly.",
   keywords: "airport transfer, airport car service, black car airport, chauffeur airport pickup, driver airport pickup",
+  alternates: { canonical: "https://www.blackdrivo.com/airport-transfer" },
   openGraph: {
     title: "BlackDrivo Airport Transfer — Flight-Tracked Premium Ground Transportation",
     description: "Book airport transfers at major airports worldwide. Fixed pricing, flight tracking, 60–90 min wait included. Professional chauffeurs 24/7.",
