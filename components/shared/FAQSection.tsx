@@ -27,7 +27,7 @@ export default function FAQSection({
   };
 
   return (
-    <section className="border-t border-gray-100 bg-white px-4 py-16 md:px-6 lg:px-8">
+    <section className="relative z-10 border-t border-gray-100 bg-white px-4 py-16 md:px-6 lg:px-8">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="mx-auto max-w-3xl">
         <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">{title}</h2>
