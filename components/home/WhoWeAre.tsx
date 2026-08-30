@@ -6,14 +6,18 @@ import Image from "next/image";
 import { CheckCircle } from "lucide-react";
 import { fadeUp, scaleIn, staggerContainer, viewportOnce } from "@/lib/animations";
 
-const points = [
-  "Serving New Jersey & Philadelphia",
-  "Corporate, VIP & private travel",
-  "Fixed-rate pricing — no surprises",
-  "24/7 reservations and dispatch support",
-];
+function getPoints(region: "us" | "pk") {
+  return [
+    region === "pk" ? "Serving Lahore, Karachi & Islamabad" : "Serving New Jersey & Philadelphia",
+    "Corporate, VIP & private travel",
+    "Fixed-rate pricing — no surprises",
+    "24/7 reservations and dispatch support",
+  ];
+}
 
-export default function WhoWeAre() {
+export default function WhoWeAre({ region = "us" }: { region?: "us" | "pk" }) {
+  const points = getPoints(region);
+  const driverWord = region === "pk" ? "driver" : "chauffeur";
   const headingRef = useRef<HTMLHeadingElement>(null);
   const { scrollYProgress } = useScroll({
     target: headingRef,
@@ -42,13 +46,13 @@ export default function WhoWeAre() {
             </motion.h2>
             <div className="mt-6 h-[3px] w-16 bg-[#0b66d1]" />
             <p className="mt-6 text-base leading-7 text-gray-600 md:text-lg">
-              BlackDrivo was founded with a singular commitment: deliver world-class chauffeured
-              transportation to the tri-state area — the kind of service that executives,
+              BlackDrivo was founded with a singular commitment: deliver world-class {driverWord}-driven
+              transportation to {region === "pk" ? "Lahore, Karachi, and Islamabad" : "the tri-state area"} — the kind of service that executives,
               frequent travelers, and discerning individuals deserve on every ride.
             </p>
             <p className="mt-4 text-base leading-7 text-gray-600 md:text-lg">
               We are not simply a car service. We are a professional transportation team that
-              understands what high-value clients expect: punctual chauffeurs, immaculate vehicles,
+              understands what high-value clients expect: punctual {driverWord}s, immaculate vehicles,
               responsive communication, and a seamless booking process — from reservation
               to final drop-off.
             </p>

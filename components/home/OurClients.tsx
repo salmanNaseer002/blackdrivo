@@ -11,7 +11,7 @@ interface ClientBanner {
   name: string | null;
 }
 
-export default function OurClients() {
+export default function OurClients({ region = "us" }: { region?: "us" | "pk" }) {
   const [logos, setLogos] = useState<ClientBanner[]>([]);
   const [loading, setLoading] = useState(true);
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -60,8 +60,9 @@ export default function OurClients() {
             Who we serve
           </motion.h2>
           <p className="mx-auto mt-6 max-w-3xl text-xl leading-9 text-gray-600 md:text-2xl">
-            From boardroom to airport, BlackDrivo is trusted by businesses and
-            individuals across New York, New Jersey, and the tri-state area.
+            {region === "pk"
+              ? "From boardroom to airport, BlackDrivo is trusted by businesses and individuals across Lahore, Karachi, and Islamabad."
+              : "From boardroom to airport, BlackDrivo is trusted by businesses and individuals across New York, New Jersey, and the tri-state area."}
           </p>
         </motion.div>
 

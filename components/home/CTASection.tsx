@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Car, Building2 } from "lucide-react";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/animations";
 
-export default function CTASection() {
+export default function CTASection({ region = "us" }: { region?: "us" | "pk" }) {
   return (
     <section className="relative z-10 flex min-h-screen w-full items-center bg-white px-4 py-20 md:px-6 lg:px-8">
       <div className="mx-auto w-full max-w-[1800px]">
@@ -33,8 +33,10 @@ export default function CTASection() {
                 Book your first ride
               </h3>
               <p className="mt-3 max-w-sm text-sm leading-6 text-white/60">
-                Experience premium chauffeur service across New Jersey, and the
-                tri-state area. Book in under 2 minutes.
+                {region === "pk"
+                  ? "Experience premium driver service across Lahore, Karachi, and Islamabad."
+                  : "Experience premium chauffeur service across New Jersey, and the tri-state area."}
+                {" "}Book in under 2 minutes.
               </p>
               <ul className="mt-6 space-y-2.5 border-t border-white/10 pt-6">
                 {["Instant booking confirmation", "Fixed upfront pricing", "Luxury fleet"].map((item) => (
@@ -114,7 +116,7 @@ export default function CTASection() {
           <div>
             <p className="text-lg font-semibold text-gray-900">Drive with BlackDrivo</p>
             <p className="mt-1 text-sm text-gray-500">
-              Join our network of professional chauffeurs and earn premium rates.
+              Join our network of professional {region === "pk" ? "drivers" : "chauffeurs"} and earn premium rates.
             </p>
           </div>
           <Link

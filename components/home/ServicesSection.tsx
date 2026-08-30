@@ -37,7 +37,10 @@ const services = [
 const PAGE_SIZE = 2;
 const PAGE_COUNT = Math.ceil(services.length / PAGE_SIZE);
 
-export default function ServicesSection() {
+export default function ServicesSection({ region = "us" }: { region?: "us" | "pk" }) {
+  const displayServices = region === "pk"
+    ? services.map((s) => (s.title === "Hourly Chauffeur" ? { ...s, title: "Hourly Driver" } : s))
+    : services;
   const headingRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: headingRef,
@@ -56,7 +59,7 @@ export default function ServicesSection() {
     setPage((next + PAGE_COUNT) % PAGE_COUNT);
   };
 
-  const visible = services.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+  const visible = displayServices.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
 
   return (
     <section className="relative z-10 flex min-h-screen w-full items-center bg-white px-4 py-20 md:px-6 lg:px-8 lg:py-28">

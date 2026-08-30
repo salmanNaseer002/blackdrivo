@@ -7,14 +7,18 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/animations";
 
-const features = [
-  { title: "Live Flight Tracking", desc: "We monitor your flight in real-time. Delayed or early — your driver adjusts automatically." },
-  { title: "60-Min Free Wait", desc: "Domestic flights get 60 minutes of complimentary wait time after landing." },
-  { title: "Curbside & Meet & Greet", desc: "Choose curbside pickup or an in-terminal meet & greet with your name on a board." },
-  { title: "Luggage Assistance", desc: "Your chauffeur will assist with your bags from the terminal to the vehicle." },
-];
+function getFeatures(region: "us" | "pk") {
+  const driverWord = region === "pk" ? "driver" : "chauffeur";
+  return [
+    { title: "Live Flight Tracking", desc: "We monitor your flight in real-time. Delayed or early — your driver adjusts automatically." },
+    { title: "60-Min Free Wait", desc: "Domestic flights get 60 minutes of complimentary wait time after landing." },
+    { title: "Curbside & Meet & Greet", desc: "Choose curbside pickup or an in-terminal meet & greet with your name on a board." },
+    { title: "Luggage Assistance", desc: `Your ${driverWord} will assist with your bags from the terminal to the vehicle.` },
+  ];
+}
 
-export default function AirportSection() {
+export default function AirportSection({ region = "us" }: { region?: "us" | "pk" }) {
+  const features = getFeatures(region);
   const bannerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: bannerRef,
@@ -37,7 +41,7 @@ export default function AirportSection() {
         >
           <Image
             src="/A welcome like no other.png"
-            alt="A BlackDrivo chauffeur welcoming a passenger"
+            alt={region === "pk" ? "A BlackDrivo driver welcoming a passenger" : "A BlackDrivo chauffeur welcoming a passenger"}
             fill
             sizes="100vw"
             quality={75}

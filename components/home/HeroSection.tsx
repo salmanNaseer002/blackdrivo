@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import BookingWidget from "./BookingWidget";
 
-export default function HeroSection() {
+export default function HeroSection({ region = "us" }: { region?: "us" | "pk" }) {
   return (
     <section
       id="book"
@@ -46,11 +46,13 @@ export default function HeroSection() {
         >
 
           <h1 className="text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
-            Your <span className="text-[#0b66d1]">chauffeur</span> awaits.
+            Your <span className="text-[#0b66d1]">{region === "pk" ? "driver" : "chauffeur"}</span> awaits.
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-white/65 md:text-lg">
-            Premium black car service across New Jersey, and all surrounding areas.
-            Airport transfers, hourly rides, and city-to-city travel.
+            {region === "pk"
+              ? "Premium black car service across Lahore, Karachi, and Islamabad."
+              : "Premium black car service across New Jersey, and all surrounding areas."}
+            {" "}Airport transfers, hourly rides, and city-to-city travel.
           </p>
         </motion.div>
 

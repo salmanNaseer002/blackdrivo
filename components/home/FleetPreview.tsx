@@ -6,7 +6,8 @@ import Link from "next/link";
 import { Phone, ArrowRight } from "lucide-react";
 import { fadeUp, viewportOnce } from "@/lib/animations";
 
-export default function FleetPreview() {
+export default function FleetPreview({ region = "us" }: { region?: "us" | "pk" }) {
+  const driverWord = region === "pk" ? "Driver" : "Chauffeur";
   return (
     <>
       {/* ── Always There For You — plain sticky, NO extra-height wrapper. A taller wrapper
@@ -18,7 +19,7 @@ export default function FleetPreview() {
       <section className="sticky top-0 z-0 flex min-h-screen items-center overflow-hidden">
         <Image
           src="/Exterior-with-door-open.jpg"
-          alt="Professional Chauffeur Service"
+          alt={`Professional ${driverWord} Service`}
           fill
           className="object-cover object-center"
           sizes="100vw"
@@ -32,13 +33,13 @@ export default function FleetPreview() {
             variants={fadeUp}
           >
             <p className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-white/50">
-              Premium Chauffeur Service
+              Premium {driverWord} Service
             </p>
             <h2 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl">
               Always There For You.
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-white/60">
-              Professional chauffeurs available 24 hours a day, 7 days a week, 365 days a year.
+              Professional {driverWord.toLowerCase()}s available 24 hours a day, 7 days a week, 365 days a year.
               Wherever you need to go, BlackDrivo will be there.
             </p>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
