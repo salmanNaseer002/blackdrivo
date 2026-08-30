@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 const slides = [
   {
     src: "/driver-slide-1.webp",
-    alt: "BlackDrivo professional chauffeur",
+    alt: "BlackDrivo professional driver",
     position: "object-center",
   },
   {
@@ -18,7 +18,7 @@ const slides = [
   },
   {
     src: "/driver-slide-3.webp",
-    alt: "BlackDrivo premium chauffeur service",
+    alt: "BlackDrivo premium driver service",
     position: "object-center",
   },
   {

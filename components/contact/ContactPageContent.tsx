@@ -18,7 +18,7 @@ const teams: (ContactTeam & { description: string })[] = [
     id: "partner",
     title: "Partner Support",
     email: "partner@blackdrivo.com",
-    description: "For chauffeur partners — applications, payments, documents, and account help.",
+    description: "For driver partners — applications, payments, documents, and account help.",
   },
   {
     id: "agency",

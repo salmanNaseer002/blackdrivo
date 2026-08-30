@@ -2,17 +2,16 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import { ArrowRight, CheckCircle, Plane, Phone, Clock, Shield } from "lucide-react";
-import { airports } from "@/lib/data/seo-locations";
 import FAQSection from "@/components/shared/FAQSection";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Airport Transfer Service | Premium Black Car Airport Rides",
-  description: "Professional airport transfer service at JFK, LGA, EWR, LAX, ORD and 30+ US airports. Flight tracking included, fixed pricing, meet & greet available. Book instantly.",
-  keywords: "airport transfer, airport car service, black car airport, chauffeur airport pickup, JFK transfer, EWR transfer, LAX transfer",
+  description: "Professional airport transfer service at major airports worldwide. Flight tracking included, fixed pricing, meet & greet available. Book instantly.",
+  keywords: "airport transfer, airport car service, black car airport, chauffeur airport pickup, driver airport pickup",
   openGraph: {
     title: "BlackDrivo Airport Transfer — Flight-Tracked Premium Ground Transportation",
-    description: "Book airport transfers at 30+ US airports. Fixed pricing, flight tracking, 60–90 min wait included. Professional chauffeurs 24/7.",
+    description: "Book airport transfers at major airports worldwide. Fixed pricing, flight tracking, 60–90 min wait included. Professional chauffeurs 24/7.",
     type: "website",
   },
 };
@@ -23,16 +22,16 @@ const jsonLd = {
   name: "Airport Transfer Service",
   provider: { "@type": "Organization", name: "BlackDrivo", url: "https://www.blackdrivo.com" },
   serviceType: "Airport Transfer",
-  areaServed: { "@type": "Country", name: "United States" },
-  description: "Flight-tracked airport transfers at 30+ US airports. Fixed pricing, professional chauffeurs, meet & greet available.",
+  areaServed: { "@type": "Place", name: "Worldwide" },
+  description: "Flight-tracked airport transfers at major airports worldwide. Fixed pricing, professional chauffeurs, meet & greet available.",
 };
 
 const faqItems = [
   { q: "How much does an airport transfer cost?", a: "Your fare is fixed at booking based on your pickup/drop-off locations and vehicle class — the price you see is the price you pay, with no surge charges regardless of traffic or flight delays." },
   { q: "How much wait time is included for flight delays?", a: "60 minutes of complimentary wait time is included for domestic arrivals, and 90 minutes for international arrivals, giving you time to clear customs and collect luggage." },
   { q: "Do you track my flight number?", a: "Yes — we monitor your flight in real time from departure to landing and automatically adjust your pickup time if it lands early, late, or is delayed." },
-  { q: "Which airports do you serve?", a: "BlackDrivo covers 30+ major US airports including JFK, LGA, EWR, LAX, and ORD, with meet & greet available at every location." },
-  { q: "Can my driver meet me inside the terminal?", a: "Yes, meet & greet service is available at every airport — your chauffeur will meet you by name either inside arrivals or curbside, whichever you prefer." },
+  { q: "Which airports do you serve?", a: "BlackDrivo provides airport transfers at major airports worldwide, with meet & greet available at every location." },
+  { q: "Can my driver meet me inside the terminal?", a: "Yes, meet & greet service is available at every airport — your driver will meet you by name either inside arrivals or curbside, whichever you prefer." },
 ];
 
 const features = [
@@ -57,11 +56,11 @@ export default function AirportTransferPage() {
         <div className="relative mx-auto max-w-4xl text-center">
           <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">Airport Transfer Service</p>
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
-            Premium Airport Transfers<br className="hidden md:block" /> at Every Major US Airport
+            Premium Airport Transfers<br className="hidden md:block" /> at Any Airport, Worldwide
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base text-gray-500 md:text-lg">
-            Flight-tracked pickups, fixed pricing, and professional chauffeurs at JFK, LGA, EWR,
-            LAX, ORD and 30+ airports nationwide — available 24/7.
+            Flight-tracked pickups, fixed pricing, and professional chauffeurs — available 24/7,
+            wherever your flight lands.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link href="/#book"
@@ -88,33 +87,6 @@ export default function AirportTransferPage() {
               <p className="mt-2 text-sm leading-6 text-gray-500">{f.desc}</p>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* Airport grid */}
-      <section className="px-4 py-20 md:px-6 lg:px-8">
-        <div className="mx-auto w-full">
-          <div className="mb-10 text-center">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">Airports We Serve</p>
-            <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">Select your airport</h2>
-            <p className="mt-3 text-base text-gray-500">
-              Click your departure or arrival airport for pickup guides, local pricing, and booking.
-            </p>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {airports.map(ap => (
-              <Link key={ap.slug} href={`/airport-transfer/${ap.slug}`}
-                className="group flex items-start gap-3 rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition hover:border-[#0b66d1]/30 hover:shadow-md">
-                <div className="flex h-9 w-12 shrink-0 items-center justify-center rounded-lg bg-gray-900 text-xs font-bold text-[#0b66d1]">
-                  {ap.code}
-                </div>
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold text-gray-900">{ap.city}, {ap.state}</p>
-                  <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">{ap.name}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
         </div>
       </section>
 
