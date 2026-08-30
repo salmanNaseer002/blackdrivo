@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { ArrowRight, Car } from "lucide-react";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/animations";
 import { services } from "@/lib/services/data";
@@ -40,6 +41,9 @@ const vehicleClasses = [
 ];
 
 export default function ServicesPageContent() {
+  const pathname = usePathname();
+  const isPk = pathname === "/pk" || pathname.startsWith("/pk/");
+
   return (
     <>
       {/* Hero — same structure as the homepage Hero: fixed background photo, content pinned to the bottom */}
@@ -105,7 +109,7 @@ export default function ServicesPageContent() {
             className="mb-14 text-center"
           >
             <p className="mx-auto max-w-2xl text-base leading-7 text-gray-500 md:text-lg">
-              Whether you are traveling for business or leisure, our chauffeurs will provide the
+              Whether you are traveling for business or leisure, our {isPk ? "drivers" : "chauffeurs"} will provide the
               ultimate relaxing experience in the safety and comfort of our top-of-the-line vehicles.
             </p>
           </motion.div>
@@ -188,7 +192,9 @@ export default function ServicesPageContent() {
                   <Car className="h-24 w-24" strokeWidth={0.75} />
                 </div>
                 <div className="relative">
-                  <h3 className="text-lg font-bold text-gray-900">{v.name}</h3>
+                  <h3 className="text-lg font-bold text-gray-900">
+                    {isPk && v.name === "Chauffeured SUV" ? "Driver-Driven SUV" : v.name}
+                  </h3>
                   <p className="mt-2 text-xs leading-5 text-gray-500">{v.description}</p>
                   <div className="mt-4 space-y-1 text-xs text-gray-500">
                     <p>Up to {v.seats} passengers</p>
@@ -229,7 +235,7 @@ export default function ServicesPageContent() {
             Ready to Ride?
           </p>
           <h2 className="text-3xl font-bold text-white md:text-5xl lg:text-6xl">
-            Book your chauffeur today.
+            Book your {isPk ? "driver" : "chauffeur"} today.
           </h2>
           <p className="mx-auto mt-4 max-w-sm text-sm leading-6 text-white/50 md:text-base">
             Available 24 hours a day, 7 days a week, 365 days a year. Wherever you need to go,

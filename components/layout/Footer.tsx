@@ -71,8 +71,9 @@ export default function Footer() {
           className="object-contain transition-all duration-300"/>
           </Link>
             <p className="mt-4 max-w-xs text-sm leading-6 text-white/55">
-              Premium chauffeur service across New Jersey, and the surrounding tri-state area.
-              Available 24/7.
+              {isPk
+                ? "Premium driver service across Lahore, Karachi, and Islamabad. Available 24/7."
+                : "Premium chauffeur service across New Jersey, and the surrounding tri-state area. Available 24/7."}
             </p>
             <div className="mt-6 flex items-center gap-3">
   {socialLinks.map(({ Icon, href, label }) => (
@@ -104,7 +105,7 @@ export default function Footer() {
                         href={withRegion(link.href)}
                         className="text-sm text-white/60 transition hover:text-white"
                       >
-                        {link.label}
+                        {isPk && link.label === "Hourly Chauffeur" ? "Hourly Driver" : link.label}
                       </Link>
                     </li>
                   ))}

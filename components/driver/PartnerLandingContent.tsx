@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
@@ -43,7 +44,7 @@ const steps = [
   { num: "04", title: "Onboarding", desc: "Qualified partners complete onboarding and join the BlackDrivo network." },
 ];
 
-const requirements = [
+const requirementsUS = [
   "Valid driver's license (TLC required in NYC)",
   "A clean driving record",
   "A late-model, well-maintained luxury vehicle",
@@ -52,7 +53,16 @@ const requirements = [
   "Commitment to the BlackDrivo Standard of service",
 ];
 
-const faqs = [
+const requirementsPk = [
+  "Valid driver's license",
+  "A clean driving record",
+  "A late-model, well-maintained luxury vehicle",
+  "Professional appearance and communication",
+  "Ability to pass a background check",
+  "Commitment to the BlackDrivo Standard of service",
+];
+
+const faqsUS = [
   {
     q: "What licenses and documents are required?",
     a: "All candidates must possess a valid driver's license and a clean driving record. In New York City, a TLC license is required. In New Jersey and Philadelphia, professional driving experience is preferred. All candidates must pass a background check and complete our BlackDrivo Standard training.",
@@ -75,7 +85,35 @@ const faqs = [
   },
 ];
 
+const faqsPk = [
+  {
+    q: "What licenses and documents are required?",
+    a: "All candidates must possess a valid driver's license and a clean driving record. Professional driving experience across Lahore, Karachi, and Islamabad is preferred. All candidates must pass a background check and complete our BlackDrivo Standard training.",
+  },
+  {
+    q: "How does the pay structure work?",
+    a: "We offer highly competitive, fixed-rate bookings with weekly payments. Partner drivers receive stable pay plus performance bonuses.",
+  },
+  {
+    q: "Do I keep my tips?",
+    a: "Absolutely. Drivers retain 100% of all gratuities provided by clients.",
+  },
+  {
+    q: "Can I choose my own schedule?",
+    a: "Yes. We offer morning, evening, and weekend rotations, and our system lets you plan ahead — especially for high-demand periods like airport transfers and corporate events.",
+  },
+  {
+    q: "How is this different from ride-sharing?",
+    a: "Unlike ride-sharing, BlackDrivo provides a stable, high-volume environment with a pre-vetted, premium clientele. You won't compete with thousands of other drivers for a single ride — it's a career path within a professional driver network.",
+  },
+];
+
 export default function PartnerLandingContent() {
+  const pathname = usePathname();
+  const isPk = pathname === "/pk" || pathname.startsWith("/pk/");
+  const faqs = isPk ? faqsPk : faqsUS;
+  const requirements = isPk ? requirementsPk : requirementsUS;
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -215,7 +253,7 @@ export default function PartnerLandingContent() {
                 variants={fadeUp}
                 className="divide-y divide-gray-200 border-y border-gray-200"
               >
-                {faqs.map((faq) => (
+                {faqs.map((faq: { q: string; a: string }) => (
                   <details key={faq.q} className="group py-3">
                     <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
                       <span className="text-sm font-semibold text-gray-900">{faq.q}</span>
@@ -227,7 +265,7 @@ export default function PartnerLandingContent() {
               </motion.div>
             </div>
 
-            <PartnerTabsContent />
+            <PartnerTabsContent requirements={requirements} />
           </div>
         </div>
       </section>
@@ -297,7 +335,7 @@ export default function PartnerLandingContent() {
   );
 }
 
-function PartnerTabsContent() {
+function PartnerTabsContent({ requirements }: { requirements: string[] }) {
   const [tab, setTab] = useState<"onboarding" | "requirements">("onboarding");
 
   return (
@@ -365,7 +403,7 @@ function PartnerTabsContent() {
           >
             <h3 className="mb-2 text-sm font-semibold uppercase tracking-widest text-gray-400">What you&apos;ll need</h3>
             <div className="mt-4 space-y-3">
-              {requirements.map((r) => (
+              {requirements.map((r: string) => (
                 <motion.div key={r} variants={fadeUp} className="flex items-start gap-3 text-sm text-gray-700">
                   <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#0b66d1]" /> {r}
                 </motion.div>

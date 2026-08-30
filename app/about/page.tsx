@@ -1,10 +1,12 @@
+"use client";
+
 // ── About page temporarily disabled — not deleted. The real implementation
 // below is kept fully intact but is no longer the route's default export or
 // metadata (JSX comments inside the component make a literal /* */ block-
 // comment wrap unsafe, so it's disabled by renaming its exports instead).
 // To re-enable: delete the `AboutPageDisabled` export below, then restore
 // `export default` on `AboutPage` and `export const` on `pageMetadata`.
-import { notFound } from "next/navigation";
+import { notFound, usePathname } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Image from "next/image";
@@ -31,6 +33,18 @@ const stats = [
   { value: "1",     label: "States Served"       },
   { value: "99.8%", label: "On-Time Performance" },
 ];
+
+// Region-aware wording helper — swaps US chauffeur terminology for the
+// matching PK driver terminology, matching components/home/*.tsx word choices.
+function regionize(text: string, isPk: boolean): string {
+  if (!isPk) return text;
+  return text
+    .replace(/chauffeured/g, "driver-driven")
+    .replace(/Chauffeurs/g, "Drivers")
+    .replace(/chauffeurs/g, "drivers")
+    .replace(/Chauffeur/g, "Driver")
+    .replace(/chauffeur/g, "driver");
+}
 
 const commitments = [
   {
@@ -72,6 +86,10 @@ const commitments = [
 ];
 
 function AboutPage() {
+  const pathname = usePathname();
+  const isPk = pathname === "/pk" || pathname.startsWith("/pk/");
+  const r = (text: string) => regionize(text, isPk);
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -100,12 +118,12 @@ function AboutPage() {
               About BlackDrivo
             </p>
             <h1 className="max-w-3xl text-5xl font-bold leading-[1.08] text-white md:text-7xl">
-              The Standard for Premium Chauffeur Service.
+              The Standard for Premium {isPk ? "Driver" : "Chauffeur"} Service.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-7 text-white/65 md:text-lg">
               BlackDrivo is a premier luxury transportation company serving corporate clients,
-              private travelers, VIP guests, and event planners across New York City,
-              New Jersey, and Philadelphia.
+              private travelers, VIP guests, and event planners across{" "}
+              {isPk ? "Lahore, Karachi, and Islamabad." : "New York City, New Jersey, and Philadelphia."}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -146,13 +164,13 @@ function AboutPage() {
               </h2>
               <div className="mt-5 h-[3px] w-16 bg-[#0b66d1]" />
               <p className="mt-6 text-base leading-7 text-gray-600">
-                BlackDrivo was founded with a singular commitment: deliver world-class chauffeured
-                transportation to the tri-state area — the kind of service that executives,
+                BlackDrivo was founded with a singular commitment: deliver world-class {isPk ? "driver-driven" : "chauffeured"}
+                {" "}transportation to {isPk ? "Lahore, Karachi, and Islamabad" : "the tri-state area"} — the kind of service that executives,
                 frequent travelers, and discerning individuals deserve on every ride.
               </p>
               <p className="mt-4 text-base leading-7 text-gray-600">
                 We are not simply a car service. We are a professional transportation team that
-                understands what high-value clients expect: punctual chauffeurs, immaculate vehicles,
+                understands what high-value clients expect: punctual {isPk ? "drivers" : "chauffeurs"}, immaculate vehicles,
                 responsive communication, and a seamless booking process — from reservation
                 to final drop-off.
               </p>
@@ -164,7 +182,7 @@ function AboutPage() {
               </p>
               <ul className="mt-8 space-y-3">
                 {[
-                  "Serving New Jersey & Philadelphia",
+                  isPk ? "Serving Lahore, Karachi, and Islamabad" : "Serving New Jersey & Philadelphia",
                   "Corporate, VIP & private travel",
                   "Fixed-rate pricing — no surprises",
                   "24/7 reservations and dispatch support",
@@ -210,8 +228,7 @@ function AboutPage() {
               Our Commitment to You
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/50">
-              Every decision we make — from the vehicles we select to the chauffeurs we hire — is
-              guided by one principle: your experience must be exceptional.
+              {r("Every decision we make — from the vehicles we select to the chauffeurs we hire — is guided by one principle: your experience must be exceptional.")}
             </p>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -228,8 +245,8 @@ function AboutPage() {
                 </div>
                 <div className="relative">
                   <c.icon className="h-7 w-7 text-[#3b8ff0]" />
-                  <h3 className="mt-5 text-xl font-bold text-white">{c.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-white/50">{c.description}</p>
+                  <h3 className="mt-5 text-xl font-bold text-white">{r(c.title)}</h3>
+                  <p className="mt-3 text-sm leading-6 text-white/50">{r(c.description)}</p>
                 </div>
               </div>
             ))}
@@ -243,17 +260,16 @@ function AboutPage() {
           <div className="grid items-center gap-14 lg:grid-cols-2">
             <div>
               <h2 className="text-4xl font-bold text-gray-900 md:text-5xl">
-                Behind Every Great Ride is an Exceptional Chauffeur.
+                Behind Every Great Ride is an Exceptional {isPk ? "Driver" : "Chauffeur"}.
               </h2>
               <div className="mt-5 h-[3px] w-16 bg-[#0b66d1]" />
               <p className="mt-6 text-base leading-7 text-gray-600">
-                Our chauffeurs are not simply drivers. They are professionals — discreet, punctual,
-                and trained to deliver a consistently elevated passenger experience on every trip.
+                {isPk
+                  ? "Our drivers are true professionals — discreet, punctual, and trained to deliver a consistently elevated passenger experience on every trip."
+                  : "Our chauffeurs are not simply drivers. They are professionals — discreet, punctual, and trained to deliver a consistently elevated passenger experience on every trip."}
               </p>
               <p className="mt-4 text-base leading-7 text-gray-600">
-                Every BlackDrivo chauffeur undergoes a rigorous multi-stage vetting process including
-                criminal background screening, DMV record review, defensive driving certification,
-                and customer service training aligned with our luxury service standard.
+                {r("Every BlackDrivo chauffeur undergoes a rigorous multi-stage vetting process including criminal background screening, DMV record review, defensive driving certification, and customer service training aligned with our luxury service standard.")}
               </p>
               <div className="mt-8 space-y-3">
                 {[

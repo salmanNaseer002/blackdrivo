@@ -191,7 +191,7 @@ export default function Navbar() {
                         <Link key={s.label} href={withRegion(s.href)} onClick={() => setServicesOpen(false)}
                           className="group relative block py-2 pl-5 pr-4 transition">
                           <span className="absolute left-0 top-1.5 bottom-1.5 w-[3px] origin-center scale-y-0 rounded-full bg-[#0b66d1] transition-transform duration-150 group-hover:scale-y-100" />
-                          <p className="text-sm text-gray-800 transition group-hover:font-semibold group-hover:text-[#0b66d1]">{s.label}</p>
+                          <p className="text-sm text-gray-800 transition group-hover:font-semibold group-hover:text-[#0b66d1]">{isPk && s.label === "Hourly Chauffeur" ? "Hourly Driver" : s.label}</p>
                           <p className="text-xs text-gray-500">{s.desc}</p>
                         </Link>
                       ))}
@@ -425,7 +425,7 @@ export default function Navbar() {
                         {services.map(s => (
                           <Link key={s.label} href={withRegion(s.href)} onClick={() => setMobileOpen(false)}
                             className="block rounded-lg px-3 py-2.5 text-sm text-gray-600 transition hover:bg-blue-50 hover:text-[#0b66d1]">
-                            {s.label}
+                            {isPk && s.label === "Hourly Chauffeur" ? "Hourly Driver" : s.label}
                           </Link>
                         ))}
                       </motion.div>

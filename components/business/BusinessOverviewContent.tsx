@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
@@ -29,8 +30,17 @@ const solutions = [
   },
 ];
 
-const benefits = [
+const benefitsUs = [
   { title: "NJ, Philadelphia & the tri-state area", desc: "Reliable coverage across every market we serve." },
+  { title: "Transparent, distance-based pricing", desc: "No surge pricing. Know your cost before you book." },
+  { title: "Flexible cancellations", desc: "Free changes up to 1 hour before pickup." },
+  { title: "24/7 concierge support", desc: "A real person, always available for your team." },
+  { title: "Consolidated invoicing", desc: "One monthly bill with detailed, exportable reporting." },
+  { title: "Modern, well-maintained fleet", desc: "Late-model vehicles inspected before every trip." },
+];
+
+const benefitsPk = [
+  { title: "Lahore, Karachi & Islamabad", desc: "Reliable coverage across every market we serve." },
   { title: "Transparent, distance-based pricing", desc: "No surge pricing. Know your cost before you book." },
   { title: "Flexible cancellations", desc: "Free changes up to 1 hour before pickup." },
   { title: "24/7 concierge support", desc: "A real person, always available for your team." },
@@ -46,6 +56,9 @@ const stats = [
 ];
 
 export default function BusinessOverviewContent() {
+  const pathname = usePathname();
+  const isPk = pathname === "/pk" || pathname.startsWith("/pk/");
+  const benefits = isPk ? benefitsPk : benefitsUs;
   const statsRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: statsRef, offset: ["start end", "end start"] });
   const statsScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.85, 1, 0.85]);
@@ -75,7 +88,7 @@ export default function BusinessOverviewContent() {
           className="relative z-10 mx-auto w-full max-w-[1800px] px-4 pb-20 pt-24 text-center md:px-6 md:pb-24 lg:px-8"
         >
           <h1 className="mx-auto max-w-4xl text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-6xl lg:text-7xl">
-            Chauffeurs your company can always rely on.
+            {isPk ? "Drivers" : "Chauffeurs"} your company can always rely on.
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-white/65 md:text-lg">
             One platform for corporate travel, agency bookings, and referral partnerships —

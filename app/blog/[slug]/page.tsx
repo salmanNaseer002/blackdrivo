@@ -5,6 +5,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, ArrowRight, ChevronRight } from "lucide-react";
 import { blogPosts, getPostBySlug, getRelatedPosts } from "@/lib/data/blog-posts";
+import RegionWord from "@/components/shared/RegionWord";
 import type { Metadata } from "next";
 
 interface Props {
@@ -149,7 +150,7 @@ export default async function BlogPostPage({ params }: Props) {
                   Ready to book your next ride?
                 </h3>
                 <p className="mt-1 text-sm text-gray-600">
-                  Fixed prices, professional chauffeurs, flight tracking included.
+                  Fixed prices, professional <RegionWord us="chauffeurs" pk="drivers" />, flight tracking included.
                 </p>
                 <div className="mt-4 flex flex-wrap gap-3">
                   <Link href="/#book"
@@ -212,14 +213,18 @@ export default async function BlogPostPage({ params }: Props) {
                   </p>
                   {[
                     { label: "Airport Transfers",  href: "/services#airport"   },
-                    { label: "Hourly Chauffeur",   href: "/services#hourly"    },
+                    { label: "hourly",             href: "/services#hourly"    },
                     { label: "City-to-City Rides", href: "/services#city"      },
                     { label: "Corporate Travel",   href: "/services#corporate" },
                     { label: "Event Transport",    href: "/services#events"    },
                   ].map(s => (
                     <Link key={s.href} href={s.href}
                       className="flex items-center justify-between py-2 text-sm text-gray-700 transition hover:text-[#0b66d1]">
-                      {s.label}
+                      {s.label === "hourly" ? (
+                        <>Hourly <RegionWord us="Chauffeur" pk="Driver" /></>
+                      ) : (
+                        s.label
+                      )}
                       <ChevronRight className="h-3.5 w-3.5 text-gray-300" />
                     </Link>
                   ))}
