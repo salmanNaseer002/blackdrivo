@@ -7,7 +7,7 @@ import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
-import { CheckCircle, ArrowRight, Phone, ChevronDown } from "lucide-react";
+import { CheckCircle, ArrowRight, Phone, ChevronDown, Building2, Car } from "lucide-react";
 import DriverHeroSlider from "@/components/driver/DriverHeroSlider";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/animations";
 
@@ -108,11 +108,14 @@ const faqsPk = [
   },
 ];
 
+const VENDOR_APPLICATION_URL = "https://admin.blackdrivo.com/vendors/add";
+
 export default function PartnerLandingContent() {
   const pathname = usePathname();
   const isPk = pathname === "/pk" || pathname.startsWith("/pk/");
   const faqs = isPk ? faqsPk : faqsUS;
   const requirements = isPk ? requirementsPk : requirementsUS;
+  const [mode, setMode] = useState<"vendor" | "driver">("driver");
 
   return (
     <div className="min-h-screen bg-white">
@@ -120,6 +123,36 @@ export default function PartnerLandingContent() {
 
       {/* Hero — full-screen image slider */}
       <DriverHeroSlider />
+
+      {/* As Vendor / As Driver toggle */}
+      <section className="border-b border-gray-100 bg-white px-4 py-10 md:px-6 lg:px-8">
+        <div className="mx-auto max-w-xl text-center">
+          <p className="mb-5 text-sm text-gray-500">How would you like to partner with BlackDrivo?</p>
+          <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 p-1.5">
+            <button
+              onClick={() => setMode("vendor")}
+              className={`inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition ${
+                mode === "vendor" ? "bg-[#0b66d1] text-white" : "text-gray-500 hover:text-[#0b66d1]"
+              }`}
+            >
+              <Building2 className="h-4 w-4" /> As Vendor
+            </button>
+            <button
+              onClick={() => setMode("driver")}
+              className={`inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition ${
+                mode === "driver" ? "bg-[#0b66d1] text-white" : "text-gray-500 hover:text-[#0b66d1]"
+              }`}
+            >
+              <Car className="h-4 w-4" /> As Driver
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {mode === "vendor" ? (
+        <VendorSection />
+      ) : (
+        <>
 
       {/* Unlock New Demand — 2 cards / phone mockup / 2 cards */}
       <section className="relative flex min-h-screen w-full items-center overflow-hidden bg-white px-4 py-12 md:px-6 lg:px-8">
@@ -330,8 +363,63 @@ export default function PartnerLandingContent() {
         </div>
       </section>
 
+        </>
+      )}
+
       <Footer />
     </div>
+  );
+}
+
+function VendorSection() {
+  return (
+    <>
+      {/* Vendor intro */}
+      <section className="relative flex min-h-screen w-full items-center overflow-hidden bg-white px-4 py-12 md:px-6 lg:px-8">
+        <div className="relative z-10 mx-auto w-full max-w-3xl text-center">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">Fleet Vendor Partnership</p>
+          <h2 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
+            Register Your Fleet
+          </h2>
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-gray-500">
+            If you operate a fleet of drivers and vehicles, partner with BlackDrivo as a vendor.
+            Manage your own drivers, receive ride assignments, and grow your business with a
+            reliable premium mobility platform.
+          </p>
+
+          <div className="mx-auto mt-12 grid gap-5 text-left sm:grid-cols-2">
+            {[
+              { title: "Manage Your Own Fleet", desc: "Onboard and assign your own drivers and vehicles to rides under your vendor account." },
+              { title: "Consistent Ride Volume", desc: "Access a steady stream of premium bookings from BlackDrivo's platform." },
+              { title: "Transparent Payouts", desc: "Clear, scheduled settlements for every completed ride your fleet serves." },
+              { title: "Dedicated Support", desc: "A partner support team to help with onboarding, documents, and account questions." },
+            ].map((c) => (
+              <div key={c.title} className="rounded-2xl border border-gray-100 bg-gray-50 p-6">
+                <h3 className="text-base font-bold text-gray-900">{c.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-gray-500">{c.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 rounded-2xl border border-gray-100 bg-gray-50 p-8">
+            <h3 className="text-lg font-bold text-gray-900">Submit your vendor application</h3>
+            <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-gray-500">
+              Fill out the vendor application form with your fleet and company details. Our team
+              reviews every application, and you&apos;ll receive an email once your application has
+              been reviewed.
+            </p>
+            <a
+              href={VENDOR_APPLICATION_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:gap-3 hover:bg-[#0952a8]"
+            >
+              Apply as Vendor <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
 
