@@ -108,7 +108,7 @@ const faqsPk = [
   },
 ];
 
-const VENDOR_APPLICATION_URL = "https://admin.blackdrivo.com/vendors/add";
+const VENDOR_APPLICATION_URL = "https://vendor.blackdrivo.com/registration";
 
 export default function PartnerLandingContent() {
   const pathname = usePathname();
