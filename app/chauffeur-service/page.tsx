@@ -3,6 +3,7 @@ import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import { ArrowRight, CheckCircle, MapPin, Phone } from "lucide-react";
 import { cities } from "@/lib/data/seo-locations";
+import FAQSection from "@/components/shared/FAQSection";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -25,6 +26,14 @@ const jsonLd = {
   areaServed: { "@type": "Country", name: "United States" },
   description: "Professional black car and chauffeur service in 40+ US cities. Fixed pricing, vetted drivers, 24/7 availability.",
 };
+
+const faqItems = [
+  { q: "Which cities does BlackDrivo's chauffeur service cover?", a: "BlackDrivo provides professional chauffeur service in 40+ US cities including New York, New Jersey, Los Angeles, Chicago, and Miami." },
+  { q: "Are your chauffeurs licensed and insured?", a: "Yes — every BlackDrivo chauffeur is licensed, insured, and vetted before joining the platform." },
+  { q: "Is pricing fixed or does it change with demand?", a: "Pricing is fixed at the time of booking based on your route and vehicle class, with no surge pricing regardless of demand or traffic." },
+  { q: "Is chauffeur service available 24/7?", a: "Yes, BlackDrivo's chauffeur service is available 24 hours a day, 7 days a week." },
+  { q: "Can I book a chauffeur for a full day or by the hour?", a: "Yes — alongside point-to-point rides, BlackDrivo offers hourly and per-day chauffeur packages for multi-stop trips and events." },
+];
 
 const features = [
   "Licensed & insured professional chauffeurs",
@@ -121,6 +130,8 @@ export default function ChauffeurServicePage() {
           </Link>
         </div>
       </section>
+
+      <FAQSection items={faqItems} subtitle="Common questions about BlackDrivo's chauffeur service." />
 
       <Footer />
     </div>

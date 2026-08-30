@@ -8,6 +8,7 @@ const NOW  = new Date().toISOString();
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
     { url: BASE,                                  lastModified: NOW, changeFrequency: "weekly",  priority: 1.0 },
+    { url: `${BASE}/pk`,                          lastModified: NOW, changeFrequency: "weekly",  priority: 1.0 },
     { url: `${BASE}/booking`,                     lastModified: NOW, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/services`,                    lastModified: NOW, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/chauffeur-service`,           lastModified: NOW, changeFrequency: "monthly", priority: 0.9 },

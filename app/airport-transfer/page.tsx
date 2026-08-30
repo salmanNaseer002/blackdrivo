@@ -3,6 +3,7 @@ import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import { ArrowRight, CheckCircle, Plane, Phone, Clock, Shield } from "lucide-react";
 import { airports } from "@/lib/data/seo-locations";
+import FAQSection from "@/components/shared/FAQSection";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -25,6 +26,14 @@ const jsonLd = {
   areaServed: { "@type": "Country", name: "United States" },
   description: "Flight-tracked airport transfers at 30+ US airports. Fixed pricing, professional chauffeurs, meet & greet available.",
 };
+
+const faqItems = [
+  { q: "How much does an airport transfer cost?", a: "Your fare is fixed at booking based on your pickup/drop-off locations and vehicle class — the price you see is the price you pay, with no surge charges regardless of traffic or flight delays." },
+  { q: "How much wait time is included for flight delays?", a: "60 minutes of complimentary wait time is included for domestic arrivals, and 90 minutes for international arrivals, giving you time to clear customs and collect luggage." },
+  { q: "Do you track my flight number?", a: "Yes — we monitor your flight in real time from departure to landing and automatically adjust your pickup time if it lands early, late, or is delayed." },
+  { q: "Which airports do you serve?", a: "BlackDrivo covers 30+ major US airports including JFK, LGA, EWR, LAX, and ORD, with meet & greet available at every location." },
+  { q: "Can my driver meet me inside the terminal?", a: "Yes, meet & greet service is available at every airport — your chauffeur will meet you by name either inside arrivals or curbside, whichever you prefer." },
+];
 
 const features = [
   { icon: Plane,       title: "Live Flight Tracking",   desc: "We monitor your flight in real time. Your driver adjusts automatically if you land early, late, or at a different gate."    },
@@ -120,6 +129,8 @@ export default function AirportTransferPage() {
           </Link>
         </div>
       </section>
+
+      <FAQSection items={faqItems} subtitle="Common questions about BlackDrivo's airport transfer service." />
 
       <Footer />
     </div>

@@ -24,6 +24,21 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser();
   const pathname = request.nextUrl.pathname;
 
+  // Region redirect — first-time visitors from Pakistan land on /pk instead
+  // of the default (US) homepage. Only the exact homepage is redirected (not
+  // every route) so deep links, bookmarks, and in-app navigation are never
+  // hijacked, and a cookie remembers the visit so someone who deliberately
+  // navigates back to "/" from "/pk" isn't bounced back every time.
+  if (pathname === "/" && !request.cookies.get("bd_region_seen")) {
+    const geoCountry = request.headers.get("x-vercel-ip-country");
+    if (geoCountry === "PK") {
+      const redirectResponse = NextResponse.redirect(new URL("/pk", request.url));
+      redirectResponse.cookies.set("bd_region_seen", "1", { maxAge: 60 * 60 * 24 * 30, path: "/" });
+      return redirectResponse;
+    }
+    supabaseResponse.cookies.set("bd_region_seen", "1", { maxAge: 60 * 60 * 24 * 30, path: "/" });
+  }
+
   const protectedPaths = ["/driver/dashboard"];
   const passengerProtectedPaths = ["/booking/review"];
   const driverAuthPaths = ["/driver/login", "/driver/signup"];

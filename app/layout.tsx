@@ -40,7 +40,10 @@ export const metadata: Metadata = {
     "private driver NYC",
     "blackdrivo",
   ],
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    languages: { "en-US": "/", "en-PK": "/pk" },
+  },
   openGraph: {
     type: "website",
     url: "https://www.blackdrivo.com/",
