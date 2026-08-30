@@ -51,6 +51,17 @@ export default function Navbar() {
   const { user, profile, loading, isDriver, initials, displayName } = useUser();
   const { country, countries, setCountry } = useSiteCountry();
 
+  // Keeps navigation inside the /pk region once a visitor is on it — a plain
+  // "/services" link from /pk would otherwise drop them back onto the
+  // default (US) site.
+  const isPk = pathname === "/pk" || pathname.startsWith("/pk/");
+  const withRegion = (href: string) => {
+    if (!isPk) return href;
+    if (href === "/") return "/pk";
+    if (href.startsWith("/#")) return `/pk${href.slice(1)}`;
+    return `/pk${href}`;
+  };
+
   const isHomePage = pathname === "/";
   // Pages that open with a fixed hero photo (Home, Services, Business — overview + slugs)
   // get the same transparent-over-hero-then-solid-on-scroll navbar as the homepage.
@@ -143,7 +154,7 @@ export default function Navbar() {
             <button onClick={() => setMobileOpen(true)} className={`rounded-lg p-2 transition lg:hidden ${solidBg ? "text-gray-700 hover:bg-gray-100" : "text-white hover:bg-white/10"}`}>
               <Menu className="h-5 w-5" />
             </button>
-            <Link href="/" className="flex items-center shrink-0">
+            <Link href={withRegion("/")} className="flex items-center shrink-0">
             <Image
             src={solidBg ? "/logo bb.png" : "/logo wb.png"}
             alt="BlackDrivo"
@@ -171,7 +182,7 @@ export default function Navbar() {
                       className="absolute left-0 top-full mt-2 w-64 rounded-xl border border-gray-100 bg-white py-2 shadow-lg"
                     >
                       {services.map(s => (
-                        <Link key={s.label} href={s.href} onClick={() => setServicesOpen(false)}
+                        <Link key={s.label} href={withRegion(s.href)} onClick={() => setServicesOpen(false)}
                           className="group relative block py-2 pl-5 pr-4 transition">
                           <span className="absolute left-0 top-1.5 bottom-1.5 w-[3px] origin-center scale-y-0 rounded-full bg-[#0b66d1] transition-transform duration-150 group-hover:scale-y-100" />
                           <p className="text-sm text-gray-800 transition group-hover:font-semibold group-hover:text-[#0b66d1]">{s.label}</p>
@@ -198,7 +209,7 @@ export default function Navbar() {
                       className="absolute left-0 top-full mt-2 w-64 rounded-xl border border-gray-100 bg-white py-2 shadow-lg"
                     >
                       {business.map(b => (
-                        <Link key={b.label} href={b.href} onClick={() => setBusinessOpen(false)}
+                        <Link key={b.label} href={withRegion(b.href)} onClick={() => setBusinessOpen(false)}
                           className="group relative block py-2 pl-5 pr-4 transition">
                           <span className="absolute left-0 top-1.5 bottom-1.5 w-[3px] origin-center scale-y-0 rounded-full bg-[#0b66d1] transition-transform duration-150 group-hover:scale-y-100" />
                           <p className="text-sm text-gray-800 transition group-hover:font-semibold group-hover:text-[#0b66d1]">{b.label}</p>
@@ -209,8 +220,8 @@ export default function Navbar() {
                   )}
                 </AnimatePresence>
               </div>
-              <Link href="/contact" className={navLinkClass("/contact")}>Contact</Link>
-              <Link href="/partner"   className={navLinkClass("/partner")}>Become a Partner</Link>
+              <Link href={withRegion("/contact")} className={navLinkClass("/contact")}>Contact</Link>
+              <Link href={withRegion("/partner")}   className={navLinkClass("/partner")}>Become a Partner</Link>
 
               {user && isDriver && (
                 <Link href={dashboardHref} className={navLinkClass(dashboardHref)}>
@@ -233,7 +244,7 @@ export default function Navbar() {
             )}
 
             <div className="ml-1 flex items-center gap-2">
-              <Link href="/#book" className="rounded-full bg-[#0b66d1] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#0952a8] active:scale-95">
+              <Link href={withRegion("/#book")} className="rounded-full bg-[#0b66d1] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#0952a8] active:scale-95">
                 Book now
               </Link>
 
@@ -302,7 +313,7 @@ export default function Navbar() {
           <div className="flex items-center lg:hidden">
             {showFloatingBook && (
               <Link
-                href="/#book"
+                href={withRegion("/#book")}
                 className="rounded-full bg-[#0b66d1] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#0952a8]"
               >
                 Book
@@ -325,7 +336,7 @@ export default function Navbar() {
             >
               <div className="border-b border-gray-100 px-5 py-4">
                 <div className="flex items-center justify-between">
-                  <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center">
+                  <Link href={withRegion("/")} onClick={() => setMobileOpen(false)} className="flex items-center">
                     <Image src="/logo bb.png" alt="BlackDrivo" width={130} height={36} className="object-contain" />
                   </Link>
                   <button onClick={() => setMobileOpen(false)} className="rounded-lg p-1.5 text-gray-500 hover:bg-gray-100">
@@ -406,7 +417,7 @@ export default function Navbar() {
                         className="overflow-hidden pl-2"
                       >
                         {services.map(s => (
-                          <Link key={s.label} href={s.href} onClick={() => setMobileOpen(false)}
+                          <Link key={s.label} href={withRegion(s.href)} onClick={() => setMobileOpen(false)}
                             className="block rounded-lg px-3 py-2.5 text-sm text-gray-600 transition hover:bg-blue-50 hover:text-[#0b66d1]">
                             {s.label}
                           </Link>
@@ -432,7 +443,7 @@ export default function Navbar() {
                         className="overflow-hidden pl-2"
                       >
                         {business.map(b => (
-                          <Link key={b.label} href={b.href} onClick={() => setMobileOpen(false)}
+                          <Link key={b.label} href={withRegion(b.href)} onClick={() => setMobileOpen(false)}
                             className="block rounded-lg px-3 py-2.5 text-sm text-gray-600 transition hover:bg-blue-50 hover:text-[#0b66d1]">
                             {b.label}
                           </Link>
@@ -446,7 +457,7 @@ export default function Navbar() {
                   { label: "Contact",       href: "/contact" },
                   { label: "Become a Partner", href: "/partner"  },
                 ].map(item => (
-                  <Link key={item.label} href={item.href} onClick={() => setMobileOpen(false)}
+                  <Link key={item.label} href={withRegion(item.href)} onClick={() => setMobileOpen(false)}
                     className={mobileNavLinkClass(item.href)}>
                     {item.label}
                   </Link>
@@ -487,7 +498,7 @@ export default function Navbar() {
                 </div>
 
                 <div className="mt-4 flex flex-col gap-2">
-                  <Link href="/#book" onClick={() => setMobileOpen(false)}
+                  <Link href={withRegion("/#book")} onClick={() => setMobileOpen(false)}
                     className="rounded-full bg-[#0b66d1] py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[#0952a8]">
                     Book a ride
                   </Link>

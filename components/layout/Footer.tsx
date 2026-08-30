@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Instagram, Twitter, Linkedin, Facebook, Apple } from "lucide-react";
 
 const footerLinks = {
@@ -43,6 +46,14 @@ const socialLinks = [
   },
 ];
 export default function Footer() {
+  const pathname = usePathname();
+  const isPk = pathname === "/pk" || pathname.startsWith("/pk/");
+  const withRegion = (href: string) => {
+    if (!isPk || href.startsWith("http") || href === "#") return href;
+    if (href === "/") return "/pk";
+    return `/pk${href}`;
+  };
+
   return (
     <footer className="relative z-10 bg-[#0a0f1a] text-white">
       <div className="w-full px-6 py-16 lg:px-12 xl:px-16">
@@ -51,7 +62,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             {/* Logo */}
-          <Link href="/" className="flex items-center shrink-0">
+          <Link href={withRegion("/")} className="flex items-center shrink-0">
           <Image
           src="/logo wb.png"
           alt="BlackDrivo"
@@ -90,7 +101,7 @@ export default function Footer() {
                   {links.map((link) => (
                     <li key={link.label}>
                       <Link
-                        href={link.href}
+                        href={withRegion(link.href)}
                         className="text-sm text-white/60 transition hover:text-white"
                       >
                         {link.label}
@@ -137,9 +148,9 @@ export default function Footer() {
         <div className="mt-10 flex flex-col gap-4 border-t border-white/8 pt-8 text-sm text-white/35 md:flex-row md:items-center md:justify-between">
           <p>&copy; {new Date().getFullYear()} BlackDrivo Inc. All rights reserved.</p>
           <div className="flex flex-wrap gap-5">
-            <Link href="/privacy-policy" className="hover:text-white transition">Privacy Policy</Link>
-            <Link href="/terms-of-service" className="hover:text-white transition">Terms of Service</Link>
-            <Link href="/accessibility" className="hover:text-white transition">Accessibility</Link>
+            <Link href={withRegion("/privacy-policy")} className="hover:text-white transition">Privacy Policy</Link>
+            <Link href={withRegion("/terms-of-service")} className="hover:text-white transition">Terms of Service</Link>
+            <Link href={withRegion("/accessibility")} className="hover:text-white transition">Accessibility</Link>
           </div>
         </div>
       </div>

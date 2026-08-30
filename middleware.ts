@@ -1,8 +1,38 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+// Marketing/content paths only — these are the pages that get a /pk/<path>
+// equivalent AND get auto-redirected there for Pakistan visitors. Anything
+// NOT under one of these prefixes (auth, booking checkout, the driver app,
+// live tracking, API routes) is left alone entirely: those flows depend on
+// cookies/query state/redirects that a region rewrite could easily break,
+// and they don't have region-specific copy to show anyway.
+const REGION_PREFIXES = [
+  "/", "/services", "/chauffeur-service", "/airport-transfer", "/limousine-service",
+  "/about", "/contact", "/careers", "/press", "/blog", "/help",
+  "/privacy-policy", "/terms-of-service", "/accessibility", "/hipaa-compliance",
+  "/business", "/corporate", "/partner", "/offers", "/fleet",
+];
+
+function isRegionPath(pathname: string) {
+  return REGION_PREFIXES.some((p) => (p === "/" ? pathname === "/" : pathname === p || pathname.startsWith(p + "/")));
+}
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
+  const pathname = request.nextUrl.pathname;
+
+  // ── /pk/<rest> transparently serves the same page as <rest> ──────────
+  // "/pk" itself is its own real route (app/pk/page.tsx, with its own
+  // Pakistan-specific metadata) and is NOT rewritten. Every OTHER /pk/...
+  // URL is rewritten internally to the un-prefixed path, so every marketing
+  // page is reachable under /pk/ without a second copy of the file existing.
+  if (pathname !== "/pk" && pathname.startsWith("/pk/")) {
+    const target = pathname.slice(3); // strip leading "/pk"
+    if (isRegionPath(target)) {
+      return NextResponse.rewrite(new URL(target + request.nextUrl.search, request.url));
+    }
+  }
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -22,16 +52,14 @@ export async function middleware(request: NextRequest) {
   );
 
   const { data: { user } } = await supabase.auth.getUser();
-  const pathname = request.nextUrl.pathname;
 
-  // Region redirect — every visit to the homepage from Pakistan lands on /pk
-  // instead of the default (US) homepage. Only the exact homepage is
-  // redirected (not every route) so deep links, bookmarks, and in-app
-  // navigation are never hijacked.
-  if (pathname === "/") {
+  // Region redirect — Pakistan visitors land on the /pk/<page> equivalent of
+  // whatever marketing page they hit, instead of the default (US) content.
+  if (isRegionPath(pathname)) {
     const geoCountry = request.headers.get("x-vercel-ip-country");
     if (geoCountry === "PK") {
-      return NextResponse.redirect(new URL("/pk", request.url));
+      const target = pathname === "/" ? "/pk" : `/pk${pathname}`;
+      return NextResponse.redirect(new URL(target, request.url));
     }
   }
 
