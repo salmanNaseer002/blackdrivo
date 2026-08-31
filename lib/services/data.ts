@@ -61,16 +61,32 @@ export const services: ServiceEntry[] = [
     title: "City-to-City Rides",
     tagline: "Between cities, done better.",
     description:
-      "Turn long-distance drives into productive, comfortable journeys. All predictable expenses are integrated into our transparent pricing model prior to dispatch — eliminating administrative surprises and ensuring a seamless billing experience. NY to DC, NYC to Boston, NJ to Philadelphia and beyond.",
+      "Turn long-distance drives into productive, comfortable journeys. All predictable expenses are integrated into our transparent pricing model prior to dispatch — eliminating administrative surprises and ensuring a seamless billing experience. NY to DC, NYC to Boston, and in Pakistan, Lahore to Islamabad, Karachi to Hyderabad and beyond.",
     features: [
       "Fixed flat-rate transparent pricing",
       "NYC to DC, Boston, Philadelphia & more",
-      "High-speed Wi-Fi enabled vehicles",
+      "Lahore, Karachi & Islamabad routes",
       "Chilled mineral water & charging interfaces",
-      "Professional chauffeur throughout",
+      "Professional driver throughout",
       "Door-to-door service",
     ],
     image: "/suv-2.jpg",
+  },
+  {
+    id: "monthly-pickup",
+    title: "Monthly Pick & Drop",
+    tagline: "The same driver, every day.",
+    description:
+      "A fixed monthly plan for daily pick and drop — school runs, office commutes, or any recurring route. Set your pickup time and stops once; the same verified driver shows up every day, at one predictable monthly price with no per-trip booking required.",
+    features: [
+      "One fixed monthly price, no per-trip charges",
+      "Recurring pickup time & route, set once",
+      "Same verified driver on your route",
+      "Ideal for school runs & daily office commutes",
+      "Easy monthly renewal or schedule changes",
+      "Available in Lahore, Karachi & Islamabad",
+    ],
+    image: "/el-thumb-3.webp",
   },
   {
     id: "weddings",

@@ -11,32 +11,32 @@ export const metadata: Metadata = {
 
 const points = [
   {
-    title: "Centralized billing",
-    desc: "One consolidated monthly invoice with detailed, exportable reporting for every trip your team takes.",
-  },
-  {
-    title: "Travel policy controls",
-    desc: "Set vehicle class limits, approved routes, and spending rules — automatically enforced at booking.",
-  },
-  {
-    title: "Traveler profiles",
-    desc: "Saved preferences, frequent addresses, and loyalty details for every employee on your account.",
-  },
-  {
-    title: "Priority dispatch",
-    desc: "Corporate accounts get priority vehicle assignment, especially during high-demand periods.",
-  },
-  {
     title: "Dedicated account manager",
-    desc: "A single point of contact for onboarding, billing questions, and special requests.",
+    desc: "A single point of contact assigned to your company for onboarding, route setup, billing questions, and special requests.",
+  },
+  {
+    title: "Route-wise fixed billing",
+    desc: "Every recurring route your company runs is priced and fixed in advance — no per-trip negotiation, no surprises on the invoice.",
+  },
+  {
+    title: "Monthly consolidated invoicing",
+    desc: "One invoice at the end of each billing period covering every trip, every employee, every route — reviewed and finalized with you before it's issued.",
+  },
+  {
+    title: "Scheduled, recurring pick-drop",
+    desc: "Set a fixed pickup time and days of the week once — office commutes, airport runs, or any repeating route — and it runs automatically from then on.",
+  },
+  {
+    title: "Traveler & passenger profiles",
+    desc: "Every employee riding on your account has their own profile, so pickup addresses and preferences don't need to be re-entered each time.",
   },
   {
     title: "Real-time trip tracking",
     desc: "Your travel coordinator can follow every active ride, live, from a single dashboard.",
   },
   {
-    title: "Airline & crew coordination",
-    desc: "Flight-tracked pickups, delay rebooking, and crew transport handled without you having to call ahead.",
+    title: "Airline & flight coordination",
+    desc: "Flight-tracked pickups and automatic delay adjustment for traveling employees and visiting clients.",
   },
 ];
 
