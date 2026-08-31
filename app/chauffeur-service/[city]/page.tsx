@@ -52,7 +52,7 @@ const getFaqsUs = (city: { name: string; state: string; airport: string }) => [
   { q: `What airports does BlackDrivo serve in ${city.name}?`,  a: `BlackDrivo serves ${city.airport} and all major airports accessible from ${city.name}, ${city.state}. Live flight tracking is included with every airport transfer.` },
   { q: `Is pricing fixed for rides in ${city.name}?`,           a: `Yes. All BlackDrivo fares in ${city.name} are fixed at booking. No surge pricing, no metered fares — what you see is what you pay.` },
   { q: `Are chauffeurs in ${city.name} professionally vetted?`, a: `Every BlackDrivo driver in ${city.name} passes a comprehensive background check, DMV records review, and in-person skills evaluation before their first trip.` },
-  { q: `What vehicles are available in ${city.name}?`,          a: `BlackDrivo offers Executive Sedan, First Class Sedan, Luxury SUV, Executive SUV, and Sprinter Van in ${city.name}. Availability confirmed at booking.` },
+  { q: `What vehicles are available in ${city.name}?`,          a: `BlackDrivo offers Economy Sedan, Business Class Sedan, First Class Sedan, Executive Luxury SUV, and Sprinter Van in ${city.name}. Availability confirmed at booking.` },
 ];
 
 const getFaqsPk = (city: { name: string; state: string; airport: string }) => [
@@ -60,7 +60,7 @@ const getFaqsPk = (city: { name: string; state: string; airport: string }) => [
   { q: `What airports does BlackDrivo serve in ${city.name}?`,  a: `BlackDrivo serves ${city.airport} and all major airports accessible from ${city.name}. Live flight tracking is included with every airport transfer.` },
   { q: `Is pricing fixed for rides in ${city.name}?`,           a: `Yes. All BlackDrivo fares in ${city.name} are fixed at booking. No surge pricing, no metered fares — what you see is what you pay.` },
   { q: `Are drivers in ${city.name} professionally vetted?`,    a: `Every BlackDrivo driver in ${city.name} passes a comprehensive background check, records review, and in-person skills evaluation before their first trip.` },
-  { q: `What vehicles are available in ${city.name}?`,          a: `BlackDrivo offers Executive Sedan, First Class Sedan, Luxury SUV, Executive SUV, and Sprinter Van in ${city.name}. Availability confirmed at booking.` },
+  { q: `What vehicles are available in ${city.name}?`,          a: `BlackDrivo offers Economy, Business, and First Class sedans, plus SUVs and vans, in ${city.name}. Availability confirmed at booking.` },
 ];
 
 export default async function CityPage({ params }: Props) {

@@ -26,12 +26,27 @@ interface FleetCategory {
 
 const fleetCategories: FleetCategory[] = [
   {
+    title: "Economy Sedan",
+    vehicles: [
+      {
+        id: "economy-sedan",
+        name: "Economy Sedan",
+        categoryLabel: "ECONOMY",
+        passengers: "4 Passengers",
+        bags: "2 Suitcases | 2 Carry-on bags",
+        image: "/placeholder.jpg",
+        description:
+          "A clean, comfortable sedan for everyday rides — airport pickups, city-to-city trips, and hourly bookings, at our lowest fixed price point. Same verified drivers, same fixed pricing, no surge.",
+      },
+    ],
+  },
+  {
     title: "Executive Luxury Sedan",
     vehicles: [
       {
         id: "s580",
         name: "Mercedes-Benz S580",
-        categoryLabel: "EXECUTIVE LUXURY SEDAN",
+        categoryLabel: "FIRST CLASS SEDAN",
         passengers: "4 Passengers",
         bags: "2X Suitcases | 3X Carry-on bags",
         image: "/image-76.webp",
@@ -43,7 +58,7 @@ const fleetCategories: FleetCategory[] = [
       {
         id: "lincoln",
         name: "Lincoln Continental",
-        categoryLabel: "EXECUTIVE LUXURY SEDAN",
+        categoryLabel: "BUSINESS CLASS SEDAN",
         passengers: "4 Passengers",
         bags: "2x Suitcases / 3x Carry-ons",
         image: "/image-79.webp",
@@ -53,7 +68,7 @@ const fleetCategories: FleetCategory[] = [
       {
         id: "volvo",
         name: "Volvo S90",
-        categoryLabel: "EXECUTIVE LUXURY SEDAN",
+        categoryLabel: "BUSINESS CLASS SEDAN",
         passengers: "4 Passengers",
         bags: "2x Suitcases / 3x Carry-ons",
         image: "/image-83.webp",
@@ -140,6 +155,41 @@ const fleetCategories: FleetCategory[] = [
         image: "/motor-coach.jpg",
         description:
           "Our Motor Coach delivers premium travel for the largest groups. Ideal for conventions, tours, corporate events, and long-distance group travel — with luxury seating, climate control, and onboard amenities throughout.",
+      },
+    ],
+  },
+  {
+    title: "Event Vehicles",
+    vehicles: [
+      {
+        id: "coaster",
+        name: "Coaster",
+        categoryLabel: "EVENT COACH",
+        passengers: "22–26 Passengers",
+        bags: "Large luggage bay",
+        image: "/placeholder.jpg",
+        description:
+          "Our Coaster is built for weddings, corporate events, and group tours — comfortable seating and climate control for mid-sized groups moving together.",
+      },
+      {
+        id: "grand-cabin",
+        name: "Grand Cabin",
+        categoryLabel: "EVENT VAN",
+        passengers: "13–15 Passengers",
+        bags: "10+ bags",
+        image: "/placeholder1.jpg",
+        description:
+          "The Grand Cabin offers spacious, premium group travel for corporate offsites, family events, and wedding parties — a step up in comfort from a standard van.",
+      },
+      {
+        id: "mini-van-event",
+        name: "Mini Van",
+        categoryLabel: "EVENT MINI VAN",
+        passengers: "7–9 Passengers",
+        bags: "6–7 bags",
+        image: "/mini-bus.jpg",
+        description:
+          "A compact, comfortable van for small groups and families — ideal for airport pickups with extra luggage, or short group trips around the city.",
       },
     ],
   },
@@ -234,7 +284,7 @@ export default function FleetPageContent() {
           {/* Stats strip */}
           <div className="mt-8 grid grid-cols-2 gap-px bg-white/10 sm:grid-cols-3">
             {[
-              { value: "13+", label: "Vehicle Classes" },
+              { value: "17+", label: "Vehicle Classes" },
               { value: "24/7", label: "Always Available" },
               { value: "4.9★", label: "Average Rating"  },
             ].map((s) => (
@@ -314,7 +364,7 @@ export default function FleetPageContent() {
 
                     {/* Book now */}
                     <Link
-                      href="/#book"
+                      href={isPk ? "/pk/#book" : "/#book"}
                       className={`mt-6 block py-3 text-center text-xs font-bold uppercase tracking-widest transition-colors ${
                         v.featured
                           ? "bg-[#0b66d1] text-white hover:bg-[#0952a8]"
@@ -342,13 +392,13 @@ export default function FleetPageContent() {
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
-              href="/#book"
+              href={isPk ? "/pk/#book" : "/#book"}
               className="inline-flex items-center gap-2 bg-[#0b66d1] px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-white transition hover:bg-[#0952a8]"
             >
               Book Now <ArrowRight className="h-4 w-4" />
             </Link>
             <a
-              href="tel:+18005550199"
+              href={isPk ? "tel:+923052222744" : "tel:+18005550199"}
               className="inline-flex items-center gap-2 border border-white/20 px-8 py-3.5 text-sm font-semibold text-white transition hover:border-white"
             >
               Call 24/7

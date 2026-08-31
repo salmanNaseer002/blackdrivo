@@ -49,7 +49,7 @@ const getFaqsUs = (ap: { name: string; code: string; city: string; state: string
   { q: `How long is the complimentary wait at ${ap.code}?`,                       a: `Domestic arrivals at ${ap.code} receive 60 minutes of complimentary wait time. International arrivals receive 90 minutes — sufficient for customs, immigration, and baggage claim.` },
   { q: `Where does my driver meet me at ${ap.code}?`,                             a: `Your driver positions at the arrivals curbside for your terminal at ${ap.code}. Meet & greet upgrades are available, placing your driver inside the arrivals hall with your name on a board.` },
   { q: `Is pricing fixed for ${ap.code} transfers?`,                              a: `Yes. All BlackDrivo fares from and to ${ap.code} are fixed at booking. No surge pricing regardless of traffic, weather, or demand on your travel day.` },
-  { q: `What vehicle classes are available at ${ap.code}?`,                       a: `Executive Sedan, First Class Sedan, Luxury SUV, Executive SUV, and Sprinter Van are available at ${ap.code}. All accommodate standard luggage; note any oversized items at booking.` },
+  { q: `What vehicle classes are available at ${ap.code}?`,                       a: `Economy Sedan, Business Class Sedan, First Class Sedan, Executive Luxury SUV, and Sprinter Van are available at ${ap.code}. All accommodate standard luggage; note any oversized items at booking.` },
 ];
 
 const getFaqsPk = (ap: { name: string; code: string; city: string; state: string }) => [
