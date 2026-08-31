@@ -11,23 +11,7 @@ import {
   Clock, Shield, Award, Globe, Headphones, CreditCard,
   ChevronDown, Plane, Heart, Music, MessageCircle, Building2,
 } from "lucide-react";
-
-// ─── Region-aware wording helper ───────────────────────────────────────────
-// Swaps US chauffeur terminology for the matching PK driver terminology,
-// case- and plurality-preserving, matching the same word choices already
-// used in components/home/*.tsx. Only touches driver terminology — city/
-// coverage-area references on this page are part of broader "40+ US
-// cities nationwide" claims and are intentionally left untouched (see
-// LimousineServicePage report).
-function regionize(text: string, isPk: boolean): string {
-  if (!isPk) return text;
-  return text
-    .replace(/chauffeured/g, "driver-driven")
-    .replace(/Chauffeurs/g, "Drivers")
-    .replace(/chauffeurs/g, "drivers")
-    .replace(/Chauffeur/g, "Driver")
-    .replace(/chauffeur/g, "driver");
-}
+import { regionizeForPk } from "@/lib/regionizeText";
 
 type IconType = ComponentType<{ className?: string }>;
 
@@ -72,7 +56,10 @@ export default function LimousineServiceContent({
 }) {
   const pathname = usePathname();
   const isPk = pathname === "/pk" || pathname.startsWith("/pk/");
-  const r = (text: string) => regionize(text, isPk);
+  const r = (text: string) => regionizeForPk(text, isPk);
+  const bookHref = isPk ? "/pk/#book" : "/#book";
+  const phoneDisplay = isPk ? "0305 2222744" : "+1 (800) 555-0199";
+  const phoneHref = isPk ? "tel:+923052222744" : "tel:+18005550199";
 
   return (
     <div className="min-h-screen bg-white">
@@ -119,7 +106,7 @@ export default function LimousineServiceContent({
             {/* CTAs */}
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/#book"
+                href={bookHref}
                 className="inline-flex items-center justify-center gap-2 bg-[#C5A028] px-8 py-4 text-sm font-bold uppercase tracking-widest text-black transition hover:bg-[#A8871E]"
               >
                 Book Now <ArrowRight className="h-4 w-4" />
@@ -228,7 +215,7 @@ export default function LimousineServiceContent({
 
                   <div className="mt-7 flex gap-3">
                     <Link
-                      href="/#book"
+                      href={bookHref}
                       className="flex flex-1 items-center justify-center gap-2 bg-[#0b66d1] py-3.5 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-[#0952a8]"
                     >
                       Book This Vehicle <ArrowRight className="h-3.5 w-3.5" />
@@ -323,9 +310,9 @@ export default function LimousineServiceContent({
                     <o.icon className="h-5 w-5 text-[#C5A028]" />
                   </div>
                   <h3 className="text-lg font-extrabold text-white">{o.title}</h3>
-                  <p className="mt-2.5 text-sm leading-6 text-white/55">{o.desc}</p>
+                  <p className="mt-2.5 text-sm leading-6 text-white/55">{r(o.desc)}</p>
                   <Link
-                    href="/#book"
+                    href={bookHref}
                     className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#C5A028] transition group-hover:gap-3"
                   >
                     Book Now <ArrowRight className="h-3.5 w-3.5 transition-all" />
@@ -416,7 +403,7 @@ export default function LimousineServiceContent({
                   </div>
                   <div>
                     <p className="text-sm font-extrabold text-gray-900">{t.name}</p>
-                    <p className="text-xs text-[#C5A028]">{t.role}</p>
+                    <p className="text-xs text-[#C5A028]">{r(t.role)}</p>
                   </div>
                 </div>
               </div>
@@ -461,7 +448,7 @@ export default function LimousineServiceContent({
 
           <div className="mt-14 text-center">
             <Link
-              href="/#book"
+              href={bookHref}
               className="inline-flex items-center gap-2 bg-[#C5A028] px-10 py-4 text-sm font-bold uppercase tracking-widest text-black transition hover:bg-[#A8871E]"
             >
               Start Your Booking <ArrowRight className="h-4 w-4" />
@@ -476,7 +463,9 @@ export default function LimousineServiceContent({
           <div className="grid grid-cols-2 gap-10 text-center md:grid-cols-5">
             {stats.map(s => (
               <div key={s.label}>
-                <div className="text-4xl font-extrabold text-[#C5A028] md:text-5xl">{s.number}</div>
+                <div className="text-4xl font-extrabold text-[#C5A028] md:text-5xl">
+                  {isPk && s.label === "Cities Covered" ? "3" : s.number}
+                </div>
                 <p className="mt-2 text-xs font-bold uppercase tracking-widest text-white/40">
                   {r(s.label)}
                 </p>
@@ -556,10 +545,7 @@ export default function LimousineServiceContent({
               {r("Our airport limousine service is built around three core principles: real-time flight tracking, guaranteed fixed pricing, and professional meet-and-greet service. When your flight lands — whether on time, early, or delayed — your chauffeur is already adjusted and waiting. For domestic arrivals, we provide 60 minutes of complimentary wait time. For international arrivals, we extend that to 90 minutes to ensure you have ample time to clear customs and collect your luggage without any pressure whatsoever.")}
             </p>
             <p className="mt-4">
-              We serve 30+ major US airports including JFK, LaGuardia, Newark, LAX, O'Hare, Miami
-              International, Dallas/Fort Worth, Las Vegas Harry Reid, Boston Logan, and many more.
-              Whether you are arriving for a business meeting or departing for a long-awaited vacation,
-              BlackDrivo's airport limousine ensures your journey begins and ends in first-class comfort.
+              {r("We serve 30+ major US airports including JFK, LaGuardia, Newark, LAX, O'Hare, Miami International, Dallas/Fort Worth, Las Vegas Harry Reid, Boston Logan, and many more. Whether you are arriving for a business meeting or departing for a long-awaited vacation, BlackDrivo's airport limousine ensures your journey begins and ends in first-class comfort.")}
             </p>
           </div>
 
@@ -599,10 +585,7 @@ export default function LimousineServiceContent({
               boardroom.
             </p>
             <p className="mt-4">
-              For corporate roadshows, investor presentations, and multi-location itineraries, our
-              full-day limousine hire packages provide exceptional value and the flexibility to adapt to
-              changing schedules without penalty. BlackDrivo serves Fortune 500 companies, leading law
-              firms, major financial institutions, and high-growth startups across the United States.
+              {r("For corporate roadshows, investor presentations, and multi-location itineraries, our full-day limousine hire packages provide exceptional value and the flexibility to adapt to changing schedules without penalty. BlackDrivo serves leading companies, law firms, financial institutions, and high-growth startups across the United States.")}
             </p>
           </div>
 
@@ -614,11 +597,7 @@ export default function LimousineServiceContent({
               {r("For high-profile clients who require an elevated standard of privacy, security, and discretion, BlackDrivo's VIP limousine service represents the pinnacle of luxury ground transportation. Our VIP chauffeurs are selected from the top tier of our driver pool, with additional training in confidentiality protocols, security awareness, and high-profile client management.")}
             </p>
             <p className="mt-4">
-              Our VIP limousine fleet features vehicles with full privacy tinting, partition screens, and
-              all communications technology disabled in the passenger compartment upon request. We have
-              served executives, artists, athletes, diplomats, and international visitors across all
-              major US cities — delivering the kind of quiet, confident professionalism that true VIP
-              clients expect and deserve.
+              {r("Our VIP limousine fleet features vehicles with full privacy tinting, partition screens, and all communications technology disabled in the passenger compartment upon request. We have served executives, artists, athletes, diplomats, and international visitors across all major US cities — delivering the kind of quiet, confident professionalism that true VIP clients expect and deserve.")}
             </p>
           </div>
 
@@ -651,14 +630,10 @@ export default function LimousineServiceContent({
 
           <div>
             <h2 className="mb-4 text-2xl font-extrabold text-gray-900 md:text-3xl">
-              Luxury Limousine Service Nationwide — Available in 40+ Cities
+              {r("Luxury Limousine Service Nationwide — Available in 40+ Cities")}
             </h2>
             <p>
-              BlackDrivo's luxury limousine service is available across the United States, with
-              operations in all major metropolitan areas. From New York City and New Jersey to Los
-              Angeles, Chicago, Miami, Dallas, Las Vegas, Phoenix, Seattle, Denver, and Boston — our
-              network of professional {r("chauffeurs")} and premium vehicles is ready to serve you wherever your
-              travels take you.
+              {r("BlackDrivo's luxury limousine service is available across the United States, with operations in all major metropolitan areas. From New York City and New Jersey to Los Angeles, Chicago, Miami, Dallas, Las Vegas, Phoenix, Seattle, Denver, and Boston — our network of professional chauffeurs and premium vehicles is ready to serve you wherever your travels take you.")}
             </p>
             <p className="mt-4">
               All BlackDrivo limousine pricing is completely fixed at the time of booking, regardless of
@@ -669,7 +644,7 @@ export default function LimousineServiceContent({
             </p>
             <p className="mt-4">
               Ready to experience the BlackDrivo difference? Book your luxury limousine online in minutes
-              or call our reservations team 24/7 at +1 (800) 555-0199. Our team is standing by to help
+              or call our reservations team 24/7 at {phoneDisplay}. Our team is standing by to help
               you plan the perfect transportation experience — whether it is a single airport transfer or
               a complex multi-day corporate itinerary. BlackDrivo: where luxury meets reliability.
             </p>
@@ -692,7 +667,7 @@ export default function LimousineServiceContent({
 
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
-              href="/#book"
+              href={bookHref}
               className="inline-flex items-center gap-2 bg-[#C5A028] px-10 py-4 text-sm font-bold uppercase tracking-widest text-black transition hover:bg-[#A8871E]"
             >
               Book Now <ArrowRight className="h-4 w-4" />
@@ -707,11 +682,11 @@ export default function LimousineServiceContent({
 
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <a
-              href="tel:+18005550199"
+              href={phoneHref}
               className="flex items-center gap-2 text-sm text-white/50 transition hover:text-white"
             >
               <Phone className="h-4 w-4 text-[#C5A028]" />
-              +1 (800) 555-0199
+              {phoneDisplay}
             </a>
             <span className="hidden text-white/20 sm:block">·</span>
             <a

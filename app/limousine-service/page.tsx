@@ -1,84 +1,123 @@
+import { headers } from "next/headers";
 import type { Metadata } from "next";
 import LimousineServiceContent from "@/components/limousine/LimousineServiceContent";
+import { regionizeForPk } from "@/lib/regionizeText";
 
 // ─── SEO Metadata ─────────────────────────────────────────────────────────────
 
-export const metadata: Metadata = {
-  title: "Luxury Limousine Service | Premium Limo Rental — BlackDrivo",
-  description:
-    "Premium limousine service for airport transfers, weddings, corporate events & VIP transportation. Stretch limos, Mercedes Sprinters & Escalades. Fixed pricing, professional chauffeurs, 24/7 availability. Book instantly.",
-  keywords:
-    "limousine service, luxury limousine, stretch limousine, limo rental, airport limousine, wedding limousine, corporate limousine, chauffeur service, VIP transportation, black car service, executive limo",
-  alternates: { canonical: "https://www.blackdrivo.com/limousine-service" },
-  openGraph: {
-    title: "BlackDrivo Luxury Limousine Service — Premium Limo Worldwide",
-    description:
-      "Travel in ultimate comfort with BlackDrivo's premium limousine fleet. Airport transfers, weddings, corporate events & VIP transportation. Fixed pricing, professional chauffeurs, 24/7.",
-    type: "website",
-    url: "https://www.blackdrivo.com/limousine-service",
-    images: [
-      {
-        url: "/STRETCH LIMOUSINE.jpg",
-        width: 1200,
-        height: 630,
-        alt: "BlackDrivo Stretch Limousine",
+export async function generateMetadata(): Promise<Metadata> {
+  const isPk = (await headers()).get("x-region") === "pk";
+  if (isPk) {
+    return {
+      title: "Luxury Limousine Service | Premium Limo Rental — BlackDrivo Pakistan",
+      description:
+        "Premium limousine service for airport pickup & drop, weddings, corporate events & VIP transportation across Lahore, Karachi, and Islamabad. Stretch limos, Mercedes Sprinters & Escalades. Fixed pricing, verified drivers, 24/7 availability. Book instantly.",
+      keywords:
+        "limousine service Pakistan, luxury limousine Lahore, stretch limousine Karachi, limo rental Islamabad, airport limousine Pakistan, wedding limousine Pakistan, corporate limousine Pakistan, driver service, VIP transportation, executive limo",
+      alternates: { canonical: "https://www.blackdrivo.com/pk/limousine-service" },
+      openGraph: {
+        title: "BlackDrivo Luxury Limousine Service — Pakistan",
+        description:
+          "Travel in ultimate comfort with BlackDrivo's premium limousine fleet across Lahore, Karachi, and Islamabad. Fixed pricing, verified drivers, 24/7.",
+        type: "website",
+        url: "https://www.blackdrivo.com/pk/limousine-service",
+        images: [{ url: "/STRETCH LIMOUSINE.jpg", width: 1200, height: 630, alt: "BlackDrivo Stretch Limousine" }],
       },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "BlackDrivo Luxury Limousine Service",
+      twitter: {
+        card: "summary_large_image",
+        title: "BlackDrivo Luxury Limousine Service — Pakistan",
+        description: "Premium limousine service for airports, weddings, corporate events & VIP transportation across Pakistan.",
+        images: ["/STRETCH LIMOUSINE.jpg"],
+      },
+    };
+  }
+  return {
+    title: "Luxury Limousine Service | Premium Limo Rental — BlackDrivo",
     description:
-      "Premium limousine service for airports, weddings, corporate events & VIP transportation.",
-    images: ["/STRETCH LIMOUSINE.jpg"],
-  },
-};
+      "Premium limousine service for airport transfers, weddings, corporate events & VIP transportation. Stretch limos, Mercedes Sprinters & Escalades. Fixed pricing, professional chauffeurs, 24/7 availability. Book instantly.",
+    keywords:
+      "limousine service, luxury limousine, stretch limousine, limo rental, airport limousine, wedding limousine, corporate limousine, chauffeur service, VIP transportation, black car service, executive limo",
+    alternates: { canonical: "https://www.blackdrivo.com/limousine-service" },
+    openGraph: {
+      title: "BlackDrivo Luxury Limousine Service — Premium Limo Worldwide",
+      description:
+        "Travel in ultimate comfort with BlackDrivo's premium limousine fleet. Airport transfers, weddings, corporate events & VIP transportation. Fixed pricing, professional chauffeurs, 24/7.",
+      type: "website",
+      url: "https://www.blackdrivo.com/limousine-service",
+      images: [
+        {
+          url: "/STRETCH LIMOUSINE.jpg",
+          width: 1200,
+          height: 630,
+          alt: "BlackDrivo Stretch Limousine",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "BlackDrivo Luxury Limousine Service",
+      description:
+        "Premium limousine service for airports, weddings, corporate events & VIP transportation.",
+      images: ["/STRETCH LIMOUSINE.jpg"],
+    },
+  };
+}
 
 // ─── JSON-LD Schemas ──────────────────────────────────────────────────────────
+// Built per-request from isPk (organizationSchema/serviceSchema previously
+// stayed US-worded — wrong phone, wrong currency, wrong areaServed — even
+// when the FAQ/testimonial copy below it was already region-aware).
 
-const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "BlackDrivo",
-  url: "https://www.blackdrivo.com",
-  logo: "https://www.blackdrivo.com/logo%20wb.png",
-  contactPoint: {
-    "@type": "ContactPoint",
-    telephone: "+1-800-555-0199",
-    contactType: "customer service",
-    availableLanguage: "English",
-    contactOption: "TollFree",
-  },
-};
-
-const serviceSchema = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  name: "Luxury Limousine Service",
-  provider: {
+function buildOrganizationSchema(isPk: boolean) {
+  return {
+    "@context": "https://schema.org",
     "@type": "Organization",
     name: "BlackDrivo",
     url: "https://www.blackdrivo.com",
-  },
-  serviceType: "Limousine Service",
-  areaServed: { "@type": "Country", name: "United States" },
-  description:
-    "Premium luxury limousine service for airport transfers, weddings, corporate events, and VIP transportation. Professional chauffeurs, fixed pricing, 24/7 availability.",
-  offers: {
-    "@type": "Offer",
-    priceCurrency: "USD",
-    availability: "https://schema.org/InStock",
-  },
-};
+    logo: "https://www.blackdrivo.com/logo%20wb.png",
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: isPk ? "+92-305-2222744" : "+1-800-555-0199",
+      contactType: "customer service",
+      availableLanguage: "English",
+      contactOption: isPk ? undefined : "TollFree",
+    },
+  };
+}
 
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://www.blackdrivo.com" },
-    { "@type": "ListItem", position: 2, name: "Limousine Service", item: "https://www.blackdrivo.com/limousine-service" },
-  ],
-};
+function buildServiceSchema(isPk: boolean) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Luxury Limousine Service",
+    provider: {
+      "@type": "Organization",
+      name: "BlackDrivo",
+      url: "https://www.blackdrivo.com",
+    },
+    serviceType: "Limousine Service",
+    areaServed: isPk ? { "@type": "Country", name: "Pakistan" } : { "@type": "Country", name: "United States" },
+    description: isPk
+      ? "Premium luxury limousine service for airport pickup & drop, weddings, corporate events, and VIP transportation across Lahore, Karachi, and Islamabad. Verified drivers, fixed pricing, 24/7 availability."
+      : "Premium luxury limousine service for airport transfers, weddings, corporate events, and VIP transportation. Professional chauffeurs, fixed pricing, 24/7 availability.",
+    offers: {
+      "@type": "Offer",
+      priceCurrency: isPk ? "PKR" : "USD",
+      availability: "https://schema.org/InStock",
+    },
+  };
+}
+
+function buildBreadcrumbSchema(isPk: boolean) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: isPk ? "https://www.blackdrivo.com/pk" : "https://www.blackdrivo.com" },
+      { "@type": "ListItem", position: 2, name: "Limousine Service", item: isPk ? "https://www.blackdrivo.com/pk/limousine-service" : "https://www.blackdrivo.com/limousine-service" },
+    ],
+  };
+}
 
 const aggregateRatingSchema = {
   "@context": "https://schema.org",
@@ -177,15 +216,17 @@ const faqItems = [
   },
 ];
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqItems.map(item => ({
-    "@type": "Question",
-    name: item.q,
-    acceptedAnswer: { "@type": "Answer", text: item.a },
-  })),
-};
+function buildFaqSchema(isPk: boolean) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map(item => ({
+      "@type": "Question",
+      name: regionizeForPk(item.q, isPk),
+      acceptedAnswer: { "@type": "Answer", text: regionizeForPk(item.a, isPk) },
+    })),
+  };
+}
 
 // ─── Page Data ────────────────────────────────────────────────────────────────
 
@@ -350,15 +391,17 @@ const stats = [
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function LimousineServicePage() {
+export default async function LimousineServicePage() {
+  const isPk = (await headers()).get("x-region") === "pk";
+
   return (
     <>
       {/* Schemas */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildOrganizationSchema(isPk)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildServiceSchema(isPk)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildBreadcrumbSchema(isPk)) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aggregateRatingSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFaqSchema(isPk)) }} />
 
       <LimousineServiceContent
         vehicles={vehicles}
