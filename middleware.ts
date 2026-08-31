@@ -30,7 +30,16 @@ export async function middleware(request: NextRequest) {
   if (pathname !== "/pk" && pathname.startsWith("/pk/")) {
     const target = pathname.slice(3); // strip leading "/pk"
     if (isRegionPath(target)) {
-      return NextResponse.rewrite(new URL(target + request.nextUrl.search, request.url));
+      // Stamp x-region so pages that can't read the URL directly (a plain
+      // `export const metadata` / `generateMetadata` has no access to
+      // usePathname()) can still tell they're serving a /pk/ visitor and
+      // return Pakistan-worded <title>/<meta description> instead of always
+      // the US copy baked into the un-prefixed route.
+      const headers = new Headers(request.headers);
+      headers.set("x-region", "pk");
+      return NextResponse.rewrite(new URL(target + request.nextUrl.search, request.url), {
+        request: { headers },
+      });
     }
   }
 
