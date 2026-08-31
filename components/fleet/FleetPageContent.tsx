@@ -1,280 +1,102 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Users, Briefcase, ArrowRight } from "lucide-react";
+import BookingWidget from "@/components/home/BookingWidget";
 
-// ─── Fleet data ───────────────────────────────────────────────────────────────
+// ─── Fleet data (from Supabase `fleet_catalog_vehicles`, managed in Admin) ──
 
-interface FleetVehicle {
+export interface FleetVehicle {
   id: string;
-  name: string;
-  categoryLabel: string;
-  passengers: string;
-  bags: string;
-  image: string;
-  description: string;
-  descriptionPk?: string;
-  featured?: boolean;
+  country_code: string;
+  section: string;
+  category_label: string | null;
+  vehicle_name: string;
+  model: string | null;
+  pax_capacity: string | null;
+  luggage_capacity: string | null;
+  description: string | null;
+  image_url: string | null;
+  is_featured: boolean;
+  is_active: boolean;
+  sort_order: number;
 }
 
-interface FleetCategory {
-  title: string;
-  vehicles: FleetVehicle[];
-}
-
-const fleetCategories: FleetCategory[] = [
-  {
-    title: "Economy Sedan",
-    vehicles: [
-      {
-        id: "economy-sedan",
-        name: "Economy Sedan",
-        categoryLabel: "ECONOMY",
-        passengers: "4 Passengers",
-        bags: "2 Suitcases | 2 Carry-on bags",
-        image: "/placeholder.jpg",
-        description:
-          "A clean, comfortable sedan for everyday rides — airport pickups, city-to-city trips, and hourly bookings, at our lowest fixed price point. Same verified drivers, same fixed pricing, no surge.",
-      },
-    ],
-  },
-  {
-    title: "Executive Luxury Sedan",
-    vehicles: [
-      {
-        id: "s580",
-        name: "Mercedes-Benz S580",
-        categoryLabel: "FIRST CLASS SEDAN",
-        passengers: "4 Passengers",
-        bags: "2X Suitcases | 3X Carry-on bags",
-        image: "/image-76.webp",
-        description:
-          "Experience first-class comfort in the Mercedes-Benz S580. With a quiet cabin, refined presence, and executive-level privacy, this flagship luxury sedan is ideal for VIP pickups, corporate transfers, airport travel, and private chauffeur service.",
-        descriptionPk:
-          "Experience first-class comfort in the Mercedes-Benz S580. With a quiet cabin, refined presence, and executive-level privacy, this flagship luxury sedan is ideal for VIP pickups, corporate transfers, airport travel, and private driver service.",
-      },
-      {
-        id: "lincoln",
-        name: "Lincoln Continental",
-        categoryLabel: "BUSINESS CLASS SEDAN",
-        passengers: "4 Passengers",
-        bags: "2x Suitcases / 3x Carry-ons",
-        image: "/image-79.webp",
-        description:
-          "Experience quiet executive comfort in the Lincoln Continental. With generous rear-seat space, a smooth ride, and a refined cabin, this luxury sedan is ideal for airport transfers, corporate travel, roadshows, and VIP transportation.",
-      },
-      {
-        id: "volvo",
-        name: "Volvo S90",
-        categoryLabel: "BUSINESS CLASS SEDAN",
-        passengers: "4 Passengers",
-        bags: "2x Suitcases / 3x Carry-ons",
-        image: "/image-83.webp",
-        description:
-          "Experience understated luxury in the Volvo S90. With a quiet cabin, refined Scandinavian design, and executive-level comfort, this sedan is ideal for airport transfers, corporate travel, VIP service, and private city transportation.",
-      },
-    ],
-  },
-  {
-    title: "Executive Luxury SUV",
-    vehicles: [
-      {
-        id: "escalade",
-        name: "Cadillac Escalade",
-        categoryLabel: "EXECUTIVE LUXURY SUV",
-        passengers: "6–7 Passengers",
-        bags: "5–6 standard suitcases",
-        image: "/suv-2.jpg",
-        featured: true,
-        description:
-          "Travel in elevated comfort with the Cadillac Escalade. With commanding luxury, spacious three-row seating, and generous luggage capacity, this premium SUV is ideal for VIP groups, airport transfers, private aviation pickups, and executive travel.",
-      },
-      {
-        id: "suburban",
-        name: "Chevrolet Suburban",
-        categoryLabel: "EXECUTIVE LUXURY SUV",
-        passengers: "6–8 Passengers",
-        bags: "6–8 standard suitcases",
-        image: "/image-73.webp",
-        description:
-          "Travel with space and confidence in the Chevrolet Suburban. With three-row seating, impressive luggage capacity, and premium comfort, this spacious SUV is ideal for airport transfers, family travel, corporate transportation, and private events.",
-      },
-      {
-        id: "gls",
-        name: "Mercedes-Benz GLS 580",
-        categoryLabel: "EXECUTIVE LUXURY SUV",
-        passengers: "6 Passengers",
-        bags: "4–5 standard suitcases",
-        image: "/7jClbfztWIicl0yDu77pUZLM5utpFnTkYv7WYUHV-e1777636492376-1.webp",
-        description:
-          "Ride in the pinnacle of SUV luxury with the Mercedes-Benz GLS 580. Combining SUV versatility with flagship refinement, it delivers exceptional comfort for executive transfers, private travel, and VIP group transportation.",
-      },
-    ],
-  },
-  {
-    title: "Vans, Buses & Coaches",
-    vehicles: [
-      {
-        id: "sprinter",
-        name: "Mercedes-Benz Sprinter",
-        categoryLabel: "EXECUTIVE LUXURY MINI-BUS",
-        passengers: "11–14 Passengers",
-        bags: "10–14 standard suitcases",
-        image: "/limo-1.jpg",
-        description:
-          "Move together in comfort with the Mercedes-Benz Sprinter. With a spacious, climate-controlled cabin and elevated group-travel experience, it is ideal for corporate teams, wedding parties, airport transfers, and VIP group transportation.",
-      },
-      {
-        id: "mini-bus",
-        name: "Executive Mini Bus",
-        categoryLabel: "EXECUTIVE MINI-BUS",
-        passengers: "15–20 Passengers",
-        bags: "15+ bags",
-        image: "/mini-bus.jpg",
-        description:
-          "Perfect for mid-sized groups, our Executive Mini Bus provides a comfortable and professional ride for corporate events, wedding shuttles, airport group transfers, and any occasion requiring reliable luxury group transportation.",
-      },
-      {
-        id: "charter-bus",
-        name: "Charter Bus",
-        categoryLabel: "CHARTER BUS",
-        passengers: "Up to 55 Passengers",
-        bags: "Large luggage bay",
-        image: "/Charter-Bus-1.webp",
-        description:
-          "For large groups, our Charter Bus is the perfect solution. Fully equipped with comfortable seating, climate control, and professional drivers — ideal for corporate shuttles, conventions, sporting events, and large-group transportation.",
-      },
-      {
-        id: "motor-coach",
-        name: "Motor Coach",
-        categoryLabel: "MOTOR COACH",
-        passengers: "30–55 Passengers",
-        bags: "Large luggage bay",
-        image: "/motor-coach.jpg",
-        description:
-          "Our Motor Coach delivers premium travel for the largest groups. Ideal for conventions, tours, corporate events, and long-distance group travel — with luxury seating, climate control, and onboard amenities throughout.",
-      },
-    ],
-  },
-  {
-    title: "Event Vehicles",
-    vehicles: [
-      {
-        id: "coaster",
-        name: "Coaster",
-        categoryLabel: "EVENT COACH",
-        passengers: "22–26 Passengers",
-        bags: "Large luggage bay",
-        image: "/placeholder.jpg",
-        description:
-          "Our Coaster is built for weddings, corporate events, and group tours — comfortable seating and climate control for mid-sized groups moving together.",
-      },
-      {
-        id: "grand-cabin",
-        name: "Grand Cabin",
-        categoryLabel: "EVENT VAN",
-        passengers: "13–15 Passengers",
-        bags: "10+ bags",
-        image: "/placeholder1.jpg",
-        description:
-          "The Grand Cabin offers spacious, premium group travel for corporate offsites, family events, and wedding parties — a step up in comfort from a standard van.",
-      },
-      {
-        id: "mini-van-event",
-        name: "Mini Van",
-        categoryLabel: "EVENT MINI VAN",
-        passengers: "7–9 Passengers",
-        bags: "6–7 bags",
-        image: "/mini-bus.jpg",
-        description:
-          "A compact, comfortable van for small groups and families — ideal for airport pickups with extra luggage, or short group trips around the city.",
-      },
-    ],
-  },
-  {
-    title: "Specialty Vehicles",
-    vehicles: [
-      {
-        id: "stretch-limo",
-        name: "Stretch Limousine",
-        categoryLabel: "STRETCH LIMOUSINE",
-        passengers: "8–10 Passengers",
-        bags: "7 bags",
-        image: "/STRETCH LIMOUSINE.jpg",
-        description:
-          "Make any occasion unforgettable in our classic Stretch Limousine. Perfect for weddings, proms, birthdays, and VIP nights out — featuring a full bar, ambient lighting, premium audio, and a professional chauffeur.",
-        descriptionPk:
-          "Make any occasion unforgettable in our classic Stretch Limousine. Perfect for weddings, proms, birthdays, and VIP nights out — featuring a full bar, ambient lighting, premium audio, and a professional driver.",
-      },
-      {
-        id: "roadshow",
-        name: "Road Show Vehicle",
-        categoryLabel: "ROAD SHOW",
-        passengers: "Up to 14 Passengers",
-        bags: "7 bags",
-        image: "/roadshow.webp",
-        description:
-          "Catering to individuals and large groups, our Road Show vehicles are dedicated to meeting every convention-related transportation need — from employee shuttles to large-scale tours, we handle every detail.",
-      },
-      {
-        id: "vintage",
-        name: "Vintage Classic Car",
-        categoryLabel: "VINTAGE CLASSIC",
-        passengers: "3–4 Passengers",
-        bags: "2 bags",
-        image: "/caddy-camp-lucy-full-1-1024x768-1.jpg",
-        description:
-          "Arrive in timeless style with our Vintage Classic Car collection. From 1940s Cadillac Fleetwoods to classic Jaguars, our vintage fleet is perfect for weddings, photoshoots, film productions, and unforgettable occasions.",
-      },
-    ],
-  },
+const SECTION_ORDER = [
+  "Economy Sedan", "Executive Luxury Sedan", "Executive Luxury SUV",
+  "Vans, Buses & Coaches", "Event Vehicles", "Specialty Vehicles",
 ];
 
-// ─── Page content ───────────────────────────────────────────────────────────────
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z]+/g, "-");
 
-export default function FleetPageContent() {
+// ─── Page content ───────────────────────────────────────────────────────────
+
+export default function FleetPageContent({ vehicles }: { vehicles: FleetVehicle[] }) {
   const pathname = usePathname();
   const isPk = pathname === "/pk" || pathname.startsWith("/pk/");
 
+  const regionVehicles = vehicles.filter((v) =>
+    isPk ? v.country_code === "PK" : v.country_code !== "PK"
+  );
+
+  const sectionNames = [...new Set(regionVehicles.map((v) => v.section))].sort((a, b) => {
+    const ia = SECTION_ORDER.indexOf(a);
+    const ib = SECTION_ORDER.indexOf(b);
+    if (ia === -1 && ib === -1) return a.localeCompare(b);
+    if (ia === -1) return 1;
+    if (ib === -1) return -1;
+    return ia - ib;
+  });
+
+  const sections = sectionNames.map((title) => ({
+    title,
+    vehicles: regionVehicles.filter((v) => v.section === title).sort((a, b) => a.sort_order - b.sort_order),
+  }));
+
   return (
     <>
-      {/* ── Video Hero ───────────────────────────────────────────────────── */}
-      <section className="relative flex min-h-[70vh] items-end overflow-hidden">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="/BlackDrivo%20Main%20Page%20-%202403x1603.png"
-          className="absolute inset-0 h-full w-full object-cover"
-          src="/herobg.mp4"
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(10,15,26,0.20) 0%, rgba(10,15,26,0.65) 60%, rgba(10,15,26,0.94) 100%)",
-          }}
-        />
+      {/* ── Hero — fixed background, booking widget pinned at the bottom, ──
+          same structure as ServiceDetailContent.tsx's header. id="book" is
+          the scroll target every vehicle card's "BOOK NOW" anchors to. ──── */}
+      <section id="book" className="relative flex min-h-screen w-full items-end">
+        <div className="fixed inset-0 z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="/BlackDrivo%20Main%20Page%20-%202403x1603.png"
+            className="h-full w-full object-cover"
+            src="/herobg.mp4"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(to bottom, rgba(10,15,26,0.28) 0%, rgba(10,15,26,0.58) 55%, rgba(10,15,26,0.88) 100%)",
+            }}
+          />
+        </div>
 
-        <div className="relative z-10 mx-auto w-full w-full px-4 pb-14 md:px-8">
-          <h1 className="text-5xl font-bold text-white md:text-7xl">
+        <div className="absolute inset-x-0 bottom-0 z-[5] h-32 bg-gradient-to-t from-white to-transparent" />
+
+        <div className="relative z-10 mx-auto w-full max-w-[1800px] px-4 pb-8 pt-24 md:px-6 md:pb-16 lg:px-8">
+          <h1 className="text-center text-5xl font-bold leading-[1.05] tracking-tight text-white md:text-7xl">
             Our Fleet
           </h1>
-          <p className="mt-4 max-w-2xl text-sm leading-6 text-white/60 md:text-base">
+          <p className="mx-auto mt-4 max-w-2xl text-center text-sm leading-6 text-white/65 md:text-base">
             Every vehicle inspected before every trip. Every driver uniformed and vetted.
             Select your vehicle and book in minutes — fixed pricing, 24/7.
           </p>
 
           {/* Category quick-links */}
-          <div className="mt-8 flex flex-wrap gap-2">
-            {fleetCategories.map((cat) => (
+          <div className="mt-8 flex flex-wrap justify-center gap-2">
+            {sections.map((cat) => (
               <a
                 key={cat.title}
-                href={`#${cat.title.toLowerCase().replace(/[^a-z]+/g, "-")}`}
-                className="px-5 py-2 text-xs font-bold uppercase tracking-widest text-white/60 transition hover:border-white hover:text-white"
+                href={`#${slugify(cat.title)}`}
+                className="px-5 py-2 text-xs font-bold uppercase tracking-widest text-white/60 transition hover:text-white"
               >
                 {cat.title}
               </a>
@@ -282,27 +104,32 @@ export default function FleetPageContent() {
           </div>
 
           {/* Stats strip */}
-          <div className="mt-8 grid grid-cols-2 gap-px bg-white/10 sm:grid-cols-3">
+          <div className="mx-auto mt-8 grid max-w-3xl grid-cols-2 gap-px bg-white/10 sm:grid-cols-3">
             {[
-              { value: "17+", label: "Vehicle Classes" },
+              { value: `${regionVehicles.length}+`, label: "Vehicle Classes" },
               { value: "24/7", label: "Always Available" },
-              { value: "4.9★", label: "Average Rating"  },
+              { value: "4.9★", label: "Average Rating" },
             ].map((s) => (
-              <div key={s.label} className="bg-black/30 px-6 py-4 backdrop-blur-sm">
+              <div key={s.label} className="bg-black/30 px-6 py-4 text-center backdrop-blur-sm">
                 <p className="text-lg font-extrabold text-white">{s.value}</p>
                 <p className="text-xs text-white/50">{s.label}</p>
               </div>
             ))}
           </div>
+
+          <div className="mx-auto mt-10 max-w-6xl shadow-2xl shadow-black/40 md:mt-10">
+            <BookingWidget />
+          </div>
         </div>
       </section>
 
-      {/* ── Fleet grid by category ───────────────────────────────────────── */}
-      {fleetCategories.map((cat) => (
+      {/* ── Fleet grid by section — relative z-10 required: the hero above is
+          `fixed`, so this needs to be explicitly stacked above it. ────────── */}
+      {sections.map((cat) => (
         <section
           key={cat.title}
-          id={cat.title.toLowerCase().replace(/[^a-z]+/g, "-")}
-          className="border-t border-gray-100 px-4 py-16 md:px-6 lg:px-8"
+          id={slugify(cat.title)}
+          className="relative z-10 border-t border-gray-100 bg-white px-4 py-16 md:px-6 lg:px-8"
         >
           <div className="mx-auto w-full">
             <h2 className="mb-10 text-3xl font-bold text-gray-900 md:text-4xl">
@@ -314,7 +141,7 @@ export default function FleetPageContent() {
                 <article
                   key={v.id}
                   className={`group flex flex-col bg-white transition-all duration-300 hover:shadow-xl ${
-                    v.featured
+                    v.is_featured
                       ? "border-2 border-[#0b66d1] shadow-md"
                       : "border border-gray-100 shadow-sm"
                   }`}
@@ -322,13 +149,13 @@ export default function FleetPageContent() {
                   {/* Vehicle image */}
                   <div className="relative flex h-56 items-center justify-center overflow-hidden bg-gray-50 p-4">
                     <Image
-                      src={v.image}
-                      alt={v.name}
+                      src={v.image_url || "/placeholder.jpg"}
+                      alt={v.vehicle_name}
                       fill
                       className="object-contain p-3 transition duration-500 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
-                    {v.featured && (
+                    {v.is_featured && (
                       <span className="absolute right-3 top-3 bg-[#0b66d1] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
                         Most Popular
                       </span>
@@ -338,41 +165,51 @@ export default function FleetPageContent() {
                   {/* Content */}
                   <div className="flex flex-1 flex-col p-6">
                     <h3 className="text-xl font-bold text-gray-900">
-                      {v.name}
+                      {v.vehicle_name}
                     </h3>
-                    <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-[#0b66d1]">
-                      {v.categoryLabel}
-                    </p>
+                    {v.category_label && (
+                      <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-[#0b66d1]">
+                        {v.category_label}
+                      </p>
+                    )}
 
                     {/* Specs chips */}
                     <div className="mt-4 flex flex-wrap gap-2">
-                      <span className="flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700">
-                        <Users className="h-3 w-3" />
-                        {v.passengers}
-                      </span>
-                      <span className="flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700">
-                        <Briefcase className="h-3 w-3" />
-                        {v.bags}
-                      </span>
+                      {v.pax_capacity && (
+                        <span className="flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700">
+                          <Users className="h-3 w-3" />
+                          {v.pax_capacity}
+                        </span>
+                      )}
+                      {v.luggage_capacity && (
+                        <span className="flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700">
+                          <Briefcase className="h-3 w-3" />
+                          {v.luggage_capacity}
+                        </span>
+                      )}
                     </div>
 
-                    <hr className="my-4 border-gray-100" />
+                    {v.description && (
+                      <>
+                        <hr className="my-4 border-gray-100" />
+                        <p className="flex-1 text-sm leading-6 text-gray-500">
+                          {v.description}
+                        </p>
+                      </>
+                    )}
 
-                    <p className="flex-1 text-sm leading-6 text-gray-500">
-                      {isPk && v.descriptionPk ? v.descriptionPk : v.description}
-                    </p>
-
-                    {/* Book now */}
-                    <Link
-                      href={isPk ? "/pk/#book" : "/#book"}
+                    {/* Book now — scrolls back up to the hero's booking widget,
+                        rather than navigating away. */}
+                    <a
+                      href="#book"
                       className={`mt-6 block py-3 text-center text-xs font-bold uppercase tracking-widest transition-colors ${
-                        v.featured
+                        v.is_featured
                           ? "bg-[#0b66d1] text-white hover:bg-[#0952a8]"
                           : "border border-[#0b66d1] text-[#0b66d1] hover:bg-[#0b66d1] hover:text-white"
                       }`}
                     >
                       BOOK NOW
-                    </Link>
+                    </a>
                   </div>
                 </article>
               ))}
@@ -381,8 +218,16 @@ export default function FleetPageContent() {
         </section>
       ))}
 
+      {sections.length === 0 && (
+        <section className="relative z-10 border-t border-gray-100 bg-white px-4 py-24 text-center md:px-6 lg:px-8">
+          <p className="text-sm text-gray-500">
+            Our {isPk ? "Pakistan" : "US"} fleet listing is being updated — check back shortly, or use the booking form above to book instantly.
+          </p>
+        </section>
+      )}
+
       {/* ── Bottom CTA ───────────────────────────────────────────────────── */}
-      <section className="border-t border-gray-100 bg-gray-950 px-4 py-16 text-center md:px-6 lg:px-8">
+      <section className="relative z-10 border-t border-gray-100 bg-gray-950 px-4 py-16 text-center md:px-6 lg:px-8">
         <div className="mx-auto max-w-xl">
           <h2 className="text-3xl font-bold text-white md:text-4xl">
             Need help choosing?
@@ -391,12 +236,12 @@ export default function FleetPageContent() {
             Our team is available 24/7 to help you select the perfect vehicle for your journey.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Link
-              href={isPk ? "/pk/#book" : "/#book"}
+            <a
+              href="#book"
               className="inline-flex items-center gap-2 bg-[#0b66d1] px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-white transition hover:bg-[#0952a8]"
             >
               Book Now <ArrowRight className="h-4 w-4" />
-            </Link>
+            </a>
             <a
               href={isPk ? "tel:+923052222744" : "tel:+18005550199"}
               className="inline-flex items-center gap-2 border border-white/20 px-8 py-3.5 text-sm font-semibold text-white transition hover:border-white"

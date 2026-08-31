@@ -229,6 +229,7 @@ export default function Navbar() {
                   )}
                 </AnimatePresence>
               </div>
+              <Link href={withRegion("/fleet")}    className={navLinkClass("/fleet")}>Fleet</Link>
               <Link href={withRegion("/contact")} className={navLinkClass("/contact")}>Contact</Link>
               <Link href={withRegion("/partner")}   className={navLinkClass("/partner")}>Become a Partner</Link>
 
@@ -463,6 +464,7 @@ export default function Navbar() {
                 </div>
 
                 {[
+                  { label: "Fleet",         href: "/fleet"    },
                   { label: "Contact",       href: "/contact" },
                   { label: "Become a Partner", href: "/partner"  },
                 ].map(item => (
