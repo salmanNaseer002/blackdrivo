@@ -140,75 +140,66 @@ export default function FleetPageContent({ vehicles }: { vehicles: FleetVehicle[
               {cat.vehicles.map((v) => (
                 <article
                   key={v.id}
-                  className={`group flex flex-col bg-white transition-all duration-300 hover:shadow-xl ${
-                    v.is_featured
-                      ? "border-2 border-[#0b66d1] shadow-md"
-                      : "border border-gray-100 shadow-sm"
-                  }`}
+                  className="group rounded-[2rem] p-3 transition-colors duration-300 hover:bg-blue-50"
                 >
                   {/* Vehicle image */}
-                  <div className="relative flex h-56 items-center justify-center overflow-hidden bg-gray-50 p-4">
+                  <div className="relative h-64 overflow-hidden rounded-2xl bg-gray-100 md:h-72">
                     <Image
                       src={v.image_url || "/placeholder.jpg"}
                       alt={v.vehicle_name}
                       fill
-                      className="object-contain p-3 transition duration-500 group-hover:scale-105"
+                      className="object-cover transition duration-700 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                     {v.is_featured && (
-                      <span className="absolute right-3 top-3 bg-[#0b66d1] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
+                      <span className="absolute right-3 top-3 rounded-full bg-[#0b66d1] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
                         Most Popular
                       </span>
                     )}
                   </div>
 
                   {/* Content */}
-                  <div className="flex flex-1 flex-col p-6">
-                    <h3 className="text-xl font-bold text-gray-900">
-                      {v.vehicle_name}
-                    </h3>
+                  <div className="mt-6 p-6">
                     {v.category_label && (
-                      <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-[#0b66d1]">
+                      <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-[#0b66d1]">
                         {v.category_label}
                       </p>
                     )}
+                    <h3 className="text-lg font-bold text-gray-900">
+                      {v.vehicle_name}
+                    </h3>
 
                     {/* Specs chips */}
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {v.pax_capacity && (
-                        <span className="flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700">
-                          <Users className="h-3 w-3" />
-                          {v.pax_capacity}
-                        </span>
-                      )}
-                      {v.luggage_capacity && (
-                        <span className="flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700">
-                          <Briefcase className="h-3 w-3" />
-                          {v.luggage_capacity}
-                        </span>
-                      )}
-                    </div>
+                    {(v.pax_capacity || v.luggage_capacity) && (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {v.pax_capacity && (
+                          <span className="flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-medium text-gray-700">
+                            <Users className="h-3 w-3" />
+                            {v.pax_capacity}
+                          </span>
+                        )}
+                        {v.luggage_capacity && (
+                          <span className="flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-medium text-gray-700">
+                            <Briefcase className="h-3 w-3" />
+                            {v.luggage_capacity}
+                          </span>
+                        )}
+                      </div>
+                    )}
 
                     {v.description && (
-                      <>
-                        <hr className="my-4 border-gray-100" />
-                        <p className="flex-1 text-sm leading-6 text-gray-500">
-                          {v.description}
-                        </p>
-                      </>
+                      <p className="mt-3 text-sm leading-6 text-gray-500">
+                        {v.description}
+                      </p>
                     )}
 
                     {/* Book now — scrolls back up to the hero's booking widget,
                         rather than navigating away. */}
                     <a
                       href="#book"
-                      className={`mt-6 block py-3 text-center text-xs font-bold uppercase tracking-widest transition-colors ${
-                        v.is_featured
-                          ? "bg-[#0b66d1] text-white hover:bg-[#0952a8]"
-                          : "border border-[#0b66d1] text-[#0b66d1] hover:bg-[#0b66d1] hover:text-white"
-                      }`}
+                      className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#0b66d1] transition hover:gap-3"
                     >
-                      BOOK NOW
+                      Book Now <ArrowRight className="h-4 w-4" />
                     </a>
                   </div>
                 </article>
