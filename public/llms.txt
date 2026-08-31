@@ -1,23 +1,26 @@
 # BlackDrivo
 
-> BlackDrivo is a premium chauffeur / black car service operating across New York, New Jersey, and nationwide in the United States.
+> BlackDrivo is a premium chauffeur / black car service operating across New York, New Jersey, and nationwide in the United States, and a car rental and driver service across Pakistan (Lahore, Karachi, Islamabad).
 
 ## Services
-- Airport transfers at 30+ major US airports (JFK, LGA, EWR, LAX, ORD, and more) — flight tracking included, complimentary wait time (60 min domestic / 90 min international), fixed pricing, meet & greet available.
-- Chauffeur service (point-to-point rides) in 40+ US cities.
-- City-to-city rides.
-- Hourly and per-day chauffeur/vehicle rental packages for multi-stop trips and events.
-- Corporate/business travel accounts with centralized billing.
+- Airport transfers at 30+ major US airports (JFK, LGA, EWR, LAX, ORD, and more) and at Lahore (LHE), Karachi (KHI), and Islamabad (ISB) in Pakistan — flight tracking included, complimentary wait time (60 min domestic / 90 min international), fixed pricing, meet & greet available.
+- Chauffeur/driver service (point-to-point rides) in 40+ US cities and in Lahore, Karachi, and Islamabad, Pakistan.
+- City-to-city rides, including Lahore–Islamabad, Karachi–Hyderabad, and other Pakistan routes.
+- Hourly and per-day car/chauffeur rental packages for multi-stop trips and events.
+- Monthly Pick & Drop: a fixed monthly plan for recurring daily rides (school runs, office commutes) with the same driver each day — available in Lahore, Karachi, and Islamabad.
+- Corporate/B2B travel accounts: dedicated account manager, route-wise fixed billing, monthly consolidated invoicing, and scheduled recurring pick-drop.
+- Travel Agent program: agent-only discounted rates for booking client rides on their behalf, with consolidated monthly invoicing.
+- On-Demand bookings: instant, fixed-price car rental, airport pickup & drop, and city-to-city rides with no schedule or account required.
 - Limousine service.
 
 ## Pricing model
 Fares are fixed at the time of booking based on route and vehicle class. There is no surge pricing — the price shown at booking is the price charged, regardless of traffic, weather, or demand.
 
 ## Fleet
-Business-class sedans, first-class luxury sedans, and SUVs.
+Economy, Business Class, and First Class sedans; executive luxury SUVs; vans, buses, and coaches; Event Vehicles (Coaster, Grand Cabin, Mini Van) for weddings and corporate events; and specialty vehicles including stretch limousines and vintage classics.
 
 ## Coverage
-Primary markets: New York and New Jersey. Also available nationwide across the United States, including 30+ airports and 40+ cities for chauffeur service. BlackDrivo is also now available across Pakistan, covering Lahore, Karachi, and Islamabad (see https://www.blackdrivo.com/pk).
+Primary US markets: New York and New Jersey. Also available nationwide across the United States, including 30+ airports and 40+ cities for chauffeur service. BlackDrivo is also available across Pakistan, covering Lahore, Karachi, and Islamabad (see https://www.blackdrivo.com/pk).
 
 ## Booking
 Rides can be booked through the BlackDrivo website (blackdrivo.com) or the BlackDrivo mobile app (iOS and Android).
@@ -27,14 +30,16 @@ Rides can be booked through the BlackDrivo website (blackdrivo.com) or the Black
 - Pakistan (Lahore, Karachi, Islamabad): https://www.blackdrivo.com/pk
 - Book a ride: https://www.blackdrivo.com/booking
 - Services overview: https://www.blackdrivo.com/services
-- Chauffeur service: https://www.blackdrivo.com/chauffeur-service
-- Airport transfer: https://www.blackdrivo.com/airport-transfer
+- Chauffeur/driver service: https://www.blackdrivo.com/chauffeur-service
+- Airport transfer / pickup & drop: https://www.blackdrivo.com/airport-transfer
 - Limousine service: https://www.blackdrivo.com/limousine-service
 - Fleet: https://www.blackdrivo.com/fleet
-- Business (corporate travel, agency bookings, referral partnerships): https://www.blackdrivo.com/business
+- Business (corporate travel, travel agents, on-demand, referral partnerships): https://www.blackdrivo.com/business
   - https://www.blackdrivo.com/business/corporate
-  - https://www.blackdrivo.com/business/partnerships
+  - https://www.blackdrivo.com/business/travel-agent
   - https://www.blackdrivo.com/business/travel-partner
+  - https://www.blackdrivo.com/business/on-demand
+  - https://www.blackdrivo.com/business/partnerships
 - About: https://www.blackdrivo.com/about
 - Contact: https://www.blackdrivo.com/contact
 - Careers: https://www.blackdrivo.com/careers
@@ -43,9 +48,9 @@ Rides can be booked through the BlackDrivo website (blackdrivo.com) or the Black
 - Offers: https://www.blackdrivo.com/offers
 - Become a driver: https://www.blackdrivo.com/drive
 - Blog: https://www.blackdrivo.com/blog
-- Individual service pages exist under https://www.blackdrivo.com/services/<slug> (e.g. airport transfer, chauffeur service, hourly, corporate travel).
-- City-specific pages: https://www.blackdrivo.com/chauffeur-service/new-york, https://www.blackdrivo.com/chauffeur-service/los-angeles, etc. — see sitemap.xml for the full list.
-- Airport-specific pages: https://www.blackdrivo.com/airport-transfer/jfk, https://www.blackdrivo.com/airport-transfer/lax, etc. — see sitemap.xml for the full list.
+- Individual service pages exist under https://www.blackdrivo.com/services/<slug> (e.g. airport, corporate, hourly, city, monthly-pickup, weddings, events).
+- City-specific pages: https://www.blackdrivo.com/chauffeur-service/lahore, https://www.blackdrivo.com/chauffeur-service/karachi, https://www.blackdrivo.com/chauffeur-service/islamabad, https://www.blackdrivo.com/chauffeur-service/new-york, and 40+ more US cities — see sitemap.xml for the full list.
+- Airport-specific pages: https://www.blackdrivo.com/airport-transfer/lhe, https://www.blackdrivo.com/airport-transfer/khi, https://www.blackdrivo.com/airport-transfer/isb, https://www.blackdrivo.com/airport-transfer/jfk, and 30+ more US airports — see sitemap.xml for the full list.
 
 ## Contact
 For business inquiries, use the contact form at https://www.blackdrivo.com/contact.
