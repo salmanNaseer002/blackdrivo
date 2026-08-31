@@ -28,6 +28,18 @@ const solutions = [
     href: "/business/partnerships",
     image: "/el-thumb-3.webp",
   },
+  {
+    title: "Travel Agent",
+    description: "Discounted, agent-only rates and dedicated support for booking client rides on their behalf.",
+    href: "/business/travel-agent",
+    image: "/el-thumb-4.webp",
+  },
+  {
+    title: "On-Demand",
+    description: "Instant, fixed-price bookings for individuals — no schedule or account needed.",
+    href: "/business/on-demand",
+    image: "/el-rectangle.webp",
+  },
 ];
 
 const benefitsUs = [
