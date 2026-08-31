@@ -13,14 +13,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { city: citySlug } = await params;
   const city = cities.find(c => c.slug === citySlug);
   if (!city) return { title: "Not Found" };
+  const isPk = city.country === "Pakistan";
   // This route is statically generated (generateStaticParams) — the same
   // pre-built HTML is served for both /chauffeur-service/<city> and (via
   // middleware.ts's rewrite) /pk/chauffeur-service/<city>, since a static
-  // page can't vary per-request. Metadata/JSON-LD here always describe the
-  // US-worded version to match what's actually baked into that HTML; only
-  // CityPageContent's client-side text (via usePathname()) differs for /pk
-  // visitors, which is a real, if imperfect, tradeoff of reusing one static
-  // page for both regions instead of two separate builds.
+  // page can't vary per-request. Metadata/JSON-LD here branch on the city's
+  // own `country` field (not the request path) so a genuinely Pakistani
+  // city (Lahore/Karachi/Islamabad) always gets correct, non-US-worded
+  // metadata regardless of which URL prefix served it.
+  if (isPk) {
+    return {
+      title: `Car Rental & Driver Service ${city.name} | Airport Pickup & Drop ${city.name}`,
+      description: `Car rental and driver service in ${city.name}, Pakistan. Fixed pricing, verified drivers, 24/7 availability. Book a car with driver in ${city.name} instantly — serving ${city.airport}.`,
+      keywords: `car rental ${city.name}, driver service ${city.name}, airport pickup ${city.name}, airport drop ${city.name}, city to city rides Pakistan, hourly car rental ${city.name}`,
+      alternates: { canonical: `https://www.blackdrivo.com/chauffeur-service/${city.slug}` },
+      openGraph: {
+        title: `BlackDrivo Car Rental & Driver Service ${city.name}`,
+        description: `Book a car with driver in ${city.name}. Fixed pricing, verified drivers, 24/7 available. Serving ${city.airport}.`,
+        type: "website",
+      },
+    };
+  }
   return {
     title: `Chauffeur Service ${city.name} | Black Car Service ${city.name}, ${city.state}`,
     description: `Premium chauffeur service in ${city.name}, ${city.state}. Fixed pricing, professional drivers, 24/7 availability. Book a black car in ${city.name} instantly — serving ${city.airport}.`,
@@ -55,25 +68,36 @@ export default async function CityPage({ params }: Props) {
   const city = cities.find(c => c.slug === citySlug);
   if (!city) notFound();
 
+  const isPk = city.country === "Pakistan";
   const faqsUs = getFaqsUs(city);
   const faqsPk = getFaqsPk(city);
 
-  const serviceJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: `Chauffeur Service ${city.name}`,
-    description: `Premium black car and chauffeur service in ${city.name}, ${city.state}. Available 24/7 for airport transfers, executive transportation, and corporate travel.`,
-    provider: { "@type": "Organization", name: "BlackDrivo", url: "https://www.blackdrivo.com" },
-    areaServed: { "@type": "City", name: city.name, containedInPlace: { "@type": "State", name: city.state } },
-    serviceType: "Chauffeur Service",
-  };
+  const serviceJsonLd = isPk
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: `Car Rental & Driver Service ${city.name}`,
+        description: `Car rental, airport pickup & drop, and city-to-city rides in ${city.name}, Pakistan. Available 24/7 with fixed, upfront pricing.`,
+        provider: { "@type": "Organization", name: "BlackDrivo", url: "https://www.blackdrivo.com" },
+        areaServed: { "@type": "City", name: city.name, containedInPlace: { "@type": "Country", name: "Pakistan" } },
+        serviceType: "Car Rental & Driver Service",
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: `Chauffeur Service ${city.name}`,
+        description: `Premium black car and chauffeur service in ${city.name}, ${city.state}. Available 24/7 for airport transfers, executive transportation, and corporate travel.`,
+        provider: { "@type": "Organization", name: "BlackDrivo", url: "https://www.blackdrivo.com" },
+        areaServed: { "@type": "City", name: city.name, containedInPlace: { "@type": "State", name: city.state } },
+        serviceType: "Chauffeur Service",
+      };
 
-  // Matches the US-worded metadata above (this static page can't vary per
-  // request — see the note in generateMetadata).
+  // Now correctly matches the city's own market (city.country), not the
+  // request path — see the note in generateMetadata.
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqsUs.map(f => ({
+    mainEntity: (isPk ? faqsPk : faqsUs).map(f => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },

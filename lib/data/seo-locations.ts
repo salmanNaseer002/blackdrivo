@@ -57,6 +57,10 @@ export const cities: SeoCity[] = [
   { name: "White Plains",    slug: "white-plains",    state: "NY", country: "USA", airport: "HPN",             pop: "57K"   },
   { name: "Princeton",       slug: "princeton",       state: "NJ", country: "USA", airport: "EWR / PHL",       pop: "32K"   },
   { name: "Newark",          slug: "newark",          state: "NJ", country: "USA", airport: "EWR",             pop: "280K"  },
+
+  { name: "Lahore",          slug: "lahore",          state: "Punjab",              country: "Pakistan", airport: "Allama Iqbal International (LHE)",  pop: "13M" },
+  { name: "Karachi",         slug: "karachi",         state: "Sindh",               country: "Pakistan", airport: "Jinnah International (KHI)",        pop: "16M" },
+  { name: "Islamabad",       slug: "islamabad",       state: "Islamabad Capital Territory", country: "Pakistan", airport: "Islamabad International (ISB)", pop: "1.2M" },
 ];
 
 export const airports: SeoAirport[] = [
@@ -92,4 +96,8 @@ export const airports: SeoAirport[] = [
   { name: "Westchester County",                    slug: "hpn",      code: "HPN", city: "White Plains",    state: "NY", country: "USA" },
   { name: "Long Island MacArthur",                 slug: "isp",      code: "ISP", city: "Islip",           state: "NY", country: "USA" },
   { name: "Bradley International",                 slug: "bdl",      code: "BDL", city: "Hartford",        state: "CT", country: "USA" },
+
+  { name: "Allama Iqbal International",             slug: "lhe",      code: "LHE", city: "Lahore",          state: "Punjab",                       country: "Pakistan" },
+  { name: "Jinnah International",                   slug: "khi",      code: "KHI", city: "Karachi",         state: "Sindh",                        country: "Pakistan" },
+  { name: "Islamabad International",                slug: "isb",      code: "ISB", city: "Islamabad",       state: "Islamabad Capital Territory",  country: "Pakistan" },
 ];

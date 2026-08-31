@@ -23,12 +23,18 @@ const servicesPk = [
 
 export default function CityPageContent({ city, faqsUs, faqsPk }: { city: City; faqsUs: Faq[]; faqsPk: Faq[] }) {
   const pathname = usePathname();
-  const isPk = pathname === "/pk" || pathname.startsWith("/pk/");
+  // A genuinely Pakistani city (city.country) always gets PK content, even
+  // when reached at its canonical /chauffeur-service/<city> URL rather than
+  // via the /pk/ prefix — the market is a property of the city, not the URL.
+  const isPk = city.country === "Pakistan" || pathname === "/pk" || pathname.startsWith("/pk/");
   const faqs = isPk ? faqsPk : faqsUs;
   const word = isPk ? "driver" : "chauffeur";
   const Word = isPk ? "Driver" : "Chauffeur";
   const services = isPk ? servicesPk : servicesUs;
   const chauffeurServiceHref = isPk ? "/pk/chauffeur-service" : "/chauffeur-service";
+  const phoneDisplay = isPk ? "0305 2222744" : "+1 (800) 555-0199";
+  const phoneHref = isPk ? "tel:+923052222744" : "tel:+18005550199";
+  const regionLabel = isPk ? "Pakistan" : city.state;
 
   return (
     <div className="min-h-screen bg-white">
@@ -57,15 +63,16 @@ export default function CityPageContent({ city, faqsUs, faqsPk }: { city: City; 
             {Word} Service in {city.name}, {city.state}
           </h1>
           <p className="mt-4 max-w-2xl text-base text-gray-500 md:text-lg">
-            Premium black car and {word} service in {city.name}. Professional drivers, fixed pricing,
-            and 24/7 availability — serving {city.airport} and all destinations across {city.state}.
+            {isPk
+              ? `Car rental and driver service in ${city.name}. Verified drivers, fixed pricing, and 24/7 availability — serving ${city.airport} and all destinations across ${city.name}.`
+              : `Premium black car and ${word} service in ${city.name}. Professional drivers, fixed pricing, and 24/7 availability — serving ${city.airport} and all destinations across ${city.state}.`}
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <Link href="/#book"
+            <Link href={isPk ? "/pk/#book" : "/#book"}
               className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]">
               Book in {city.name} <ArrowRight className="h-4 w-4" />
             </Link>
-            <a href="tel:+18005550199"
+            <a href={phoneHref}
               className="inline-flex items-center gap-2 rounded-full border-2 border-gray-200 px-7 py-3.5 text-sm font-semibold text-gray-700 transition hover:border-[#0b66d1] hover:text-[#0b66d1]">
               <Phone className="h-4 w-4" /> Call Us
             </a>
@@ -96,7 +103,7 @@ export default function CityPageContent({ city, faqsUs, faqsPk }: { city: City; 
           </h2>
           <div className="grid gap-5 md:grid-cols-3">
             {[
-              { icon: Star,   title: "Top-rated service",   desc: `Consistently rated 4.9/5 by riders in ${city.name} and ${city.state}.`                 },
+              { icon: Star,   title: "Top-rated service",   desc: `Consistently rated 4.9/5 by riders in ${city.name} and across ${regionLabel}.`         },
               { icon: Shield, title: `Vetted ${word}s`,      desc: `Every driver serving ${city.name} passes our background check and skills evaluation.`  },
               { icon: Clock,  title: "Always on time",       desc: `Real-time traffic routing and early dispatch ensure on-time arrivals in ${city.name}.` },
             ].map(f => (
@@ -122,8 +129,8 @@ export default function CityPageContent({ city, faqsUs, faqsPk }: { city: City; 
                 {city.airport} Airport Transfers
               </h2>
               <p className="mt-3 text-sm text-gray-500">
-                BlackDrivo provides premium airport transfers to and from {city.airport} serving {city.name},
-                {city.state}. Every booking includes live flight tracking and complimentary wait time.
+                BlackDrivo provides {isPk ? "" : "premium "}airport transfers to and from {city.airport} serving {city.name},
+                {" "}{regionLabel}. Every booking includes live flight tracking and complimentary wait time.
               </p>
               <ul className="mt-4 space-y-2">
                 {["Live flight tracking included", "60 min wait (domestic) · 90 min (international)", "Meet & greet or curbside", "Fixed pricing — no surge"].map(i => (
@@ -134,7 +141,7 @@ export default function CityPageContent({ city, faqsUs, faqsPk }: { city: City; 
               </ul>
             </div>
             <div>
-              <Link href="/#book"
+              <Link href={isPk ? "/pk/#book" : "/#book"}
                 className="flex items-center justify-between rounded-2xl border border-gray-100 bg-gray-50 px-5 py-4 transition hover:border-[#0b66d1]/30 hover:bg-blue-50">
                 <div>
                   <p className="font-semibold text-gray-900">Book {city.airport} Transfer</p>
@@ -143,7 +150,7 @@ export default function CityPageContent({ city, faqsUs, faqsPk }: { city: City; 
                 <ArrowRight className="h-5 w-5 text-[#0b66d1]" />
               </Link>
               <p className="mt-3 text-center text-xs text-gray-400">
-                Or call <a href="tel:+18005550199" className="font-medium text-[#0b66d1]">+1 (800) 555-0199</a> for same-day bookings
+                Or call <a href={phoneHref} className="font-medium text-[#0b66d1]">{phoneDisplay}</a> for same-day bookings
               </p>
             </div>
           </div>
@@ -177,9 +184,9 @@ export default function CityPageContent({ city, faqsUs, faqsPk }: { city: City; 
             Book your {word} in {city.name} today
           </h2>
           <p className="mt-2 text-sm text-gray-500">
-            Fixed pricing · Professional drivers · Available 24/7 in {city.name}, {city.state}
+            Fixed pricing · Professional drivers · Available 24/7 in {city.name}, {regionLabel}
           </p>
-          <Link href="/#book"
+          <Link href={isPk ? "/pk/#book" : "/#book"}
             className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]">
             Book in {city.name} <ArrowRight className="h-4 w-4" />
           </Link>
