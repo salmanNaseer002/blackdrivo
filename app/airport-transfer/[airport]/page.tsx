@@ -16,6 +16,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { airport } = await params;
   const ap = airports.find(a => a.slug === airport);
   if (!ap) return { title: "Not Found" };
+  const isPk = ap.country === "Pakistan";
+  if (isPk) {
+    return {
+      title: `${ap.code} Airport Pickup & Drop | Car Rental Service ${ap.city} — BlackDrivo`,
+      description: `Airport pickup and drop to and from ${ap.name} (${ap.code}) in ${ap.city}, Pakistan. Fixed pricing, live flight tracking, verified drivers 24/7. Book instantly.`,
+      keywords: `${ap.code} airport pickup, ${ap.city} airport drop, ${ap.name} car rental, driver service ${ap.code}, airport transfer ${ap.city}`,
+      alternates: { canonical: `https://www.blackdrivo.com/airport-transfer/${ap.slug}` },
+      openGraph: {
+        title: `BlackDrivo ${ap.code} Airport Pickup & Drop — ${ap.city}`,
+        description: `Book a verified driver at ${ap.name} (${ap.code}). Fixed pricing, flight tracking, meet & greet available.`,
+        type: "website",
+      },
+    };
+  }
   return {
     title: `${ap.code} Airport Transfer | Black Car Service ${ap.city}, ${ap.state} — BlackDrivo`,
     description: `Premium airport transfer to and from ${ap.name} (${ap.code}) in ${ap.city}, ${ap.state}. Fixed pricing, live flight tracking, professional chauffeurs 24/7. Book instantly.`,
@@ -29,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const getFaqs = (ap: { name: string; code: string; city: string; state: string }) => [
+const getFaqsUs = (ap: { name: string; code: string; city: string; state: string }) => [
   { q: `How do I book a transfer at ${ap.name} (${ap.code})?`,                    a: `Use the BlackDrivo booking form, select Airport Transfer, enter your flight number and ${ap.code} as your airport, and confirm. You receive instant confirmation with your driver's name and contact.` },
   { q: `Does BlackDrivo track my flight at ${ap.code}?`,                          a: `Yes. Every ${ap.code} transfer includes live flight tracking. If your flight is delayed or diverted, your driver adjusts automatically — no calls needed.` },
   { q: `How long is the complimentary wait at ${ap.code}?`,                       a: `Domestic arrivals at ${ap.code} receive 60 minutes of complimentary wait time. International arrivals receive 90 minutes — sufficient for customs, immigration, and baggage claim.` },
@@ -38,22 +52,47 @@ const getFaqs = (ap: { name: string; code: string; city: string; state: string }
   { q: `What vehicle classes are available at ${ap.code}?`,                       a: `Executive Sedan, First Class Sedan, Luxury SUV, Executive SUV, and Sprinter Van are available at ${ap.code}. All accommodate standard luggage; note any oversized items at booking.` },
 ];
 
+const getFaqsPk = (ap: { name: string; code: string; city: string; state: string }) => [
+  { q: `How do I book a pickup at ${ap.name} (${ap.code})?`,                      a: `Use the BlackDrivo booking form, select Airport Transfer, enter your flight number and ${ap.code} as your airport, and confirm. You receive instant confirmation with your driver's name and contact.` },
+  { q: `Does BlackDrivo track my flight at ${ap.code}?`,                          a: `Yes. Every ${ap.code} pickup includes live flight tracking. If your flight is delayed, your driver adjusts automatically — no calls needed.` },
+  { q: `How long is the complimentary wait at ${ap.code}?`,                       a: `Domestic arrivals at ${ap.code} receive 60 minutes of complimentary wait time. International arrivals receive 90 minutes — enough for immigration and baggage claim.` },
+  { q: `Where does my driver meet me at ${ap.code}?`,                             a: `Your driver positions at the arrivals curbside for your terminal at ${ap.code}. Meet & greet upgrades are available, placing your driver inside the arrivals hall with your name on a board.` },
+  { q: `Is pricing fixed for ${ap.code} pickups?`,                                a: `Yes. All BlackDrivo fares from and to ${ap.code} are fixed at booking. No surge pricing regardless of traffic or demand on your travel day.` },
+  { q: `What vehicles are available at ${ap.code}?`,                              a: `Economy, Business, and First Class sedans, plus SUVs and vans, are available at ${ap.code}. All accommodate standard luggage; note any oversized items at booking.` },
+];
+
 export default async function AirportPage({ params }: Props) {
   const { airport } = await params;
   const ap = airports.find(a => a.slug === airport);
   if (!ap) notFound();
 
-  const faqs = getFaqs(ap);
+  const isPk = ap.country === "Pakistan";
+  const faqs = isPk ? getFaqsPk(ap) : getFaqsUs(ap);
+  const homeHref = isPk ? "/pk" : "/";
+  const bookHref = isPk ? "/pk/#book" : "/#book";
+  const phoneDisplay = isPk ? "0305 2222744" : "+1 (800) 555-0199";
+  const phoneHref = isPk ? "tel:+923052222744" : "tel:+18005550199";
+  const regionLabel = isPk ? "Pakistan" : ap.state;
 
-  const serviceJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: `${ap.code} Airport Transfer`,
-    description: `Professional black car airport transfer service at ${ap.name} (${ap.code}) in ${ap.city}, ${ap.state}. Fixed pricing, flight tracking, meet & greet.`,
-    provider: { "@type": "Organization", name: "BlackDrivo", url: "https://www.blackdrivo.com" },
-    areaServed: { "@type": "City", name: ap.city, containedInPlace: { "@type": "State", name: ap.state } },
-    serviceType: "Airport Transfer",
-  };
+  const serviceJsonLd = isPk
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: `${ap.code} Airport Pickup & Drop`,
+        description: `Car rental and driver airport pickup/drop service at ${ap.name} (${ap.code}) in ${ap.city}, Pakistan. Fixed pricing, flight tracking, meet & greet.`,
+        provider: { "@type": "Organization", name: "BlackDrivo", url: "https://www.blackdrivo.com" },
+        areaServed: { "@type": "City", name: ap.city, containedInPlace: { "@type": "Country", name: "Pakistan" } },
+        serviceType: "Airport Pickup & Drop",
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: `${ap.code} Airport Transfer`,
+        description: `Professional black car airport transfer service at ${ap.name} (${ap.code}) in ${ap.city}, ${ap.state}. Fixed pricing, flight tracking, meet & greet.`,
+        provider: { "@type": "Organization", name: "BlackDrivo", url: "https://www.blackdrivo.com" },
+        areaServed: { "@type": "City", name: ap.city, containedInPlace: { "@type": "State", name: ap.state } },
+        serviceType: "Airport Transfer",
+      };
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -92,30 +131,31 @@ export default async function AirportPage({ params }: Props) {
         <div className="relative mx-auto max-w-4xl">
           {/* Breadcrumb */}
           <nav className="mb-5 flex items-center gap-2 text-sm text-gray-500">
-            <Link href="/" className="hover:text-[#0b66d1]">Home</Link>
+            <Link href={homeHref} className="hover:text-[#0b66d1]">Home</Link>
             <span>›</span>
-            <Link href="/airport-transfer" className="hover:text-[#0b66d1]">Airport Transfer</Link>
+            <Link href={isPk ? "/pk/airport-transfer" : "/airport-transfer"} className="hover:text-[#0b66d1]">Airport Transfer</Link>
             <span>›</span>
             <span className="text-gray-900">{ap.code}</span>
           </nav>
 
           <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">
-            {ap.city}, {ap.state}
+            {ap.city}, {regionLabel}
           </p>
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
-            {ap.code} Airport Transfer<br className="hidden md:block" />
-            <span className="text-[#0b66d1]"> {ap.city}, {ap.state}</span>
+            {ap.code} Airport {isPk ? "Pickup & Drop" : "Transfer"}<br className="hidden md:block" />
+            <span className="text-[#0b66d1]"> {ap.city}, {regionLabel}</span>
           </h1>
           <p className="mt-4 max-w-2xl text-base text-gray-500 md:text-lg">
-            Premium black car transfers to and from {ap.name} ({ap.code}). Professional chauffeurs,
-            live flight tracking, and fixed pricing — available 24/7.
+            {isPk
+              ? `Car rental and driver airport pickup & drop to and from ${ap.name} (${ap.code}). Verified drivers, live flight tracking, and fixed pricing — available 24/7.`
+              : `Premium black car transfers to and from ${ap.name} (${ap.code}). Professional chauffeurs, live flight tracking, and fixed pricing — available 24/7.`}
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <Link href="/#book"
+            <Link href={bookHref}
               className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]">
-              Book {ap.code} Transfer <ArrowRight className="h-4 w-4" />
+              Book {ap.code} {isPk ? "Pickup" : "Transfer"} <ArrowRight className="h-4 w-4" />
             </Link>
-            <a href="tel:+18005550199"
+            <a href={phoneHref}
               className="inline-flex items-center gap-2 rounded-full border-2 border-gray-200 px-7 py-3.5 text-sm font-semibold text-gray-700 transition hover:border-[#0b66d1] hover:text-[#0b66d1]">
               <Phone className="h-4 w-4" /> Call 24/7
             </a>
@@ -127,13 +167,13 @@ export default async function AirportPage({ params }: Props) {
       <section className="border-y border-gray-100 bg-gray-50 px-4 py-16 md:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <h2 className="mb-8 text-xl font-bold text-gray-900 md:text-2xl">
-            What&apos;s included with every {ap.code} transfer
+            What&apos;s included with every {ap.code} {isPk ? "pickup" : "transfer"}
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
               { icon: Plane,       label: "Live flight tracking",             desc: "Automatic adjustment for delays, early arrivals, and gate changes."          },
               { icon: Clock,       label: "Complimentary wait time",          desc: `60 min domestic · 90 min international at ${ap.code}.`                      },
-              { icon: Star,        label: "Professional chauffeur",           desc: "Background-checked, uniformed, and exclusively focused on you."              },
+              { icon: Star,        label: isPk ? "Verified driver" : "Professional chauffeur", desc: "Background-checked, uniformed, and exclusively focused on you."              },
               { icon: CheckCircle, label: "Fixed pricing",                    desc: "Fare locked at booking — no surge, no meter."                               },
               { icon: CheckCircle, label: "Meet & greet available",           desc: `Driver inside ${ap.code} arrivals hall with your name on board.`            },
               { icon: CheckCircle, label: "Luggage assistance",               desc: "Your driver handles bags from carousel to vehicle."                          },
@@ -162,7 +202,7 @@ export default async function AirportPage({ params }: Props) {
             {[
               { step: "1", title: "Book online",               desc: `Enter your flight number and destination in the booking form. We handle everything from there.`                                             },
               { step: "2", title: "Real-time tracking",        desc: `Your driver monitors your {ap.code} flight status. If conditions change, the driver adjusts automatically.`.replace("{ap.code}", ap.code) },
-              { step: "3", title: "Driver positioned at curb", desc: `Your uniformed chauffeur is at the ${ap.code} arrivals curbside with a name sign before you exit.`                                       },
+              { step: "3", title: "Driver positioned at curb", desc: `Your ${isPk ? "driver" : "uniformed chauffeur"} is at the ${ap.code} arrivals curbside with a name sign before you exit.`                },
               { step: "4", title: "Luggage & departure",       desc: "Your driver assists with bags and routes you to your destination on a fixed fare — no surprises."                                          },
             ].map(s => (
               <div key={s.step} className="flex items-start gap-5">
@@ -203,14 +243,14 @@ export default async function AirportPage({ params }: Props) {
       <section className="px-4 py-16 text-center md:px-6 lg:px-8">
         <div className="mx-auto max-w-xl">
           <h2 className="text-xl font-bold text-gray-900 md:text-2xl">
-            Book your {ap.code} transfer today
+            Book your {ap.code} {isPk ? "pickup" : "transfer"} today
           </h2>
           <p className="mt-2 text-sm text-gray-500">
-            Fixed pricing · Flight tracking · Professional chauffeur · Available 24/7
+            Fixed pricing · Flight tracking · {isPk ? "Verified driver" : "Professional chauffeur"} · Available 24/7
           </p>
-          <Link href="/#book"
+          <Link href={bookHref}
             className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8]">
-            Book {ap.code} Transfer <ArrowRight className="h-4 w-4" />
+            Book {ap.code} {isPk ? "Pickup" : "Transfer"} <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </section>
