@@ -113,7 +113,7 @@ export default function RootLayout({
               logo: "https://www.blackdrivo.com/favicon.ico",
               image: "https://www.blackdrivo.com/BlackDrivo%20Main%20Page%20-%202403x1603.png",
               description:
-                "Premium chauffeur and black car service available across Pakistan, covering Lahore, Karachi, and Islamabad. Flight-tracked airport transfers, hourly and per-day rentals, and corporate travel accounts with fixed, upfront pricing.",
+                "BlackDrivo is Pakistan's trusted car rental and ride service, available across Lahore, Karachi, and Islamabad. We offer hourly and per-day car rentals, flight-tracked airport pickup and drop, city-to-city rides, and corporate travel accounts — all with fixed, upfront pricing and no surge charges, ever. Our fleet includes sedans and SUVs, driven by licensed, insured, and verified drivers available 24/7. Whether it's a flight, a business meeting, or a trip between cities, BlackDrivo delivers reliable, professional transportation you can book instantly online or through our app.",
               telephone: "+92-305-2222744",
               email: "support@blackdrivo.com",
               priceRange: "$$$$",

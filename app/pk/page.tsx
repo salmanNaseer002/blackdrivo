@@ -2,16 +2,16 @@ import HomePageContent from "@/components/home/HomePageContent";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "BlackDrivo Pakistan — Premium Driver Service in Lahore, Karachi & Islamabad",
+  title: "BlackDrivo Pakistan — Car Rental, Airport Pickup & Drop, City to City Rides",
   description:
-    "BlackDrivo is now available across Pakistan — premium driver and black car service in Lahore, Karachi, and Islamabad. Fixed pricing, professional drivers, airport transfers, and hourly rentals.",
+    "BlackDrivo is Pakistan's trusted car rental and ride service, available across Lahore, Karachi, and Islamabad. Hourly and per-day rentals, flight-tracked airport pickup and drop, city-to-city rides, and corporate travel accounts — all with fixed, upfront pricing.",
   keywords: [
-    "driver service Pakistan",
-    "black car service Lahore",
-    "premium car service Karachi",
-    "airport transfer Islamabad",
-    "luxury car rental Pakistan",
-    "hourly driver Lahore",
+    "car rental Pakistan",
+    "airport pickup Lahore",
+    "airport drop Karachi",
+    "city to city rides Pakistan",
+    "hourly car rental Lahore",
+    "corporate travel Islamabad",
     "blackdrivo Pakistan",
   ],
   alternates: {
@@ -21,8 +21,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://www.blackdrivo.com/pk",
-    title: "BlackDrivo Pakistan — Premium Driver Service",
-    description: "Premium driver and black car service across Lahore, Karachi, and Islamabad. Fixed pricing, professional drivers.",
+    title: "BlackDrivo Pakistan — Car Rental, Airport Pickup & Drop, City to City Rides",
+    description: "Car rental, airport pickup & drop, and city-to-city rides across Lahore, Karachi, and Islamabad. Fixed pricing, verified drivers.",
     siteName: "BlackDrivo",
   },
 };
@@ -37,7 +37,7 @@ const jsonLd = {
     { "@type": "City", name: "Karachi" },
     { "@type": "City", name: "Islamabad" },
   ],
-  description: "Premium driver and black car service across Pakistan — Lahore, Karachi, and Islamabad.",
+  description: "Car rental, airport pickup & drop, and city-to-city rides across Pakistan — Lahore, Karachi, and Islamabad.",
 };
 
 export default function PakistanPage() {
