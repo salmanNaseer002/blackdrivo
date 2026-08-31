@@ -7,7 +7,7 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle, MapPin, Phone } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
 
-type City = { slug: string; name: string; state: string; airport: string };
+type City = { slug: string; name: string; state: string; country: string; airport: string };
 
 const featuresUs = [
   "Licensed & insured professional chauffeurs",
@@ -54,6 +54,7 @@ export default function ChauffeurServiceContent({ cities }: { cities: City[] }) 
   const Word = isPk ? "Driver" : "Chauffeur";
   const features = isPk ? featuresPk : featuresUs;
   const faqItems = isPk ? faqItemsPk : faqItemsUs;
+  const visibleCities = cities.filter(c => (isPk ? c.country === "Pakistan" : c.country !== "Pakistan"));
 
   return (
     <div className="min-h-screen bg-white">
@@ -111,7 +112,7 @@ export default function ChauffeurServiceContent({ cities }: { cities: City[] }) 
             <p className="mt-3 text-base text-gray-500">Select your city for local pricing, availability, and route-specific information.</p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {cities.map(city => (
+            {visibleCities.map(city => (
               <Link key={city.slug} href={isPk ? `/pk/chauffeur-service/${city.slug}` : `/chauffeur-service/${city.slug}`}
                 className="group flex items-center gap-3 rounded-xl border border-gray-100 bg-white px-4 py-3.5 shadow-sm transition hover:border-[#0b66d1]/30 hover:shadow-md">
                 <MapPin className="h-4 w-4 shrink-0 text-[#0b66d1]" />

@@ -21,6 +21,7 @@ const services = [
   { label: "Hourly Chauffeur",     href: "/services/hourly",    desc: "From 2 to 24 hours"          },
   { label: "City-to-City Rides",   href: "/services/city",      desc: "Long distance in comfort"    },
   { label: "Corporate Travel",     href: "/services/corporate", desc: "Business travel solutions"   },
+  { label: "Monthly Pick & Drop",  href: "/services/monthly-pickup", desc: "Same driver, every day" },
   { label: "Weddings",             href: "/services/weddings",  desc: "Your perfect day, arrived"   },
   { label: "Special Events",       href: "/services/events",    desc: "Galas, fundraisers & more"   },
 ];
@@ -28,7 +29,9 @@ const services = [
 const business = [
   { label: "Overview",               href: "/business",                  desc: "Ground transport for your company" },
   { label: "Corporate",               href: "/business/corporate",        desc: "Centralized billing & travel policy" },
+  { label: "Travel Agent",            href: "/business/travel-agent",     desc: "Agent-only rates for your clients"  },
   { label: "Travel Partner",          href: "/business/travel-partner",   desc: "For agencies & travel managers"     },
+  { label: "On-Demand",               href: "/business/on-demand",        desc: "Instant bookings, no schedule"      },
   { label: "Business Partnerships",   href: "/business/partnerships",     desc: "Hotels, venues & referral partners" },
 ];
 

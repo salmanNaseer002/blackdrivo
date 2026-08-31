@@ -23,6 +23,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/business/corporate`,          lastModified: NOW, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/business/partnerships`,       lastModified: NOW, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/business/travel-partner`,     lastModified: NOW, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/business/travel-agent`,       lastModified: NOW, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/business/on-demand`,          lastModified: NOW, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/corporate`,                   lastModified: NOW, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/corporate/join`,               lastModified: NOW, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/offers`,                      lastModified: NOW, changeFrequency: "weekly",  priority: 0.6 },
