@@ -6,26 +6,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ArrowRight, Clock, ChevronRight } from "lucide-react";
-import { blogPosts, categories } from "@/lib/data/blog-posts";
-
-const featured = blogPosts.find(p => p.featured) ?? blogPosts[0];
-const rest      = blogPosts.filter(p => !p.featured);
-
-const categoryColors: Record<string, string> = {
-  "Airport Transfers": "bg-blue-50 text-[#0b66d1]",
-  "Corporate Travel":  "bg-gray-900 text-white",
-  "Service Guide":     "bg-purple-50 text-purple-700",
-  "Travel Tips":       "bg-emerald-50 text-emerald-700",
-  "Events":            "bg-amber-50 text-amber-700",
-};
-
-function getCategoryClass(cat: string) {
-  return categoryColors[cat] ?? "bg-gray-100 text-gray-700";
-}
+import { blogPosts } from "@/lib/data/blog-posts";
+import AdSlot from "@/components/shared/AdSlot";
 
 export default function BlogPageContent() {
   const pathname = usePathname();
   const isPk = pathname === "/pk" || pathname.startsWith("/pk/");
+
+  const regionPosts = blogPosts.filter(p => (isPk ? p.country === "PK" : p.country !== "PK"));
+  const featured = regionPosts.find(p => p.featured) ?? regionPosts[0];
+  const rest      = regionPosts.filter(p => p.slug !== featured?.slug);
 
   return (
     <div className="min-h-screen bg-white">
@@ -35,104 +25,99 @@ export default function BlogPageContent() {
       <section className="border-b border-gray-100 bg-gradient-to-b from-gray-50 to-white px-4 pb-12 pt-32 md:pt-44">
         <div className="mx-auto max-w-[1600px]">
           <div className="max-w-2xl">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">
-              BlackDrivo Journal
-            </p>
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               Premium travel,<br className="hidden sm:block" /> expertly explained.
             </h1>
             <p className="mt-4 text-base text-gray-500 md:text-lg">
-              Airport guides, corporate travel strategies, vehicle advice, and destination
-              knowledge — from the team that moves thousands of riders every month.
+              {isPk
+                ? "Airport guides, corporate travel strategies, vehicle advice, and city-to-city knowledge — from the team that moves riders across Lahore, Karachi, and Islamabad every day."
+                : "Airport guides, corporate travel strategies, vehicle advice, and destination knowledge — from the team that moves thousands of riders every month."}
             </p>
           </div>
-          {/* Category pills */}
-          <div className="mt-8 flex flex-wrap gap-2">
-            {categories.map(cat => (
-              <span key={cat}
-                className={`rounded-full border border-gray-200 bg-white px-4 py-1.5 text-sm font-medium transition hover:border-[#0b66d1] hover:text-[#0b66d1] cursor-default ${
-                  cat === "All" ? "border-[#0b66d1] text-[#0b66d1]" : "text-gray-600"
-                }`}>
-                {cat}
-              </span>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* Featured post */}
-      <section className="px-4 py-12 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-[1600px]">
-          <Link href={`/blog/${featured.slug}`}
-            className="group grid overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition hover:shadow-lg md:grid-cols-2">
-            <div className="relative h-64 md:h-auto">
-              <Image src={featured.image} alt={featured.title} fill
-                className="object-cover transition group-hover:scale-105" sizes="(max-width: 768px) 100vw, 50vw" priority />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent md:bg-gradient-to-r" />
-              <span className={`absolute left-5 top-5 rounded-full px-3 py-1 text-xs font-semibold ${getCategoryClass(featured.category)}`}>
-                {featured.category}
-              </span>
-            </div>
-            <div className="flex flex-col justify-center p-8 md:p-10 lg:p-12">
-              <span className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">
-                Featured
-              </span>
-              <h2 className="text-2xl font-bold leading-snug text-gray-900 group-hover:text-[#0b66d1] transition md:text-3xl">
-                {featured.title}
-              </h2>
-              <p className="mt-3 text-sm leading-7 text-gray-500 line-clamp-3">
-                {featured.excerpt}
-              </p>
-              <div className="mt-5 flex items-center justify-between">
-                <div className="flex items-center gap-3 text-xs text-gray-400">
-                  <span>{featured.date}</span>
-                  <span>·</span>
-                  <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{featured.readTime}</span>
+      {featured && (
+        <>
+          {/* Featured post */}
+          <section className="px-4 py-12 md:px-6 lg:px-8">
+            <div className="mx-auto max-w-[1600px]">
+              <Link href={`/blog/${featured.slug}`}
+                className="group grid overflow-hidden rounded-[2rem] bg-white transition hover:bg-blue-50 md:grid-cols-2">
+                <div className="relative h-64 overflow-hidden rounded-2xl md:h-auto">
+                  <Image src={featured.image} alt={featured.title} fill
+                    className="object-cover transition group-hover:scale-105" sizes="(max-width: 768px) 100vw, 50vw" priority />
                 </div>
-                <span className="flex items-center gap-1 text-sm font-semibold text-[#0b66d1] transition group-hover:gap-2">
-                  Read more <ArrowRight className="h-4 w-4" />
-                </span>
-              </div>
-            </div>
-          </Link>
-        </div>
-      </section>
-
-      {/* Post grid */}
-      <section className="px-4 pb-20 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-[1600px]">
-          <div className="mb-8 flex items-center justify-between">
-            <h2 className="text-xl font-bold text-gray-900">Latest articles</h2>
-            <span className="text-sm text-gray-400">{blogPosts.length} articles</span>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {rest.map(post => (
-              <Link key={post.slug} href={`/blog/${post.slug}`}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition hover:border-[#0b66d1]/20 hover:shadow-md">
-                <div className="relative h-48 overflow-hidden">
-                  <Image src={post.image} alt={post.title} fill
-                    className="object-cover transition duration-500 group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
-                  <span className={`absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${getCategoryClass(post.category)}`}>
-                    {post.category}
+                <div className="flex flex-col justify-center p-6 md:p-10 lg:p-12">
+                  <span className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#0b66d1]">
+                    Featured — {featured.category}
                   </span>
-                </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <h3 className="flex-1 text-base font-semibold leading-snug text-gray-900 group-hover:text-[#0b66d1] transition">
-                    {post.title}
-                  </h3>
-                  <p className="mt-2 line-clamp-2 text-sm text-gray-500">{post.excerpt}</p>
-                  <div className="mt-4 flex items-center justify-between text-xs text-gray-400">
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-3 w-3" />{post.readTime}
+                  <h2 className="text-2xl font-bold leading-snug text-gray-900 transition md:text-3xl">
+                    {featured.title}
+                  </h2>
+                  <p className="mt-3 text-sm leading-7 text-gray-500 line-clamp-3">
+                    {featured.excerpt}
+                  </p>
+                  <div className="mt-5 flex items-center justify-between">
+                    <div className="flex items-center gap-3 text-xs text-gray-400">
+                      <span>{featured.date}</span>
+                      <span>·</span>
+                      <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{featured.readTime}</span>
+                    </div>
+                    <span className="flex items-center gap-1 text-sm font-semibold text-[#0b66d1] transition group-hover:gap-2">
+                      Read more <ArrowRight className="h-4 w-4" />
                     </span>
-                    <span>{post.date}</span>
                   </div>
                 </div>
               </Link>
-            ))}
+            </div>
+          </section>
+
+          <div className="mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8">
+            <AdSlot label="Advertisement" />
           </div>
+        </>
+      )}
+
+      {/* Post grid */}
+      <section className="px-4 pb-20 pt-8 md:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1600px]">
+          <div className="mb-8 flex items-center justify-between">
+            <h2 className="text-xl font-bold text-gray-900">Latest articles</h2>
+            <span className="text-sm text-gray-400">{regionPosts.length} articles</span>
+          </div>
+
+          {rest.length === 0 ? (
+            <p className="text-sm text-gray-500">More articles for this region are on the way — check back soon.</p>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {rest.map(post => (
+                <Link key={post.slug} href={`/blog/${post.slug}`}
+                  className="group rounded-[2rem] p-3 transition-colors duration-300 hover:bg-blue-50"
+                >
+                  <div className="relative h-48 overflow-hidden rounded-2xl bg-gray-100">
+                    <Image src={post.image} alt={post.title} fill
+                      className="object-cover transition duration-700 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                  </div>
+                  <div className="mt-6 p-3">
+                    <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-[#0b66d1]">{post.category}</p>
+                    <h3 className="text-lg font-bold leading-snug text-gray-900">
+                      {post.title}
+                    </h3>
+                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-gray-500">{post.excerpt}</p>
+                    <div className="mt-4 flex items-center gap-3 text-xs text-gray-400">
+                      <span className="flex items-center gap-1">
+                        <Clock className="h-3 w-3" />{post.readTime}
+                      </span>
+                      <span>·</span>
+                      <span>{post.date}</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -146,11 +131,11 @@ export default function BlogPageContent() {
             Book a premium {isPk ? "driver" : "chauffeur"} in minutes — fixed prices, professional drivers, zero surprises.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Link href="/#book"
+            <Link href={isPk ? "/pk/#book" : "/#book"}
               className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-[#0b66d1] transition hover:bg-blue-50">
               Book a ride <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link href="/services"
+            <Link href={isPk ? "/pk/services" : "/services"}
               className="inline-flex items-center gap-2 rounded-full border-2 border-white/30 px-7 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10">
               Our services <ChevronRight className="h-4 w-4" />
             </Link>

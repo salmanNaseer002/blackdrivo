@@ -12,6 +12,7 @@ export interface BlogPost {
   featured?:   boolean;
   sections:    { heading: string; body: string }[];
   seoKeywords: string;
+  country?:    "US" | "PK";
 }
 
 export const blogPosts: BlogPost[] = [
@@ -392,6 +393,167 @@ export const blogPosts: BlogPost[] = [
       },
     ],
   },
+  {
+    slug:       "lahore-airport-transfer-guide",
+    title:      "Lahore Airport (Allama Iqbal International) Transfer Guide",
+    excerpt:    "Flying into Lahore? Here's exactly how to get a smooth, stress-free pickup at Allama Iqbal International — from terminal exits to meet-and-greet options.",
+    category:   "Airport Transfers",
+    tag:        "Lahore",
+    date:       "August 4, 2026",
+    readTime:   "6 min read",
+    author:     "BlackDrivo Editorial",
+    authorRole: "Travel & Logistics",
+    image:      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+    featured:   true,
+    country:    "PK",
+    seoKeywords:"Lahore airport transfer, car service Allama Iqbal Airport, Lahore airport pickup, driver service Lahore airport",
+    sections: [
+      {
+        heading: "Why Lahore Airport Needs a Professional Transfer",
+        body: "Allama Iqbal International Airport handles heavy daily traffic across its domestic and international terminals. Between the arrivals crush, limited curbside space, and unpredictable city traffic on the airport road, self-navigation can turn a simple pickup into a stressful ordeal. A professional driver removes every variable: your flight is tracked, your driver is positioned at the right terminal exit, and your luggage is handled without a single surge charge.",
+      },
+      {
+        heading: "Terminal Pickup, Step by Step",
+        body: "Lahore airport has separate arrivals halls for domestic and international flights, each with a dedicated commercial pickup zone. Your BlackDrivo driver is positioned curbside with a name board matching your booking. For international arrivals, allow extra time for immigration and baggage — your wait time only starts once you actually clear the arrivals hall, not from touchdown.",
+      },
+      {
+        heading: "Flight Tracking & Automatic Adjustments",
+        body: "Every Lahore airport pickup includes live flight tracking. If your flight lands early, late, or is delayed, your driver adjusts automatically — no phone calls needed. Domestic arrivals receive 60 minutes of complimentary wait time; international arrivals receive 90 minutes to account for immigration and baggage claim.",
+      },
+      {
+        heading: "How to Book Your Lahore Airport Pickup",
+        body: "Use the BlackDrivo booking form to select Airport Transfer, enter your flight number, choose your vehicle class, and provide your destination. Your confirmation includes your driver's name and a live tracking link, shared ahead of your pickup. Pricing is fixed at booking — no surge, regardless of traffic on the day.",
+      },
+    ],
+  },
+  {
+    slug:       "islamabad-airport-guide",
+    title:      "Islamabad International Airport: The Complete Car Service Guide",
+    excerpt:    "Islamabad International Airport serves the capital and the twin cities of Islamabad-Rawalpindi. Here's how a professional driver transfer works, terminal by terminal.",
+    category:   "Airport Transfers",
+    tag:        "Islamabad",
+    date:       "July 28, 2026",
+    readTime:   "5 min read",
+    author:     "BlackDrivo Editorial",
+    authorRole: "Travel & Logistics",
+    image:      "https://images.unsplash.com/photo-1570710891163-6d3b5c47248b?auto=format&fit=crop&w=1200&q=80",
+    country:    "PK",
+    seoKeywords:"Islamabad airport car service, ISB driver pickup, Islamabad International Airport transfer, driver service Rawalpindi",
+    sections: [
+      {
+        heading: "A Modern Airport Serving the Twin Cities",
+        body: "Islamabad International Airport serves both Islamabad and neighbouring Rawalpindi, with a single modern terminal handling domestic and international traffic. Commercial vehicle pickups are organised in a dedicated lane just outside arrivals, making a professional driver pickup considerably smoother than navigating the taxi rank.",
+      },
+      {
+        heading: "Getting to Islamabad, Rawalpindi & Beyond",
+        body: "The drive from Islamabad airport into the city typically takes 30–45 minutes depending on your exact destination, with routes to Rawalpindi taking a similar range. Our drivers use real-time traffic routing to select the fastest path, whether you're heading to Blue Area, F-Sectors, or Bahria Town.",
+      },
+      {
+        heading: "International Arrivals",
+        body: "Islamabad's international arrivals hall processes immigration efficiently for most flights. BlackDrivo's 90-minute complimentary wait window for international arrivals is calculated from touchdown, giving you time to clear immigration and collect baggage without pressure. Your driver monitors your flight status and is curbside when you emerge.",
+      },
+      {
+        heading: "Booking Tips",
+        body: "Enter your flight number at booking so your driver can track it automatically. For early-morning or late-night arrivals, book at least a few hours in advance to guarantee driver availability. Fixed pricing applies regardless of arrival time.",
+      },
+    ],
+  },
+  {
+    slug:       "choosing-vehicle-class-pakistan",
+    title:      "Economy, Business or First Class: Choosing the Right Vehicle in Pakistan",
+    excerpt:    "Not sure which BlackDrivo vehicle class to book in Lahore, Karachi, or Islamabad? Here's a straightforward guide to every class and who each one suits.",
+    category:   "Service Guide",
+    tag:        "Vehicles",
+    date:       "July 21, 2026",
+    readTime:   "5 min read",
+    author:     "BlackDrivo Editorial",
+    authorRole: "Service & Quality",
+    image:      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1200&q=80",
+    country:    "PK",
+    seoKeywords:"vehicle classes Pakistan, business class car Lahore, first class car service Karachi, SUV rental Islamabad",
+    sections: [
+      {
+        heading: "Economy: Everyday Value",
+        body: "Economy is our lowest-priced tier — a clean, comfortable sedan for everyday rides like airport pickups, short city trips, and hourly bookings. It's the right choice when you want reliable, fixed-price transport without any extras, whether you're commuting across Lahore or heading to a routine meeting in Karachi.",
+      },
+      {
+        heading: "Business Class: The Professional Standard",
+        body: "Business Class vehicles are comfortable, well-maintained sedans that seat up to three passengers with room for standard luggage. This is the right choice for solo business travel, airport transfers, or client meetings where you want to arrive on time and presentable without excess.",
+      },
+      {
+        heading: "First Class: The Executive Statement",
+        body: "First Class vehicles are our top-tier sedans, offering more legroom, a quieter cabin, and a noticeably elevated interior experience. This class is chosen by senior executives, VIP guests, and travelers for whom the ground journey should match the seriousness of the occasion.",
+      },
+      {
+        heading: "SUVs & Event Vehicles",
+        body: "For groups or extra luggage, our SUVs seat up to six or seven passengers comfortably. For weddings, corporate events, and larger groups, our Event Vehicles — including Coasters, Grand Cabins, and Mini Vans — scale from mid-sized groups up to full wedding parties without compromising comfort.",
+      },
+    ],
+  },
+  {
+    slug:       "corporate-travel-pakistan",
+    title:      "Corporate Travel in Pakistan: Why Companies Are Moving to Dedicated Driver Accounts",
+    excerpt:    "Fixed billing, dedicated account managers, and scheduled pick-drop — here's why more Pakistani companies are switching to structured corporate transport.",
+    category:   "Corporate Travel",
+    tag:        "Business",
+    date:       "July 14, 2026",
+    readTime:   "6 min read",
+    author:     "BlackDrivo Editorial",
+    authorRole: "Corporate Accounts",
+    image:      "https://images.unsplash.com/photo-1568992688065-536aad8a12f6?auto=format&fit=crop&w=1200&q=80",
+    country:    "PK",
+    seoKeywords:"corporate car service Pakistan, business travel Lahore, corporate account driver Karachi, executive transport Islamabad",
+    sections: [
+      {
+        heading: "The Problem with Ad-Hoc Ride Booking",
+        body: "For a company booking ground transport trip by trip — through individual employee accounts or informal driver arrangements — costs are unpredictable, receipts are scattered, and there's no single point of accountability. For a business running 3–5 employee trips a week, this becomes a real administrative burden, not just a minor inconvenience.",
+      },
+      {
+        heading: "A Dedicated Account Manager Changes Everything",
+        body: "With a BlackDrivo corporate account, a single account manager handles onboarding, route setup, and billing questions for your company — no more juggling individual bookings across different platforms or drivers.",
+      },
+      {
+        heading: "Route-Wise Fixed Billing & Scheduled Pick-Drop",
+        body: "Recurring routes — daily office commutes, airport runs, or fixed client visits — are priced and fixed in advance. Set a pickup time and route once, and the same verified driver runs it automatically going forward, with one consolidated monthly invoice instead of scattered per-trip receipts.",
+      },
+      {
+        heading: "Consistency Employees Can Rely On",
+        body: "When you assign ground transport to a rideshare app, the vehicle and driver quality varies trip to trip. A corporate account with BlackDrivo means the same verified, professionally vetted drivers on every trip — a small detail that matters when you're moving clients or senior staff.",
+      },
+    ],
+  },
+  {
+    slug:       "lahore-islamabad-city-to-city",
+    title:      "City-to-City Travel in Pakistan: Lahore, Karachi & Islamabad Routes Explained",
+    excerpt:    "Traveling between Pakistan's major cities? Here's what to expect from a fixed-price, door-to-door city-to-city ride with BlackDrivo.",
+    category:   "Travel Tips",
+    tag:        "City-to-City",
+    date:       "July 7, 2026",
+    readTime:   "5 min read",
+    author:     "BlackDrivo Editorial",
+    authorRole: "Travel & Logistics",
+    image:      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
+    country:    "PK",
+    seoKeywords:"city to city car service Pakistan, Lahore to Islamabad car, Karachi to Hyderabad driver, intercity travel Pakistan",
+    sections: [
+      {
+        heading: "Why Door-to-Door Beats the Alternatives",
+        body: "For trips between Lahore and Islamabad, or Karachi and nearby cities, a door-to-door ride avoids the hassle of coach terminals, luggage handling, and fixed departure times. You're picked up at your exact location and dropped exactly where you need to be — no transfers, no waiting rooms.",
+      },
+      {
+        heading: "Popular Routes",
+        body: "The most requested BlackDrivo city-to-city routes include Lahore to Islamabad, Islamabad to Rawalpindi, and Karachi to Hyderabad. All are bookable as fixed-price, point-to-point transfers with a dedicated vehicle for the full journey.",
+      },
+      {
+        heading: "What's Included on Longer Trips",
+        body: "City-to-city bookings include a fixed price covering the entire journey — no surprises along the way. For longer routes, you keep the same vehicle and driver for the full duration, with a comfortable, climate-controlled cabin throughout.",
+      },
+      {
+        heading: "Sharing the Cost Across a Group",
+        body: "The fixed cost of a city-to-city transfer is the same whether you're travelling solo or with a full car of colleagues or family — which makes it an easy choice for groups covering mid-range distances between Pakistan's major cities.",
+      },
+    ],
+  },
 ];
 
 export const categories = [
@@ -407,8 +569,9 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
   return blogPosts.find(p => p.slug === slug);
 }
 
-export function getRelatedPosts(currentSlug: string, category: string, limit = 3): BlogPost[] {
+export function getRelatedPosts(currentSlug: string, category: string, limit = 3, country?: "US" | "PK"): BlogPost[] {
+  const inRegion = (p: BlogPost) => (country === "PK" ? p.country === "PK" : p.country !== "PK");
   return blogPosts
-    .filter(p => p.slug !== currentSlug && p.category === category)
+    .filter(p => p.slug !== currentSlug && p.category === category && (country ? inRegion(p) : true))
     .slice(0, limit);
 }

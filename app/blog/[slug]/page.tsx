@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, ArrowRight, ChevronRight } from "lucide-react";
 import { blogPosts, getPostBySlug, getRelatedPosts } from "@/lib/data/blog-posts";
 import RegionWord from "@/components/shared/RegionWord";
+import AdSlot from "@/components/shared/AdSlot";
 import type { Metadata } from "next";
 
 interface Props {
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: post.excerpt,
     keywords: post.seoKeywords,
     authors: [{ name: post.author }],
-    alternates: { canonical: `https://www.blackdrivo.com/blog/${post.slug}` },
+    alternates: { canonical: `https://www.blackdrivo.com/${post.country === "PK" ? "pk/" : ""}blog/${post.slug}` },
     openGraph: {
       title: post.title,
       description: post.excerpt,
@@ -57,7 +58,7 @@ export default async function BlogPostPage({ params }: Props) {
   const post = getPostBySlug(slug);
   if (!post) notFound();
 
-  const related = getRelatedPosts(post.slug, post.category, 3);
+  const related = getRelatedPosts(post.slug, post.category, 3, post.country);
   const catClass = categoryColors[post.category] ?? "bg-gray-100 text-gray-700";
 
   // JSON-LD structured data for SEO
@@ -127,9 +128,11 @@ export default async function BlogPostPage({ params }: Props) {
               </div>
 
               {/* Lead */}
-              <p className="mb-10 text-xl font-medium leading-8 text-gray-700">
+              <p className="mb-8 text-xl font-medium leading-8 text-gray-700">
                 {post.excerpt}
               </p>
+
+              <AdSlot label="Advertisement" className="mb-10" />
 
               {/* Sections */}
               <div className="space-y-10">
