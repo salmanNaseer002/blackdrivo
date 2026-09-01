@@ -318,7 +318,7 @@ export default function PartnerLandingContent() {
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
-              href="/driver/signup"
+              href="/driver/register"
               className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:gap-3 hover:bg-[#0952a8]"
             >
               Apply to Drive <ArrowRight className="h-4 w-4" />
@@ -499,7 +499,7 @@ function PartnerTabsContent({ requirements }: { requirements: string[] }) {
             </div>
             <motion.div variants={fadeUp} className="mt-8 text-center">
               <Link
-                href="/driver/signup"
+                href="/driver/register"
                 className="inline-flex items-center gap-2 rounded-full bg-[#0b66d1] px-8 py-3.5 text-sm font-semibold text-white transition hover:gap-3 hover:bg-[#0952a8]"
               >
                 Apply Now <ArrowRight className="h-4 w-4" />
