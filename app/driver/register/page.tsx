@@ -520,6 +520,13 @@ export default function DriverRegisterPage() {
                 </button>
               )}
             </div>
+
+            {step === "location" && (
+              <p className="mt-8 text-sm text-gray-400">
+                Already have an account?{" "}
+                <Link href="/driver/login" className="font-medium text-[#0b66d1] hover:text-[#0952a8]">Sign in</Link>
+              </p>
+            )}
         </motion.div>
       </div>
     </div>
