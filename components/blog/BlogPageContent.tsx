@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
@@ -8,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { ArrowRight, Clock, ChevronRight } from "lucide-react";
 import { blogPosts } from "@/lib/data/blog-posts";
 import AdSlot from "@/components/shared/AdSlot";
+import AdPopup from "@/components/shared/AdPopup";
 
 export default function BlogPageContent() {
   const pathname = usePathname();
@@ -19,6 +21,7 @@ export default function BlogPageContent() {
 
   return (
     <div className="min-h-screen bg-white">
+      <AdPopup />
       <Navbar />
 
       {/* Hero */}
@@ -74,7 +77,7 @@ export default function BlogPageContent() {
           </section>
 
           <div className="mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8">
-            <AdSlot label="Advertisement" />
+            <AdSlot label="Advertisement" size="leaderboard" responsive />
           </div>
         </>
       )}
@@ -91,35 +94,49 @@ export default function BlogPageContent() {
             <p className="text-sm text-gray-500">More articles for this region are on the way — check back soon.</p>
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {rest.map(post => (
-                <Link key={post.slug} href={`/blog/${post.slug}`}
-                  className="group rounded-[2rem] p-3 transition-colors duration-300 hover:bg-blue-50"
-                >
-                  <div className="relative h-48 overflow-hidden rounded-2xl bg-gray-100">
-                    <Image src={post.image} alt={post.title} fill
-                      className="object-cover transition duration-700 group-hover:scale-105"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
-                  </div>
-                  <div className="mt-6 p-3">
-                    <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-[#0b66d1]">{post.category}</p>
-                    <h3 className="text-lg font-bold leading-snug text-gray-900">
-                      {post.title}
-                    </h3>
-                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-gray-500">{post.excerpt}</p>
-                    <div className="mt-4 flex items-center gap-3 text-xs text-gray-400">
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3" />{post.readTime}
-                      </span>
-                      <span>·</span>
-                      <span>{post.date}</span>
+              {rest.map((post, i) => (
+                <Fragment key={post.slug}>
+                  <Link href={`/blog/${post.slug}`}
+                    className="group rounded-[2rem] p-3 transition-colors duration-300 hover:bg-blue-50"
+                  >
+                    <div className="relative h-48 overflow-hidden rounded-2xl bg-gray-100">
+                      <Image src={post.image} alt={post.title} fill
+                        className="object-cover transition duration-700 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
                     </div>
-                  </div>
-                </Link>
+                    <div className="mt-6 p-3">
+                      <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-[#0b66d1]">{post.category}</p>
+                      <h3 className="text-lg font-bold leading-snug text-gray-900">
+                        {post.title}
+                      </h3>
+                      <p className="mt-2 line-clamp-2 text-sm leading-6 text-gray-500">{post.excerpt}</p>
+                      <div className="mt-4 flex items-center gap-3 text-xs text-gray-400">
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-3 w-3" />{post.readTime}
+                        </span>
+                        <span>·</span>
+                        <span>{post.date}</span>
+                      </div>
+                    </div>
+                  </Link>
+                  {/* One in-grid ad card every 6 posts — keeps ad density well below
+                      AdSense's content-to-ad guidance instead of stacking slots. */}
+                  {(i + 1) % 6 === 0 && i !== rest.length - 1 && (
+                    <div className="flex items-center justify-center rounded-[2rem] p-3">
+                      <AdSlot label="Advertisement" size="medium-rectangle" />
+                    </div>
+                  )}
+                </Fragment>
               ))}
             </div>
           )}
         </div>
       </section>
+
+      {/* Leaderboard before the newsletter CTA */}
+      <div className="mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8">
+        <AdSlot label="Advertisement" size="leaderboard" responsive />
+      </div>
 
       {/* Newsletter CTA */}
       <section className="border-t border-gray-100 bg-gray-50 px-4 py-16 md:px-6 lg:px-8">

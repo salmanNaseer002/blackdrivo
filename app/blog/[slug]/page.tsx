@@ -7,6 +7,7 @@ import { ArrowLeft, Clock, ArrowRight, ChevronRight } from "lucide-react";
 import { blogPosts, getPostBySlug, getRelatedPosts } from "@/lib/data/blog-posts";
 import RegionWord from "@/components/shared/RegionWord";
 import AdSlot from "@/components/shared/AdSlot";
+import AdPopup from "@/components/shared/AdPopup";
 import type { Metadata } from "next";
 
 interface Props {
@@ -61,6 +62,9 @@ export default async function BlogPostPage({ params }: Props) {
   const related = getRelatedPosts(post.slug, post.category, 3, post.country);
   const catClass = categoryColors[post.category] ?? "bg-gray-100 text-gray-700";
 
+  const blogBase = post.country === "PK" ? "https://www.blackdrivo.com/pk" : "https://www.blackdrivo.com";
+  const canonicalUrl = `${blogBase}/blog/${post.slug}`;
+
   // JSON-LD structured data for SEO
   const jsonLd = {
     "@context": "https://schema.org",
@@ -69,13 +73,27 @@ export default async function BlogPostPage({ params }: Props) {
     description: post.excerpt,
     image: post.image,
     datePublished: post.date,
-    author: { "@type": "Organization", name: post.author },
+    dateModified: post.date,
+    articleSection: post.category,
+    keywords: post.seoKeywords,
+    inLanguage: "en",
+    author: { "@type": "Organization", name: post.author, url: "https://www.blackdrivo.com" },
     publisher: {
       "@type": "Organization",
       name: "BlackDrivo",
-      logo: { "@type": "ImageObject", url: "https://blackdrivo.com/logo bb.png" },
+      logo: { "@type": "ImageObject", url: "https://www.blackdrivo.com/logo%20bb.png" },
     },
-    mainEntityOfPage: { "@type": "WebPage" },
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: blogBase },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${blogBase}/blog` },
+      { "@type": "ListItem", position: 3, name: post.title, item: canonicalUrl },
+    ],
   };
 
   return (
@@ -84,7 +102,12 @@ export default async function BlogPostPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
 
+      <AdPopup />
       <Navbar />
 
       {/* Hero image */}
@@ -107,7 +130,7 @@ export default async function BlogPostPage({ params }: Props) {
       {/* Article */}
       <section className="px-4 py-12 md:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
-          <div className="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12">
+          <div className="lg:grid lg:grid-cols-[1fr_300px] lg:gap-12">
 
             {/* Main content */}
             <article>
@@ -144,6 +167,14 @@ export default async function BlogPostPage({ params }: Props) {
                     <p className="text-base leading-8 text-gray-600">
                       {section.body}
                     </p>
+                    {/* Mid-article slot — dropped in after the midpoint section
+                        only, so long articles get a second placement without
+                        interrupting short ones every couple of paragraphs. */}
+                    {i === Math.floor(post.sections.length / 2) - 1 && post.sections.length > 2 && (
+                      <div className="mt-10">
+                        <AdSlot label="Advertisement" size="large-rectangle" />
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -233,6 +264,10 @@ export default async function BlogPostPage({ params }: Props) {
                     </Link>
                   ))}
                 </div>
+
+                {/* Sidebar ad — standard IAB medium rectangle, the recommended
+                    size for a right-rail placement at this column width. */}
+                <AdSlot label="Advertisement" size="medium-rectangle" />
               </div>
             </aside>
           </div>

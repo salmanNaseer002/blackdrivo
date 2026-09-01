@@ -4,7 +4,6 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/lib/context/AuthContext";
 import { CountryProvider } from "@/components/providers/CountryProvider";
-import AdPopup from "@/components/shared/AdPopup";
 
 // Replaces the Geist/Geist Mono default that Next.js (and most AI-scaffolded
 // projects) ship with, so the site doesn't read as generic template output —
@@ -145,7 +144,6 @@ export default function RootLayout({
         <AuthProvider>
           <CountryProvider>{children}</CountryProvider>
         </AuthProvider>
-        <AdPopup />
         <Toaster position="top-right" richColors closeButton />
       </body>
     </html>

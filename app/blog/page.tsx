@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import BlogPageContent from "@/components/blog/BlogPageContent";
+import { blogPosts } from "@/lib/data/blog-posts";
 import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -30,6 +31,46 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function BlogPage() {
-  return <BlogPageContent />;
+export default async function BlogPage() {
+  const isPk = (await headers()).get("x-region") === "pk";
+  const base = isPk ? "https://www.blackdrivo.com/pk" : "https://www.blackdrivo.com";
+  const regionPosts = blogPosts.filter(p => (isPk ? p.country === "PK" : p.country !== "PK"));
+
+  const blogJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: isPk ? "BlackDrivo Pakistan Blog" : "BlackDrivo Blog",
+    url: `${base}/blog`,
+    inLanguage: "en",
+    publisher: {
+      "@type": "Organization",
+      name: "BlackDrivo",
+      logo: { "@type": "ImageObject", url: "https://www.blackdrivo.com/logo%20bb.png" },
+    },
+    blogPost: regionPosts.map(p => ({
+      "@type": "BlogPosting",
+      headline: p.title,
+      description: p.excerpt,
+      url: `${base}/blog/${p.slug}`,
+      datePublished: p.date,
+      image: p.image,
+    })),
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: base },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${base}/blog` },
+    ],
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <BlogPageContent />
+    </>
+  );
 }
