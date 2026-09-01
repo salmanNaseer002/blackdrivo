@@ -2,6 +2,7 @@
 
 import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, ArrowRight, Loader2 } from "lucide-react";
@@ -11,14 +12,20 @@ import { isValidPhone } from "@/lib/booking/phone";
 import type { SiteCountry } from "@/lib/booking/country";
 import PhoneCountryInput from "@/components/shared/PhoneCountryInput";
 
+// Same flat, single-column, typeform-style shell as /login, /driver/login,
+// and /driver/register — no boxed card, underline-only fields, single
+// primary button. All existing logic (signUp, passengers upsert, phone
+// validation) is unchanged.
+
+const fieldLabelClass = "mb-1.5 block text-xs font-medium text-gray-500";
+const flatInputClass =
+  "w-full border-0 border-b border-gray-200 bg-transparent px-0 py-2.5 text-base text-gray-900 placeholder-gray-400 outline-none transition focus:border-[#0b66d1]";
+
 function SignupForm() {
   const router = useRouter();
   const params = useSearchParams();
   const { country, countries } = useSiteCountry();
 
-  // Phone's own country (defaults to the site's geolocation-detected country,
-  // but can be changed independently — e.g. booking from a laptop in the US
-  // for a trip in Pakistan while the phone number itself is Pakistani).
   const [phoneCountry, setPhoneCountry] = useState<SiteCountry>(country);
   useEffect(() => { setPhoneCountry(country); }, [country]);
 
@@ -80,92 +87,90 @@ function SignupForm() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="w-full max-w-sm rounded-3xl bg-white p-8 shadow-sm"
-      >
-        <Link href="/" className="text-lg font-bold text-gray-900">BlackDrivo</Link>
+    <div className="min-h-screen bg-[#f2f2f0]">
+      <div className="mx-auto max-w-2xl px-6 py-10 md:px-4">
 
-        <h1 className="mt-6 text-2xl font-bold text-gray-900">Create your account</h1>
-        <p className="mt-1.5 text-sm text-gray-500">One quick step to finish your booking</p>
-
-        {error && (
-          <div className="mt-5 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">{error}</div>
-        )}
-
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">Full name</label>
-            <input
-              value={name} onChange={(e) => setName(e.target.value)} required
-              placeholder="Your name"
-              className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-gray-900 outline-none transition focus:border-[#0b66d1] focus:ring-2 focus:ring-[#0b66d1]/20"
-            />
-          </div>
-          <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">Email</label>
-            <input
-              type="email" value={email} onChange={(e) => setEmail(e.target.value)} required
-              placeholder="you@example.com"
-              className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-gray-900 outline-none transition focus:border-[#0b66d1] focus:ring-2 focus:ring-[#0b66d1]/20"
-            />
-          </div>
-          <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">Phone number</label>
-            <PhoneCountryInput countries={countries} phoneCountry={phoneCountry} setPhoneCountry={setPhoneCountry} phone={phone} setPhone={setPhone} />
-          </div>
-          <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">Password</label>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required
-                placeholder="Min. 8 characters"
-                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 pr-11 text-sm text-gray-900 outline-none transition focus:border-[#0b66d1] focus:ring-2 focus:ring-[#0b66d1]/20"
-              />
-              <button type="button" onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              </button>
-            </div>
-          </div>
-          <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">Confirm password</label>
-            <div className="relative">
-              <input
-                type={showConfirmPassword ? "text" : "password"} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required
-                placeholder="Re-enter your password"
-                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 pr-11 text-sm text-gray-900 outline-none transition focus:border-[#0b66d1] focus:ring-2 focus:ring-[#0b66d1]/20"
-              />
-              <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              </button>
-            </div>
-          </div>
-
-          <button type="submit" disabled={loading}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0b66d1] py-3.5 text-sm font-semibold text-white transition hover:bg-[#0952a8] disabled:opacity-60">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <>Create account <ArrowRight className="h-4 w-4" /></>}
-          </button>
-        </form>
-
-        <p className="mt-6 text-center text-sm text-gray-500">
-          Already have an account?{" "}
-          <Link href={`/login${params.get("redirect") ? `?redirect=${params.get("redirect")}` : ""}`} className="font-semibold text-[#0b66d1] hover:text-[#0952a8]">
-            Sign in
+        <div className="flex items-center justify-between">
+          <Link href="/" className="flex items-center">
+            <Image src="/logo bb.png" alt="BlackDrivo" width={120} height={32} className="object-contain" style={{ height: "auto" }} />
           </Link>
-        </p>
-      </motion.div>
+          <Link href="/contact" className="text-xs font-medium text-gray-500 hover:text-gray-900">Support</Link>
+        </div>
+
+        <motion.div initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.2 }} className="mt-8">
+
+          <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 md:text-4xl">Create your account</h1>
+          <p className="mt-2 text-sm text-gray-400">One quick step to finish your booking</p>
+
+          <form onSubmit={handleSubmit} className="mt-10 space-y-8">
+            <div>
+              <label className={fieldLabelClass}>Full name</label>
+              <input
+                value={name} onChange={(e) => setName(e.target.value)} required
+                placeholder="Your name" className={flatInputClass}
+              />
+            </div>
+            <div>
+              <label className={fieldLabelClass}>Email</label>
+              <input
+                type="email" value={email} onChange={(e) => setEmail(e.target.value)} required
+                placeholder="you@example.com" className={flatInputClass}
+              />
+            </div>
+            <div>
+              <label className={fieldLabelClass}>Phone number</label>
+              <PhoneCountryInput countries={countries} phoneCountry={phoneCountry} setPhoneCountry={setPhoneCountry} phone={phone} setPhone={setPhone} />
+            </div>
+            <div>
+              <label className={fieldLabelClass}>Password</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required
+                  placeholder="Min. 8 characters" className={`${flatInputClass} pr-8`}
+                />
+                <button type="button" onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+            </div>
+            <div>
+              <label className={fieldLabelClass}>Confirm password</label>
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? "text" : "password"} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required
+                  placeholder="Re-enter your password" className={`${flatInputClass} pr-8`}
+                />
+                <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                  {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+            </div>
+
+            {error && <p className="text-sm text-red-600">{error}</p>}
+
+            <button type="submit" disabled={loading}
+              className="flex items-center gap-2 rounded-xl bg-[#0b66d1] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0952a8] disabled:opacity-60">
+              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <>Create account <ArrowRight className="h-4 w-4" /></>}
+            </button>
+          </form>
+
+          <p className="mt-8 text-sm text-gray-400">
+            Already have an account?{" "}
+            <Link href={`/login${params.get("redirect") ? `?redirect=${params.get("redirect")}` : ""}`} className="font-medium text-[#0b66d1] hover:text-[#0952a8]">
+              Sign in
+            </Link>
+          </p>
+        </motion.div>
+      </div>
     </div>
   );
 }
 
 export default function SignupPage() {
   return (
-    <Suspense fallback={<div className="flex min-h-screen items-center justify-center"><Loader2 className="h-6 w-6 animate-spin text-[#0b66d1]" /></div>}>
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-[#f2f2f0]"><Loader2 className="h-6 w-6 animate-spin text-[#0b66d1]" /></div>}>
       <SignupForm />
     </Suspense>
   );
