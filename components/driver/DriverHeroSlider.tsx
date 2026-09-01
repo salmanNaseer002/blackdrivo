@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Building2, Car, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+
+const VENDOR_APPLICATION_URL = "https://vendor.blackdrivo.com/registration";
 
 const slides = [
   {
@@ -31,6 +33,7 @@ const slides = [
 export default function DriverHeroSlider() {
   const [current, setCurrent]  = useState(0);
   const [fading,  setFading]   = useState(false);
+  const [partnerModalOpen, setPartnerModalOpen] = useState(false);
   const intervalRef            = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const goTo = (idx: number) => {
@@ -135,15 +138,66 @@ export default function DriverHeroSlider() {
               Join BlackDrivo with a simple onboarding process and dedicated support to help you
               get started smoothly.
             </p>
-            <Link
-              href="#"
+            <button
+              type="button"
+              onClick={() => setPartnerModalOpen(true)}
               className="inline-flex shrink-0 items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-[#0b66d1] transition hover:gap-3 hover:bg-gray-100"
             >
               Become a Partner <ArrowRight className="h-4 w-4" />
-            </Link>
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Vendor / Driver choice modal — deliberately no outside-click-to-close;
+          only the explicit close button dismisses it. */}
+      {partnerModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4">
+          <div className="relative w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl">
+            <button
+              type="button"
+              onClick={() => setPartnerModalOpen(false)}
+              className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
+              aria-label="Close"
+            >
+              <X className="h-4 w-4" />
+            </button>
+
+            <h3 className="text-xl font-bold text-gray-900">How would you like to partner with BlackDrivo?</h3>
+            <p className="mt-2 text-sm text-gray-500">Choose an option to continue to the application.</p>
+
+            <div className="mt-6 space-y-3">
+              <a
+                href={VENDOR_APPLICATION_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 rounded-xl border border-gray-200 p-4 text-left transition hover:border-[#0b66d1] hover:bg-blue-50"
+              >
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-50 text-[#0b66d1]">
+                  <Building2 className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900">As Vendor</p>
+                  <p className="text-xs text-gray-500">Register your fleet and drivers</p>
+                </div>
+              </a>
+
+              <Link
+                href="/driver/register"
+                className="flex items-center gap-4 rounded-xl border border-gray-200 p-4 text-left transition hover:border-[#0b66d1] hover:bg-blue-50"
+              >
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-50 text-[#0b66d1]">
+                  <Car className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900">As Driver</p>
+                  <p className="text-xs text-gray-500">Apply to drive with BlackDrivo</p>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
